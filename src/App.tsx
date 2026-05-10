@@ -539,33 +539,15 @@ function App() {
         <div className="footer-inner">
           {/* Brand */}
           <div className="footer-brand">
-            <svg className="footer-brand-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-              <rect width="32" height="32" fill="var(--accent-orange)" />
-              <rect x="6" y="6" width="8" height="8" fill="rgba(14,14,12,0.8)" />
-              <rect x="18" y="6" width="8" height="8" fill="rgba(244,242,238,0.9)" />
-              <rect x="6" y="18" width="8" height="8" fill="rgba(244,242,238,0.9)" />
-              <rect x="18" y="18" width="8" height="8" fill="rgba(14,14,12,0.8)" />
-            </svg>
-            <p className="footer-brand-name">Real Technologies</p>
-            <p className="footer-brand-text">
-              Weighing, Calibration, Fabrication, and Automation solutions for industrial Qatar and KSA.
-            </p>
-            <div className="footer-qr" aria-label="QR code for contact">
-              <svg viewBox="0 0 80 80" fill="none" aria-hidden="true">
-                <rect x="2" y="2" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2"/>
-                <rect x="8" y="8" width="16" height="16" fill="currentColor"/>
-                <rect x="50" y="2" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2"/>
-                <rect x="56" y="8" width="16" height="16" fill="currentColor"/>
-                <rect x="2" y="50" width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2"/>
-                <rect x="8" y="56" width="16" height="16" fill="currentColor"/>
-                <rect x="36" y="36" width="8" height="8" fill="currentColor"/>
-                <rect x="50" y="36" width="6" height="6" fill="currentColor"/>
-                <rect x="60" y="36" width="6" height="6" fill="currentColor"/>
-                <rect x="36" y="50" width="6" height="6" fill="currentColor"/>
-                <rect x="46" y="56" width="6" height="6" fill="currentColor"/>
-                <rect x="60" y="50" width="18" height="6" fill="currentColor"/>
-                <rect x="60" y="62" width="18" height="6" fill="currentColor"/>
+            <div className="footer-brand-top">
+              <svg className="footer-brand-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+                <rect width="32" height="32" fill="var(--accent-orange)" />
+                <rect x="6" y="6" width="8" height="8" fill="rgba(14,14,12,0.8)" />
+                <rect x="18" y="6" width="8" height="8" fill="rgba(244,242,238,0.9)" />
+                <rect x="6" y="18" width="8" height="8" fill="rgba(244,242,238,0.9)" />
+                <rect x="18" y="18" width="8" height="8" fill="rgba(14,14,12,0.8)" />
               </svg>
+              <p className="footer-brand-name">Real Technologies</p>
             </div>
             <div className="footer-social" aria-label="Social media">
               <a href="#" aria-label="Facebook" rel="noopener noreferrer" id="footer-social-fb">
@@ -584,9 +566,10 @@ function App() {
           <nav aria-label="Footer navigation">
             <p className="footer-col-title">Navigation</p>
             <ul className="footer-links" role="list">
-              {NAV_LINKS.map((l) => (
-                <li key={l.href}><a href={l.href}>{l.label}</a></li>
-              ))}
+              <li><a href="#home">Home</a></li>
+              <li><a href="#services">Services</a></li>
+              <li><a href="#industries">Industries</a></li>
+              <li><a href="#contact">Contact</a></li>
             </ul>
           </nav>
 
@@ -594,30 +577,19 @@ function App() {
           <nav aria-label="Dealership brands">
             <p className="footer-col-title">Dealership</p>
             <ul className="footer-links" role="list">
-              {DEALERS.map((d) => (
-                <li key={d}><a href="#products">{d}</a></li>
-              ))}
+              <li><a href="#products">Dini Argeo</a></li>
+              <li><a href="#products">Rice Lake</a></li>
+              <li><a href="#products">T-Scale</a></li>
             </ul>
           </nav>
 
           {/* Contact */}
           <div>
-            <p className="footer-col-title">Contact Us</p>
+            <p className="footer-col-title">Contact</p>
             <div className="footer-contact-line">
-              <p className="footer-contact-label">Qatar</p>
               <p className="footer-contact-value">
-                <a href="tel:+97466257037">+974 6625 7037</a>
-              </p>
-            </div>
-            <div className="footer-contact-line" style={{ marginTop: '1rem' }}>
-              <p className="footer-contact-label">KSA</p>
-              <p className="footer-contact-value">
-                <a href="tel:+966531216181">+966 5312 16181</a>
-              </p>
-            </div>
-            <div className="footer-contact-line" style={{ marginTop: '1rem' }}>
-              <p className="footer-contact-label">Email</p>
-              <p className="footer-contact-value">
+                <a href="tel:+97466257037">+974 6625 7037</a><br />
+                <a href="tel:+966531216181">+966 5312 16181</a><br />
                 <a href="mailto:info@realtechgulf.com">info@realtechgulf.com</a>
               </p>
             </div>
@@ -625,8 +597,7 @@ function App() {
         </div>
 
         <div className="footer-bottom">
-          <p className="footer-copy">&copy; {new Date().getFullYear()} Real Technologies. All rights reserved.</p>
-          <p className="footer-copy">Qatar &amp; KSA</p>
+          <p className="footer-copy">&copy; {new Date().getFullYear()} Real Technologies. Qatar &amp; KSA</p>
         </div>
       </footer>
     </>
