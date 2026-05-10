@@ -25,7 +25,7 @@ const DIVISIONS = [
     num: '02',
     title: 'Calibration Division',
     desc: 'ISO-traceable calibration services for weighing instruments. On-site certification, compliance documentation, and scheduled maintenance contracts.',
-    img: '/public/calibration.png',
+    img: 'https://images.unsplash.com/photo-1742163962100-0694339f2d57?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     alt: 'Technician operating calibration instrument on tablet display',
   },
   {
@@ -285,7 +285,7 @@ function App() {
               <div className="hero-img-small">
                 <img
                   className="hero-img-frame"
-                  src="./public/calibration.png" 
+                  src="https://images.unsplash.com/photo-1742163962100-0694339f2d57?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
                   alt="Calibration equipment on bench"
                   loading="eager"
                   width="400"
