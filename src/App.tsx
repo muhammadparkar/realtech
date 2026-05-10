@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import './index.css';
 
 const NAV_LINKS = [
@@ -24,8 +25,8 @@ const DIVISIONS = [
     num: '02',
     title: 'Calibration Division',
     desc: 'ISO-traceable calibration services for weighing instruments. On-site certification, compliance documentation, and scheduled maintenance contracts.',
-    img: 'https://images.unsplash.com/photo-1581093458791-9d15e7fdbd67?auto=format&fit=crop&w=900&q=80',
-    alt: 'Calibration technician performing instrument checks',
+    img: '/public/calibration.png',
+    alt: 'Technician operating calibration instrument on tablet display',
   },
   {
     num: '03',
@@ -87,6 +88,28 @@ const CLIENTS = [
   'QatarEnergy',
 ];
 
+const INDUSTRIES = [
+  { title: 'Oil & Gas', icon: '🛢️', desc: 'Precision weighing for hazardous environments and offshore platforms.' },
+  { title: 'Logistics & Ports', icon: '🚢', desc: 'High-capacity weighbridges and container weighing systems.' },
+  { title: 'Construction', icon: '🏗️', desc: 'Durable scales for cement, steel, and heavy material management.' },
+  { title: 'Food & Pharma', icon: '🧪', desc: 'Sanitary, high-precision scales for controlled laboratory settings.' },
+];
+
+const PROJECTS = [
+  { title: 'Doha Port Weighbridge', category: 'Logistics', year: '2025', img: 'https://images.unsplash.com/photo-1578575437130-527eed3abbec?auto=format&fit=crop&w=600&q=80' },
+  { title: 'Riyadh Industrial Automation', category: 'Automation', year: '2024', img: 'https://images.unsplash.com/photo-1513828583688-c52646db42da?auto=format&fit=crop&w=600&q=80' },
+  { title: 'Qatar Steel Custom Scales', category: 'Weighing', year: '2024', img: 'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=600&q=80' },
+];
+
+const GALLERY = [
+  'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=600&q=80',
+  'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=600&q=80',
+  'https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?auto=format&fit=crop&w=600&q=80',
+  'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+  'https://images.unsplash.com/photo-1513828583688-c52646db42da?auto=format&fit=crop&w=600&q=80',
+  'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=600&q=80',
+];
+
 function PhoneIcon() {
   return (
     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -122,6 +145,10 @@ function ThumbIcon() {
 }
 
 function App() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const closeMenu = () => setMenuOpen(false);
+
   return (
     <>
       {/* TOP BAR */}
@@ -180,7 +207,13 @@ function App() {
               </li>
             ))}
           </ul>
-          <button className="mobile-menu-btn" aria-label="Open navigation menu" aria-expanded="false" id="mobile-menu-toggle">
+          <button
+            className="mobile-menu-btn"
+            aria-label="Open navigation menu"
+            aria-expanded={menuOpen}
+            id="mobile-menu-toggle"
+            onClick={() => setMenuOpen(true)}
+          >
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
               <line x1="3" y1="6" x2="21" y2="6" />
               <line x1="3" y1="12" x2="21" y2="12" />
@@ -189,6 +222,31 @@ function App() {
           </button>
         </div>
       </nav>
+
+      {/* MOBILE NAV DRAWER */}
+      <div className={`mobile-nav${menuOpen ? ' is-open' : ''}`} role="dialog" aria-label="Navigation menu" aria-modal="true">
+        <div className="mobile-nav-overlay" onClick={closeMenu} aria-hidden="true" />
+        <div className="mobile-nav-drawer">
+          <button className="mobile-nav-close" onClick={closeMenu} aria-label="Close menu">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+          <ul className="mobile-nav-links" role="list">
+            {NAV_LINKS.map((link) => (
+              <li key={link.href}>
+                <a href={link.href} onClick={closeMenu}>{link.label}</a>
+              </li>
+            ))}
+          </ul>
+          <div className="mobile-nav-contact" aria-label="Contact information">
+            <a href="tel:+97466257037"><PhoneIcon />Qatar: +974 6625 7037</a>
+            <a href="tel:+966531216181"><PhoneIcon />KSA: +966 5312 16181</a>
+            <a href="mailto:info@realtechgulf.com"><MailIcon />info@realtechgulf.com</a>
+          </div>
+        </div>
+      </div>
 
       <main>
         {/* HERO */}
@@ -227,7 +285,7 @@ function App() {
               <div className="hero-img-small">
                 <img
                   className="hero-img-frame"
-                  src="https://images.unsplash.com/photo-1581093458791-9d15e7fdbd67?auto=format&fit=crop&w=400&q=80"
+                  src="./public/calibration.png" 
                   alt="Calibration equipment on bench"
                   loading="eager"
                   width="400"
@@ -333,7 +391,27 @@ function App() {
           </div>
         </section>
 
-        {/* DEALERSHIPS */}
+        {/* INDUSTRIES */}
+        <section id="industries" className="industries" aria-labelledby="industries-title">
+          <div className="industries-inner">
+            <p className="section-eyebrow">
+              <span className="section-eyebrow-line" aria-hidden="true" />
+              Sectors We Serve
+            </p>
+            <h2 id="industries-title" className="section-title">Industries</h2>
+            <div className="industries-grid">
+              {INDUSTRIES.map((ind, i) => (
+                <div key={i} className="industry-card" id={`industry-card-${i}`}>
+                  <div className="industry-icon">{ind.icon}</div>
+                  <h3 className="industry-card-title">{ind.title}</h3>
+                  <p className="industry-card-desc">{ind.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* PRODUCTS (DEALERSHIPS) */}
         <section id="products" className="dealers" aria-labelledby="dealers-title">
           <div className="dealers-inner">
             <p className="section-eyebrow">
@@ -347,6 +425,31 @@ function App() {
               {DEALERS.map((name) => (
                 <div key={name} className="dealer-item" id={`dealer-${name.toLowerCase().replace(/\s/g, '-')}`}>
                   <p className="dealer-name">{name}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* PROJECTS */}
+        <section id="projects" className="projects" aria-labelledby="projects-title">
+          <div className="projects-inner">
+            <p className="section-eyebrow">
+              <span className="section-eyebrow-line" aria-hidden="true" />
+              Our Track Record
+            </p>
+            <h2 id="projects-title" className="section-title">Latest Projects</h2>
+            <div className="projects-grid">
+              {PROJECTS.map((proj, i) => (
+                <div key={i} className="project-card" id={`project-card-${i}`}>
+                  <div className="project-image-wrap">
+                    <img src={proj.img} alt={proj.title} loading="lazy" />
+                    <div className="project-tag">{proj.category}</div>
+                  </div>
+                  <div className="project-info">
+                    <h3 className="project-card-title">{proj.title}</h3>
+                    <p className="project-card-meta">{proj.year} — Completed</p>
+                  </div>
                 </div>
               ))}
             </div>
@@ -369,6 +472,41 @@ function App() {
                   </div>
                   <h3 className="value-title">{v.title}</h3>
                   <p className="value-body">{v.body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* CAREERS */}
+        <section id="careers" className="careers" aria-labelledby="careers-title">
+          <div className="careers-inner">
+            <div className="careers-content">
+              <p className="section-eyebrow">
+                <span className="section-eyebrow-line" aria-hidden="true" />
+                Join Our Team
+              </p>
+              <h2 id="careers-title" className="section-title">Careers at <em>Real Technology</em></h2>
+              <p className="careers-text">
+                We are always looking for precision-driven engineers, technicians, and sales professionals to join our growing operations in Qatar and Saudi Arabia.
+              </p>
+              <a href="mailto:info@realtechgulf.com?subject=Career%20Inquiry" className="btn btn-primary">View Openings</a>
+            </div>
+          </div>
+        </section>
+
+        {/* GALLERY */}
+        <section id="gallery" className="gallery" aria-labelledby="gallery-title">
+          <div className="gallery-inner">
+            <p className="section-eyebrow">
+              <span className="section-eyebrow-line" aria-hidden="true" />
+              Visual Showcase
+            </p>
+            <h2 id="gallery-title" className="section-title">Gallery</h2>
+            <div className="gallery-grid">
+              {GALLERY.map((img, i) => (
+                <div key={i} className="gallery-item">
+                  <img src={img} alt={`Industrial equipment ${i + 1}`} loading="lazy" />
                 </div>
               ))}
             </div>
