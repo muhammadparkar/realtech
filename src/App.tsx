@@ -1,16 +1,41 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './index.css';
 
 const NAV_LINKS = [
   { label: 'Home', href: '#home' },
   { label: 'About Us', href: '#about' },
   { label: 'Services', href: '#services' },
-  { label: 'Industries', href: '#industries' },
+  { label: 'Industries', href: '#industries', dropdown: [
+    'Agriculture', 'Aviation', 'Chemicals', 'Construction', 
+    'Food & Beverage', 'Healthcare', 'Logistics', 'Manufacturing', 
+    'Oil & Gas', 'Pharmaceuticals', 'Power Generation', 'Retail'
+  ]},
   { label: 'Products', href: '#products' },
   { label: 'Projects', href: '#projects' },
   { label: 'Careers', href: '#careers' },
   { label: 'Gallery', href: '#gallery' },
   { label: 'Reach Us', href: '#contact' },
+];
+
+const HERO_SLIDES = [
+  {
+    title: 'Platform Scales',
+    sub: '40 years of engineered precision. High-capacity weighing solutions for the most demanding environments.',
+    img: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80',
+    tag: 'Industrial Weighing'
+  },
+  {
+    title: 'Calibration Excellence',
+    sub: 'ISO 17025 accredited labs and on-site certification services across Qatar and Saudi Arabia.',
+    img: 'https://images.unsplash.com/photo-1742163962100-0694339f2d57?auto=format&fit=crop&w=1200&q=80',
+    tag: 'Metrology Services'
+  },
+  {
+    title: 'Smart Automation',
+    sub: 'Integrating cutting-edge sensors and control systems for seamless industrial efficiency.',
+    img: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80',
+    tag: 'Advanced Systems'
+  }
 ];
 
 const DIVISIONS = [
@@ -146,77 +171,117 @@ function ThumbIcon() {
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const closeMenu = () => setMenuOpen(false);
 
+  // Scroll listener for sticky header
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Auto-slide hero
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
+    }, 6000);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <>
-      {/* TOP BAR */}
-      <div className="topbar" role="banner">
-        <div className="topbar-inner">
-          <div className="topbar-left">
-            <a href="tel:+97466257037" className="topbar-contact" aria-label="Qatar phone number">
-              <PhoneIcon />
-              <span>Qatar: +974 6625 7037</span>
-            </a>
-            <span className="topbar-divider" aria-hidden="true" />
-            <a href="tel:+966531216181" className="topbar-contact" aria-label="KSA phone number">
-              <PhoneIcon />
-              <span>KSA: +966 5312 16181</span>
-            </a>
-            <span className="topbar-divider" aria-hidden="true" />
-            <a href="mailto:info@realtechgulf.com" className="topbar-contact" aria-label="Email us">
-              <MailIcon />
-              <span>info@realtechgulf.com</span>
-            </a>
-          </div>
-          <div className="topbar-social" aria-label="Social media links">
-            <a href="#" aria-label="Facebook" rel="noopener noreferrer">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-            </a>
-            <a href="#" aria-label="LinkedIn" rel="noopener noreferrer">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
-            </a>
-            <a href="#" aria-label="Instagram" rel="noopener noreferrer">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><rect width="20" height="20" x="2" y="2" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
-            </a>
-            <a href="https://www.erphorizon.com/company/realtechnologies137/index.php?r=site%2Flogin" aria-label="ERP Login" target="_blank" rel="noopener noreferrer" className="topbar-login-btn">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.778-7.778zm0 0L15.5 8.5l.5 1 2-2 1 2 2-2" />
-              </svg>
-            </a>
+      {/* HEADER SYSTEM */}
+      <header className={`header-main${isScrolled ? ' is-scrolled' : ''}`}>
+        {/* TOP BAR */}
+        <div className="topbar" role="banner">
+          <div className="topbar-inner">
+            <div className="topbar-left">
+              <a href="tel:+97466257037" className="topbar-contact" aria-label="Qatar phone number">
+                <PhoneIcon />
+                <span>Qatar: +974 6625 7037</span>
+              </a>
+              <span className="topbar-divider" aria-hidden="true" />
+              <a href="tel:+966531216181" className="topbar-contact" aria-label="KSA phone number">
+                <PhoneIcon />
+                <span>KSA: +966 5312 16181</span>
+              </a>
+              <span className="topbar-divider" aria-hidden="true" />
+              <a href="mailto:info@realtechgulf.com" className="topbar-contact" aria-label="Email us">
+                <MailIcon />
+                <span>info@realtechgulf.com</span>
+              </a>
+            </div>
+            <div className="topbar-social" aria-label="Social media links">
+              <a href="#" aria-label="Facebook" rel="noopener noreferrer">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+              </a>
+              <a href="#" aria-label="LinkedIn" rel="noopener noreferrer">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+              </a>
+              <a href="#" aria-label="Instagram" rel="noopener noreferrer">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><rect width="20" height="20" x="2" y="2" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+              </a>
+              <a href="https://www.erphorizon.com/company/realtechnologies137/index.php?r=site%2Flogin" aria-label="ERP Login" target="_blank" rel="noopener noreferrer" className="topbar-login-btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.778-7.778zm0 0L15.5 8.5l.5 1 2-2 1 2 2-2" />
+                </svg>
+              </a>
+              <div className="topbar-lang">
+                <button className="lang-btn active">EN</button>
+                <span className="lang-divider">|</span>
+                <button className="lang-btn">AR</button>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
 
-      {/* NAVIGATION */}
-      <nav className="nav" role="navigation" aria-label="Main navigation">
-        <div className="nav-inner">
-          <a href="#home" className="nav-brand" aria-label="Real Technologies home">
-            <img src="/logo.png" alt="Real Technologies Logo" className="nav-brand-logo" />
-          </a>
-          <ul className="nav-links" role="list">
-            {NAV_LINKS.map((link) => (
-              <li key={link.href}>
-                <a href={link.href}>{link.label}</a>
-              </li>
-            ))}
-          </ul>
-          <button
-            className="mobile-menu-btn"
-            aria-label="Open navigation menu"
-            aria-expanded={menuOpen}
-            id="mobile-menu-toggle"
-            onClick={() => setMenuOpen(true)}
-          >
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-              <line x1="3" y1="6" x2="21" y2="6" />
-              <line x1="3" y1="12" x2="21" y2="12" />
-              <line x1="3" y1="18" x2="21" y2="18" />
-            </svg>
-          </button>
-        </div>
-      </nav>
+        {/* NAVIGATION */}
+        <nav className="nav" role="navigation" aria-label="Main navigation">
+          <div className="nav-inner">
+            <a href="#home" className="nav-brand" aria-label="Real Technologies home">
+              <img src="/logo.png" alt="Real Technologies Logo" className="nav-brand-logo" />
+            </a>
+            <ul className="nav-links" role="list">
+              {NAV_LINKS.map((link) => (
+                <li key={link.label} className={link.dropdown ? 'has-dropdown' : ''}>
+                  <a href={link.href}>{link.label}</a>
+                  {link.dropdown && (
+                    <div className="mega-menu">
+                      <div className="mega-menu-inner">
+                        <div className="mega-menu-grid">
+                          {link.dropdown.map((item) => (
+                            <a key={item} href={`#industries-${item.toLowerCase().replace(/ /g, '-')}`} className="mega-menu-link">
+                              {item}
+                            </a>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </li>
+              ))}
+            </ul>
+            <button
+              className="mobile-menu-btn"
+              aria-label="Open navigation menu"
+              aria-expanded={menuOpen}
+              id="mobile-menu-toggle"
+              onClick={() => setMenuOpen(true)}
+            >
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <line x1="3" y1="12" x2="21" y2="12" />
+                <line x1="3" y1="18" x2="21" y2="18" />
+              </svg>
+            </button>
+          </div>
+        </nav>
+      </header>
 
       {/* MOBILE NAV DRAWER */}
       <div className={`mobile-nav${menuOpen ? ' is-open' : ''}`} role="dialog" aria-label="Navigation menu" aria-modal="true">
@@ -253,63 +318,44 @@ function App() {
       </div>
 
       <main>
-        {/* HERO */}
+        {/* HERO SLIDER */}
         <section id="home" className="hero" aria-labelledby="hero-headline">
-          <div className="hero-grid">
-            <div className="hero-content">
-              <p className="hero-eyebrow">
-                <span className="hero-eyebrow-line" aria-hidden="true" />
-                Precision Industrial Solutions — Qatar &amp; KSA
-              </p>
-              <h1 id="hero-headline" className="hero-headline">
-                Platform<br />
-                <em>Scales</em> &amp;<br />
-                Weighing Systems
-              </h1>
-              <p className="hero-sub">
-                40 years of engineered precision. Weighing, Calibration, Fabrication, and Automation for the Gulf's most demanding industrial environments.
-              </p>
-              <p className="hero-slogan">A Promise ....!</p>
-              <div className="hero-actions">
-                <a href="#services" className="btn btn-primary" id="hero-cta-services">View Services</a>
-                <a href="#contact" className="btn btn-secondary" id="hero-cta-contact">Get in Touch</a>
+          {HERO_SLIDES.map((slide, i) => (
+            <div key={i} className={`hero-slide${i === currentSlide ? ' active' : ''}`}>
+              <div className="hero-bg">
+                <img src={slide.img} alt="" aria-hidden="true" />
+                <div className="hero-overlay" />
+              </div>
+              <div className="hero-inner">
+                <div className="hero-content">
+                  <p className="section-eyebrow">
+                    <span className="section-eyebrow-line" aria-hidden="true" />
+                    {slide.tag}
+                  </p>
+                  <h1 id="hero-headline" className="hero-title">
+                    {slide.title.split(' ').map((word, idx) => (
+                      idx === 0 ? <em key={idx}>{word} </em> : word + ' '
+                    ))}
+                  </h1>
+                  <p className="hero-sub">{slide.sub}</p>
+                  <p className="hero-slogan">A Promise ....!</p>
+                  <div className="hero-actions">
+                    <a href="#services" className="btn btn-primary">View Services</a>
+                    <a href="#contact" className="btn btn-secondary">Get in Touch</a>
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="hero-images" aria-hidden="true">
-              <div className="hero-img-large">
-                <img
-                  className="hero-img-frame"
-                  src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=700&q=80"
-                  alt="Large industrial platform scale in warehouse"
-                  loading="eager"
-                  width="700"
-                  height="500"
-                />
-                <span className="hero-img-label">Platform Scale — Heavy Duty</span>
-              </div>
-              <div className="hero-img-small">
-                <img
-                  className="hero-img-frame"
-                  src="https://images.unsplash.com/photo-1742163962100-0694339f2d57?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
-                  alt="Calibration equipment on bench"
-                  loading="eager"
-                  width="400"
-                  height="240"
-                />
-                <span className="hero-img-label">Calibration Division</span>
-              </div>
-              <div className="hero-img-small">
-                <img
-                  className="hero-img-frame"
-                  src="https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?auto=format&fit=crop&w=400&q=80"
-                  alt="Industrial automation control panel"
-                  loading="eager"
-                  width="400"
-                  height="240"
-                />
-                <span className="hero-img-label">Automation Division</span>
-              </div>
-            </div>
+          ))}
+          <div className="hero-dots">
+            {HERO_SLIDES.map((_, i) => (
+              <button 
+                key={i} 
+                className={`hero-dot${i === currentSlide ? ' active' : ''}`}
+                onClick={() => setCurrentSlide(i)}
+                aria-label={`Go to slide ${i + 1}`}
+              />
+            ))}
           </div>
         </section>
 
@@ -426,12 +472,16 @@ function App() {
             <h2 id="dealers-title" className="section-title">
               Authorised Distributor for <em>World-Class</em> Brands
             </h2>
-            <div className="dealers-grid">
-              {DEALERS.map((name) => (
-                <div key={name} className="dealer-item" id={`dealer-${name.toLowerCase().replace(/\s/g, '-')}`}>
-                  <p className="dealer-name">{name}</p>
-                </div>
-              ))}
+            <div className="ticker-wrap">
+              <div className="ticker-track">
+                {[...DEALERS, ...DEALERS, ...DEALERS].map((name, i) => (
+                  <div key={i} className="ticker-item">
+                    <div className="dealer-box">
+                      <span className="dealer-name">{name}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </section>
@@ -528,12 +578,16 @@ function App() {
             <h2 id="clients-title" className="section-title">
               Our <em>Clients</em>
             </h2>
-            <div className="clients-grid">
-              {CLIENTS.map((name) => (
-                <div key={name} className="client-item" id={`client-${name.toLowerCase().replace(/\s/g, '-')}`}>
-                  <p className="client-name">{name}</p>
-                </div>
-              ))}
+            <div className="ticker-wrap clients-ticker">
+              <div className="ticker-track reverse">
+                {[...CLIENTS, ...CLIENTS, ...CLIENTS].map((name, i) => (
+                  <div key={i} className="ticker-item">
+                    <div className="client-box">
+                      <span className="client-name">{name}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </section>
@@ -599,6 +653,19 @@ function App() {
           <p className="footer-copy">&copy; {new Date().getFullYear()} Real Technologies. Qatar &amp; KSA</p>
         </div>
       </footer>
+
+      {/* FLOATING ACTION */}
+      <a 
+        href="https://wa.me/97466257037" 
+        className="floating-whatsapp" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        aria-label="Contact us on WhatsApp"
+      >
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12.031 6.172c-2.135 0-4.141.832-5.648 2.339s-2.339 3.513-2.339 5.648c0 2.135.832 4.141 2.339 5.648s3.513 2.339 5.648 2.339c2.135 0 4.141-.832 5.648-2.339s2.339-3.513 2.339-5.648c0-2.135-.832-4.141-2.339-5.648s-3.513-2.339-5.648-2.339zM12 18.2c-2.316 0-4.2-1.884-4.2-4.2s1.884-4.2 4.2-4.2 4.2 1.884 4.2 4.2-1.884 4.2-4.2 4.2zm3.3-6.6l-1.8 1.8 1.8 1.8-1.2 1.2-1.8-1.8-1.8 1.8-1.2-1.2 1.8-1.8-1.8-1.8 1.2-1.2 1.8 1.8 1.8-1.8 1.2 1.2z"/>
+        </svg>
+      </a>
     </>
   );
 }
