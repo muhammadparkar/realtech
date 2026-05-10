@@ -180,6 +180,11 @@ function App() {
             <a href="#" aria-label="Instagram" rel="noopener noreferrer">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><rect width="20" height="20" x="2" y="2" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
             </a>
+            <a href="https://www.erphorizon.com/company/realtechnologies137/index.php?r=site%2Flogin" aria-label="ERP Login" target="_blank" rel="noopener noreferrer" className="topbar-login-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.778-7.778zm0 0L15.5 8.5l.5 1 2-2 1 2 2-2" />
+              </svg>
+            </a>
           </div>
         </div>
       </div>
@@ -188,17 +193,7 @@ function App() {
       <nav className="nav" role="navigation" aria-label="Main navigation">
         <div className="nav-inner">
           <a href="#home" className="nav-brand" aria-label="Real Technologies home">
-            <svg className="nav-brand-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-              <rect width="32" height="32" fill="var(--text)" />
-              <rect x="6" y="6" width="8" height="8" fill="var(--bg)" />
-              <rect x="18" y="6" width="8" height="8" fill="var(--accent-orange)" />
-              <rect x="6" y="18" width="8" height="8" fill="var(--accent-orange)" />
-              <rect x="18" y="18" width="8" height="8" fill="var(--bg)" />
-            </svg>
-            <div className="nav-brand-text">
-              <span className="nav-brand-name">Real Technologies</span>
-              <span className="nav-brand-sub">Qatar &amp; KSA</span>
-            </div>
+            <img src="/logo.png" alt="Real Technologies Logo" className="nav-brand-logo" />
           </a>
           <ul className="nav-links" role="list">
             {NAV_LINKS.map((link) => (
@@ -243,7 +238,16 @@ function App() {
           <div className="mobile-nav-contact" aria-label="Contact information">
             <a href="tel:+97466257037"><PhoneIcon />Qatar: +974 6625 7037</a>
             <a href="tel:+966531216181"><PhoneIcon />KSA: +966 5312 16181</a>
-            <a href="mailto:info@realtechgulf.com"><MailIcon />info@realtechgulf.com</a>
+            <a href="mailto:info@realtechgulf.com">
+              <MailIcon />
+              info@realtechgulf.com
+            </a>
+            <a href="https://www.erphorizon.com/company/realtechnologies137/index.php?r=site%2Flogin" target="_blank" rel="noopener noreferrer" className="mobile-nav-login">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.778-7.778zm0 0L15.5 8.5l.5 1 2-2 1 2 2-2" />
+              </svg>
+              ERP Login Portal
+            </a>
           </div>
         </div>
       </div>
@@ -265,6 +269,7 @@ function App() {
               <p className="hero-sub">
                 40 years of engineered precision. Weighing, Calibration, Fabrication, and Automation for the Gulf's most demanding industrial environments.
               </p>
+              <p className="hero-slogan">A Promise ....!</p>
               <div className="hero-actions">
                 <a href="#services" className="btn btn-primary" id="hero-cta-services">View Services</a>
                 <a href="#contact" className="btn btn-secondary" id="hero-cta-contact">Get in Touch</a>
@@ -540,14 +545,8 @@ function App() {
           {/* Brand */}
           <div className="footer-brand">
             <div className="footer-brand-top">
-              <svg className="footer-brand-mark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-                <rect width="32" height="32" fill="var(--accent-orange)" />
-                <rect x="6" y="6" width="8" height="8" fill="rgba(14,14,12,0.8)" />
-                <rect x="18" y="6" width="8" height="8" fill="rgba(244,242,238,0.9)" />
-                <rect x="6" y="18" width="8" height="8" fill="rgba(244,242,238,0.9)" />
-                <rect x="18" y="18" width="8" height="8" fill="rgba(14,14,12,0.8)" />
-              </svg>
-              <p className="footer-brand-name">Real Technologies</p>
+              <img src="/logo.png" alt="Real Technologies Logo" className="footer-brand-logo" />
+              <span className="footer-slogan">A Promise ....!</span>
             </div>
             <div className="footer-social" aria-label="Social media">
               <a href="#" aria-label="Facebook" rel="noopener noreferrer" id="footer-social-fb">
