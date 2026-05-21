@@ -100,37 +100,52 @@ const HERO_SLIDES = [
   {
     eyebrow: 'Precision weighing & force systems',
     title: 'Industrial Weighing Solutions',
+    label: 'Weighing',
     desc: '40 years of engineered precision. High-capacity, ATEX-approved weighing platforms built for the most demanding environments.',
     img: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1600&q=80',
-    link: '#weighing'
+    link: '#weighing',
+    badge: 'ATEX Certified Zone 1/21',
+    telemetry: { label: 'MAX CAPACITY', value: '500,000 KG' }
   },
   {
     eyebrow: 'ISO/IEC 17025 accredited metrology',
     title: 'Accredited Calibration Services',
+    label: 'Calibration',
     desc: 'Providing certified, traceable on-site calibrations and standards audits for Qatar and Saudi Arabian industries.',
     img: 'https://images.unsplash.com/photo-1742163962100-0694339f2d57?auto=format&fit=crop&w=1600&q=80',
-    link: '#calibration'
+    link: '#calibration',
+    badge: 'ISO/IEC 17025 Accredited',
+    telemetry: { label: 'TRACEABILITY', value: 'NIST / PTB Standards' }
   },
   {
     eyebrow: 'Turnkey PLC & ERP connectivity',
     title: 'Advanced Industrial Automation',
+    label: 'Automation',
     desc: 'Connecting scale transmitters and PLC panels to enterprise ERP databases for real-time stock control and tracking.',
     img: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1600&q=80',
-    link: '#automation'
+    link: '#automation',
+    badge: 'Industry 4.0 Compliant',
+    telemetry: { label: 'INTERFACE', value: 'Modbus/TCP & Profinet' }
   },
   {
     eyebrow: 'Structural engineering & fabrication',
     title: 'Heavy Structural Fabrication',
+    label: 'Fabrication',
     desc: 'AWS and ASME certified fabrication of custom platforms, hopper vessels, and silo load cells engineered to ±0.5mm tolerances.',
     img: 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=1600&q=80',
-    link: '#fabrication'
+    link: '#fabrication',
+    badge: 'ASME SEC IX / AWS D1.1',
+    telemetry: { label: 'TOLERANCE', value: '±0.5 MM Structural' }
   },
   {
     eyebrow: 'Preventative compliance agreements',
     title: '24/7 Service & Support Contracts',
+    label: 'Support Services',
     desc: 'Ensuring zero downtime with prompt site assistance, calibration reminders, and parts stocking agreements across the GCC.',
     img: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1600&q=80',
-    link: '#contact'
+    link: '#contact',
+    badge: 'GCC-wide Support Coverage',
+    telemetry: { label: 'RESPONSE TIME', value: '< 4 Hours On-site' }
   }
 ];
 
@@ -469,11 +484,7 @@ function App() {
         <div className="header-inner container-width">
           {/* Logo on Left */}
           <a href="#home" className="logo-link" aria-label="Real Technologies Home">
-            <div className="logo-container">
-              <span className="logo-bold">REAL</span>
-              <span className="logo-light">TECHNOLOGIES</span>
-            </div>
-            <span className="logo-badge">SYSTEM COMPLIANCE</span>
+            <img src="/logo.png" alt="Real Technologies Logo" className="logo-img" />
           </a>
 
           {/* Navigation Menu on Right (Desktop) */}
@@ -565,7 +576,7 @@ function App() {
         <div className="mobile-nav-overlay" onClick={() => setMobileMenuOpen(false)} />
         <div className="mobile-nav-content">
           <div className="mobile-nav-header">
-            <span className="logo-bold">REAL TECH</span>
+            <img src="/logo.png" alt="Real Technologies Logo" className="logo-img-mobile" />
             <button className="mobile-close-btn" onClick={() => setMobileMenuOpen(false)} aria-label="Close menu">
               <CloseIcon />
             </button>
@@ -590,46 +601,101 @@ function App() {
         </div>
       </div>
 
-
-      {/* SECTION 2: HERO SECTION ( rotating slider) */}
+      {/* SECTION 2: HERO SECTION ( rotating slider with Split HUD & progress bars) */}
       <section
         id="home"
-        className="hero-slider"
+        className={`hero-slider ${heroPaused ? 'is-paused' : ''}`}
         onMouseEnter={() => setHeroPaused(true)}
         onMouseLeave={() => setHeroPaused(false)}
       >
-        {HERO_SLIDES.map((slide, idx) => (
-          <div key={idx} className={`hero-slide ${idx === currentSlide ? 'is-active' : ''}`}>
-            <div className="hero-bg-img" style={{ backgroundImage: `url(${slide.img})` }} />
-            <div className="hero-overlay" />
-            <div className="hero-content-wrap container-width">
-              <div className="hero-text-box">
-                <span className="hero-eyebrow">Bringing precision &amp; innovation with</span>
-                <h1 className="hero-title">{slide.title}</h1>
-                <p className="hero-desc">{slide.desc}</p>
-                <div className="hero-buttons">
-                  <a href={slide.link} className="btn btn-primary">
-                    Explore more <ArrowRightIcon />
-                  </a>
-                  <button className="btn btn-secondary" onClick={() => setIsModalOpen(true)}>
-                    Contact Sales
-                  </button>
+        <div className="hero-slides-container">
+          {HERO_SLIDES.map((slide, idx) => (
+            <div key={idx} className={`hero-slide ${idx === currentSlide ? 'is-active' : ''}`}>
+              <div className="hero-content-wrap container-width">
+                <div className="hero-grid-layout">
+                  {/* Left Column: High-Impact Copy */}
+                  <div className="hero-text-box">
+                    <div className="hero-slide-counter">
+                      <span className="current-num">0{idx + 1}</span>
+                      <span className="total-num">/ 0{HERO_SLIDES.length}</span>
+                    </div>
+                    <span className="hero-eyebrow">{slide.eyebrow}</span>
+                    <h1 className="hero-title">{slide.title}</h1>
+                    <p className="hero-desc">{slide.desc}</p>
+                    <div className="hero-buttons">
+                      <a href={slide.link} className="btn btn-primary">
+                        Explore more <ArrowRightIcon />
+                      </a>
+                      <button className="btn btn-secondary" onClick={() => setIsModalOpen(true)}>
+                        Contact Sales
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Right Column: High-Tech Viewport HUD */}
+                  <div className="hero-hud-column">
+                    <div className="hud-viewport-frame">
+                      {/* Decorative HUD corners */}
+                      <div className="hud-corner top-left"></div>
+                      <div className="hud-corner top-right"></div>
+                      <div className="hud-corner bottom-left"></div>
+                      <div className="hud-corner bottom-right"></div>
+                      
+                      {/* Grid overlays */}
+                      <div className="hud-grid-overlay"></div>
+                      <div className="hud-crosshair">
+                        <span className="crosshair-x"></span>
+                        <span className="crosshair-y"></span>
+                        <span className="crosshair-reticle"></span>
+                      </div>
+                      
+                      {/* Active Telemetry Widget */}
+                      <div className="hud-telemetry-badge">
+                        <span className="telemetry-lbl">{slide.telemetry.label}</span>
+                        <span className="telemetry-val">{slide.telemetry.value}</span>
+                        <div className="telemetry-status">
+                          <span className="status-dot"></span>
+                          <span className="status-txt">SYSTEM ACTIVE</span>
+                        </div>
+                      </div>
+
+                      {/* Standards Compliance Badge */}
+                      <div className="hud-cert-badge">
+                        <span className="cert-txt">{slide.badge}</span>
+                      </div>
+
+                      {/* Photo Viewport */}
+                      <div className="hud-img-wrap">
+                        <img src={slide.img} alt={slide.title} className="hud-img" />
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
-
-        {/* Slider Navigation Dots */}
-        <div className="slider-dots">
-          {HERO_SLIDES.map((_, idx) => (
-            <button
-              key={idx}
-              className={`slider-dot ${idx === currentSlide ? 'is-active' : ''}`}
-              onClick={() => setCurrentSlide(idx)}
-              aria-label={`Go to slide ${idx + 1}`}
-            />
           ))}
+        </div>
+
+        {/* Bottom Bar: Interactive Progress Tabs */}
+        <div className="hero-timeline-nav container-width">
+          <div className="hero-timeline-tabs">
+            {HERO_SLIDES.map((slide, idx) => (
+              <button
+                key={idx}
+                className={`timeline-tab-btn ${idx === currentSlide ? 'is-active' : ''}`}
+                onClick={() => setCurrentSlide(idx)}
+                aria-label={`Go to slide ${idx + 1}`}
+              >
+                <span className="tab-num">0{idx + 1}</span>
+                <span className="tab-label">{slide.label}</span>
+                <div className="tab-progress-bar">
+                  {idx === currentSlide && (
+                    <div key={currentSlide} className="tab-progress-fill" />
+                  )}
+                </div>
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Slider Manual Arrows */}
@@ -638,17 +704,16 @@ function App() {
           onClick={() => setCurrentSlide((prev) => (prev - 1 + HERO_SLIDES.length) % HERO_SLIDES.length)}
           aria-label="Previous slide"
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m15 18-6-6 6-6"/></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="m15 18-6-6 6-6"/></svg>
         </button>
         <button
           className="slider-arrow arrow-right"
           onClick={() => setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length)}
           aria-label="Next slide"
         >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m9 18 6-6-6-6"/></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="m9 18 6-6-6-6"/></svg>
         </button>
       </section>
-
 
       {/* SECTION 3: IMAGE GALLERY CAROUSEL */}
       <section className="gallery-carousel-section">
