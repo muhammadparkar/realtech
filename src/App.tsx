@@ -479,30 +479,30 @@ function App() {
 
   return (
     <div className="app-container">
-      {/* SECTION 1: HEADER & NAVIGATION */}
-      <header className={`header-main ${isScrolled ? 'is-scrolled' : ''}`}>
-        <div className="header-inner container-width">
-          {/* Logo on Left */}
-          <a href="#home" className="logo-link" aria-label="Real Technologies Home">
-            <img src="/logo.png" alt="Real Technologies Logo" className="logo-img" />
+
+      {/* ============================================================
+          SECTION 1: FLOATING NAVBAR (reference-style)
+      ============================================================ */}
+      <header className={`navbar-float ${isScrolled ? 'navbar-scrolled' : ''} ${mobileMenuOpen ? 'navbar-menu-open' : ''}`}>
+        <div className="navbar-inner">
+          {/* Logo */}
+          <a href="#home" className="navbar-logo" aria-label="Real Technologies Home">
+            <img src="/logo.png" alt="Real Technologies Logo" className="navbar-logo-img" />
           </a>
 
-          {/* Navigation Menu on Right (Desktop) */}
-          <nav className="nav-desktop" aria-label="Main Navigation">
-            <ul className="nav-menu">
-              <li>
-                <a href="#home" className="nav-item">Home</a>
-              </li>
+          {/* Desktop nav links — centered */}
+          <nav className="navbar-links-desktop" aria-label="Main Navigation">
+            <ul className="navbar-links-list">
+              <li><a href="#home" className="navbar-link">Home</a></li>
               <li
                 onMouseEnter={() => handleMouseEnterMenu(0)}
                 onMouseLeave={handleMouseLeaveMenu}
-                className="has-dropdown"
+                className="navbar-item-has-dropdown"
               >
-                <button className="nav-item dropdown-toggle" aria-expanded={activeMegaMenu === 0}>
+                <button className="navbar-link navbar-link-btn" aria-expanded={activeMegaMenu === 0}>
                   Solutions <ChevronDownIcon />
                 </button>
-
-                {/* Mega Menu Dropdown */}
+                {/* Mega Menu */}
                 <div className={`mega-menu ${activeMegaMenu === 0 ? 'is-active' : ''}`}>
                   <div className="mega-menu-inner container-width">
                     <div className="mega-menu-grid">
@@ -534,185 +534,189 @@ function App() {
                   </div>
                 </div>
               </li>
-              <li>
-                <a href="#services" className="nav-item">Services</a>
-              </li>
-              <li>
-                <a href="#about" className="nav-item">About</a>
-              </li>
-              <li>
-                <a href="#news" className="nav-item">News</a>
-              </li>
-              <li>
-                <a href="#careers" className="nav-item">Careers</a>
-              </li>
-              <li>
-                <a href="#contact" className="nav-item">Contact</a>
-              </li>
+              <li><a href="#services" className="navbar-link">Services</a></li>
+              <li><a href="#about" className="navbar-link">About</a></li>
+              <li><a href="#news" className="navbar-link">News</a></li>
+              <li><a href="#contact" className="navbar-link">Contact</a></li>
             </ul>
           </nav>
 
-          {/* Header Action Button (Desktop) */}
-          <div className="header-actions-desktop">
+          {/* Desktop CTA */}
+          <div className="navbar-cta-desktop">
+            <button className="btn btn-outline-nav btn-sm" onClick={() => setIsModalOpen(true)}>
+              Get a Quote
+            </button>
             <button className="btn btn-primary btn-sm" onClick={() => setIsModalOpen(true)}>
-              Request a quote <ArrowRightIcon />
+              Request Consult <ArrowRightIcon />
             </button>
           </div>
 
-          {/* Hamburger Menu Toggle (Mobile) */}
+          {/* Mobile hamburger */}
           <button
-            className="hamburger-toggle"
-            onClick={() => setMobileMenuOpen(true)}
-            aria-label="Open navigation menu"
+            className={`navbar-hamburger ${mobileMenuOpen ? 'is-open' : ''}`}
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={mobileMenuOpen}
           >
-            <MenuIcon />
+            <span className="hamburger-bar"></span>
+            <span className="hamburger-bar"></span>
+            <span className="hamburger-bar"></span>
           </button>
+        </div>
+
+        {/* Mobile Menu Panel */}
+        <div className={`navbar-mobile-panel ${mobileMenuOpen ? 'is-open' : ''}`}>
+          <ul className="mobile-nav-list">
+            <li><a href="#home" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Home</a></li>
+            <li><a href="#services" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Solutions</a></li>
+            <li><a href="#services" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Services</a></li>
+            <li><a href="#about" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>About</a></li>
+            <li><a href="#news" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>News</a></li>
+            <li><a href="#contact" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Contact</a></li>
+          </ul>
+          <div className="mobile-nav-footer-actions">
+            <a href="tel:+97466257037" className="mobile-contact-link"><PhoneIcon /> Qatar: +974 6625 7037</a>
+            <a href="tel:+966531216181" className="mobile-contact-link"><PhoneIcon /> KSA: +966 5312 16181</a>
+            <button className="btn btn-primary w-full" style={{marginTop: '1rem'}} onClick={() => { setMobileMenuOpen(false); setIsModalOpen(true); }}>
+              Request a quote <ArrowRightIcon />
+            </button>
+          </div>
         </div>
       </header>
 
-      {/* Mobile Drawer (Slide-in Panel) */}
-      <div className={`mobile-nav-panel ${mobileMenuOpen ? 'is-open' : ''}`}>
-        <div className="mobile-nav-overlay" onClick={() => setMobileMenuOpen(false)} />
-        <div className="mobile-nav-content">
-          <div className="mobile-nav-header">
-            <img src="/logo.png" alt="Real Technologies Logo" className="logo-img-mobile" />
-            <button className="mobile-close-btn" onClick={() => setMobileMenuOpen(false)} aria-label="Close menu">
-              <CloseIcon />
-            </button>
-          </div>
-          <ul className="mobile-menu-links">
-            <li><a href="#home" onClick={() => setMobileMenuOpen(false)}>Home</a></li>
-            <li><a href="#services" onClick={() => setMobileMenuOpen(false)}>Services</a></li>
-            <li><a href="#about" onClick={() => setMobileMenuOpen(false)}>About Us</a></li>
-            <li><a href="#news" onClick={() => setMobileMenuOpen(false)}>News</a></li>
-            <li><a href="#careers" onClick={() => setMobileMenuOpen(false)}>Careers</a></li>
-            <li><a href="#contact" onClick={() => setMobileMenuOpen(false)}>Contact Us</a></li>
-          </ul>
-          <div className="mobile-nav-footer">
-            <p className="mobile-contact-lbl">Get in touch with GCC Offices:</p>
-            <a href="tel:+97466257037" className="mobile-contact-link"><PhoneIcon /> Qatar: +974 6625 7037</a>
-            <a href="tel:+966531216181" className="mobile-contact-link"><PhoneIcon /> KSA: +966 5312 16181</a>
-            <a href="mailto:info@realtechgulf.com" className="mobile-contact-link"><MailIcon /> info@realtechgulf.com</a>
-            <button className="btn btn-primary w-full mt-lg" onClick={() => { setMobileMenuOpen(false); setIsModalOpen(true); }}>
-              Request a quote <ArrowRightIcon />
-            </button>
-          </div>
-        </div>
-      </div>
+      {/* Overlay for mobile menu */}
+      {mobileMenuOpen && (
+        <div className="navbar-mobile-overlay" onClick={() => setMobileMenuOpen(false)} />
+      )}
 
-      {/* SECTION 2: HERO SECTION ( rotating slider with Split HUD & progress bars) */}
+      {/* ============================================================
+          SECTION 2: IMMERSIVE HERO (reference-style: full-bleed bg)
+      ============================================================ */}
       <section
         id="home"
-        className={`hero-slider ${heroPaused ? 'is-paused' : ''}`}
+        className={`hero-v2 ${heroPaused ? 'is-paused' : ''}`}
         onMouseEnter={() => setHeroPaused(true)}
         onMouseLeave={() => setHeroPaused(false)}
       >
-        <div className="hero-slides-container">
+        {/* Full-bleed background slides */}
+        <div className="hero-v2-bg-stack">
           {HERO_SLIDES.map((slide, idx) => (
-            <div key={idx} className={`hero-slide ${idx === currentSlide ? 'is-active' : ''}`}>
-              <div className="hero-content-wrap container-width">
-                <div className="hero-grid-layout">
-                  {/* Left Column: High-Impact Copy */}
-                  <div className="hero-text-box">
-                    <div className="hero-slide-counter">
-                      <span className="current-num">0{idx + 1}</span>
-                      <span className="total-num">/ 0{HERO_SLIDES.length}</span>
-                    </div>
-                    <span className="hero-eyebrow">{slide.eyebrow}</span>
-                    <h1 className="hero-title">{slide.title}</h1>
-                    <p className="hero-desc">{slide.desc}</p>
-                    <div className="hero-buttons">
-                      <a href={slide.link} className="btn btn-primary">
-                        Explore more <ArrowRightIcon />
-                      </a>
-                      <button className="btn btn-secondary" onClick={() => setIsModalOpen(true)}>
-                        Contact Sales
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Right Column: High-Tech Viewport HUD */}
-                  <div className="hero-hud-column">
-                    <div className="hud-viewport-frame">
-                      {/* Decorative HUD corners */}
-                      <div className="hud-corner top-left"></div>
-                      <div className="hud-corner top-right"></div>
-                      <div className="hud-corner bottom-left"></div>
-                      <div className="hud-corner bottom-right"></div>
-                      
-                      {/* Grid overlays */}
-                      <div className="hud-grid-overlay"></div>
-                      <div className="hud-crosshair">
-                        <span className="crosshair-x"></span>
-                        <span className="crosshair-y"></span>
-                        <span className="crosshair-reticle"></span>
-                      </div>
-                      
-                      {/* Active Telemetry Widget */}
-                      <div className="hud-telemetry-badge">
-                        <span className="telemetry-lbl">{slide.telemetry.label}</span>
-                        <span className="telemetry-val">{slide.telemetry.value}</span>
-                        <div className="telemetry-status">
-                          <span className="status-dot"></span>
-                          <span className="status-txt">SYSTEM ACTIVE</span>
-                        </div>
-                      </div>
-
-                      {/* Standards Compliance Badge */}
-                      <div className="hud-cert-badge">
-                        <span className="cert-txt">{slide.badge}</span>
-                      </div>
-
-                      {/* Photo Viewport */}
-                      <div className="hud-img-wrap">
-                        <img src={slide.img} alt={slide.title} className="hud-img" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <div
+              key={idx}
+              className={`hero-v2-bg-slide ${idx === currentSlide ? 'is-active' : ''}`}
+              style={{ backgroundImage: `url(${slide.img})` }}
+            />
           ))}
+          {/* Gradient overlays */}
+          <div className="hero-v2-overlay" />
+          <div className="hero-v2-overlay-side" />
         </div>
 
-        {/* Bottom Bar: Interactive Progress Tabs */}
-        <div className="hero-timeline-nav container-width">
-          <div className="hero-timeline-tabs">
+        {/* Content */}
+        <div className="hero-v2-content">
+          <div className="hero-v2-inner">
+            {/* Badge */}
+            <div className="hero-v2-badge">
+              <span className="hero-v2-badge-dot"></span>
+              <span>{HERO_SLIDES[currentSlide].badge}</span>
+            </div>
+
+            {/* Eyebrow */}
+            <p className="hero-v2-eyebrow">{HERO_SLIDES[currentSlide].eyebrow}</p>
+
+            {/* Headline */}
+            <h1 className="hero-v2-headline">{HERO_SLIDES[currentSlide].title}</h1>
+
+            {/* Description */}
+            <p className="hero-v2-desc">{HERO_SLIDES[currentSlide].desc}</p>
+
+            {/* CTA Buttons */}
+            <div className="hero-v2-ctas">
+              <a href={HERO_SLIDES[currentSlide].link} className="btn hero-v2-btn-primary">
+                Explore Solutions <ArrowRightIcon />
+              </a>
+              <button className="btn hero-v2-btn-ghost" onClick={() => setIsModalOpen(true)}>
+                Request a Demo
+              </button>
+            </div>
+
+            {/* Telemetry strip */}
+            <div className="hero-v2-telemetry">
+              <div className="hero-v2-tel-item">
+                <span className="hero-v2-tel-label">{HERO_SLIDES[currentSlide].telemetry.label}</span>
+                <span className="hero-v2-tel-value">{HERO_SLIDES[currentSlide].telemetry.value}</span>
+              </div>
+              <div className="hero-v2-tel-sep"></div>
+              <div className="hero-v2-tel-item">
+                <span className="hero-v2-tel-label">COVERAGE</span>
+                <span className="hero-v2-tel-value">Qatar &amp; KSA</span>
+              </div>
+              <div className="hero-v2-tel-sep"></div>
+              <div className="hero-v2-tel-item">
+                <span className="hero-v2-tel-label">EXPERIENCE</span>
+                <span className="hero-v2-tel-value">40+ Years</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom navigation tabs */}
+        <div className="hero-v2-tabs">
+          <div className="hero-v2-tabs-inner">
             {HERO_SLIDES.map((slide, idx) => (
               <button
                 key={idx}
-                className={`timeline-tab-btn ${idx === currentSlide ? 'is-active' : ''}`}
+                className={`hero-v2-tab ${idx === currentSlide ? 'is-active' : ''}`}
                 onClick={() => setCurrentSlide(idx)}
-                aria-label={`Go to slide ${idx + 1}`}
+                aria-label={`Go to ${slide.label}`}
               >
-                <span className="tab-num">0{idx + 1}</span>
-                <span className="tab-label">{slide.label}</span>
-                <div className="tab-progress-bar">
+                <div className="hero-v2-tab-bar">
                   {idx === currentSlide && (
-                    <div key={currentSlide} className="tab-progress-fill" />
+                    <div key={currentSlide} className="hero-v2-tab-bar-fill" />
                   )}
                 </div>
+                <span className="hero-v2-tab-num">0{idx + 1}</span>
+                <span className="hero-v2-tab-label">{slide.label}</span>
               </button>
             ))}
           </div>
         </div>
 
-        {/* Slider Manual Arrows */}
+        {/* Prev / Next arrows */}
         <button
-          className="slider-arrow arrow-left"
+          className="hero-v2-arrow hero-v2-arrow-prev"
           onClick={() => setCurrentSlide((prev) => (prev - 1 + HERO_SLIDES.length) % HERO_SLIDES.length)}
           aria-label="Previous slide"
         >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="m15 18-6-6 6-6"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="m15 18-6-6 6-6"/></svg>
         </button>
         <button
-          className="slider-arrow arrow-right"
+          className="hero-v2-arrow hero-v2-arrow-next"
           onClick={() => setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length)}
           aria-label="Next slide"
         >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="m9 18 6-6-6-6"/></svg>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="m9 18 6-6-6-6"/></svg>
         </button>
+      </section>
+
+      {/* ============================================================
+          PARTNER TICKER (below hero — "trusted by" strip)
+      ============================================================ */}
+      <section className="partner-ticker-section">
+        <div className="partner-ticker-inner">
+          <div className="partner-ticker-label">
+            <p>Authorised &amp; trusted by</p>
+          </div>
+          <div className="partner-ticker-track-wrap">
+            <div className="partner-ticker-track">
+              {[...PARTNER_LOGOS.slice(0, 12), ...PARTNER_LOGOS.slice(0, 12)].map((name, idx) => (
+                <span key={idx} className="partner-ticker-name">{name}</span>
+              ))}
+            </div>
+            <div className="partner-ticker-fade-left"></div>
+            <div className="partner-ticker-fade-right"></div>
+          </div>
+        </div>
       </section>
 
       {/* SECTION 3: IMAGE GALLERY CAROUSEL */}
