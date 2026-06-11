@@ -1,11 +1,17 @@
 import { useState, useEffect, useRef } from 'react';
+import { Routes, Route, Outlet, Link, useOutletContext } from 'react-router-dom';
 import './index.css';
+import AboutPage from './AboutPage';
+import ProjectsPage from './ProjectsPage';
+import IndustriesPage from './IndustriesPage';
+import CareersPage from './CareersPage';
 
-// SVG Icon Components for modular, dependency-free rendering
+// ============================================================
+// SVG Icon Components
+// ============================================================
 const PhoneIcon = () => (
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13.1a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 2.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.18 6.18l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
 );
-
 
 const ArrowRightIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -18,7 +24,6 @@ const ChevronDownIcon = () => (
 const CloseIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
 );
-
 
 const WeighingIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 10c0-6-8-6-8-6s-8 0-8 6c0 5 3 8 8 10h.01c5-2 7.99-5 7.99-10z"/><path d="M12 4v16M8 8h8M6 12h12"/></svg>
@@ -48,98 +53,92 @@ const PauseIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
 );
 
-// Constants & Data adapted from the original website
+// ============================================================
+// Constants & Data
+// ============================================================
 const MEGA_MENU_SECTIONS = [
   {
-    category: 'Weighing Systems',
+    category: 'Weighing Division',
     icon: <WeighingIcon />,
     links: [
-      { name: 'Platform Scales', desc: 'Accurate and heavy-duty floor weighing solutions.', href: '#weighing' },
-      { name: 'Vehicle Weighbridges', desc: 'High-capacity systems for logistics & ports.', href: '#weighing' },
-      { name: 'Crane & Tension Scales', desc: 'Overhead load-monitoring under tough operations.', href: '#weighing' },
-      { name: 'Hazardous Area Scales', desc: 'ATEX certified scales for chemical & gas environments.', href: '#weighing' }
+      { name: 'Weighbridges', desc: 'Steel & concrete weighbridges up to 120 Ton capacity.', href: '#weighing' },
+      { name: 'Platform & Bench Scales', desc: 'Devices to measure weight or calculate mass.', href: '#weighing' },
+      { name: 'Load Cells & Indicators', desc: 'Dini Argeo, Rice Lake & Cardinal load cells and indicators.', href: '#weighing' },
+      { name: 'Intelligent Weighing Systems', desc: 'Custom weighing software with PC serial communication.', href: '#weighing' }
     ]
   },
   {
-    category: 'Metrology & Calibration',
+    category: 'Calibration Division',
     icon: <CalibrationIcon />,
     links: [
-      { name: 'ISO/IEC 17025 Services', desc: 'Accredited testing at our high-precision laboratories.', href: '#calibration' },
-      { name: 'On-Site Calibration', desc: 'Mobile certification units active across Qatar & KSA.', href: '#calibration' },
-      { name: 'Mass & Force Calibration', desc: 'Standards-traceable weight inspections.', href: '#calibration' },
-      { name: 'Scheduled Maintenance', desc: 'Annual compliance and service contracts.', href: '#calibration' }
+      { name: 'Scales & Weighbridges', desc: 'Batching plants, standard weights and volumetric equipment.', href: '#calibration' },
+      { name: 'Dimensional Instruments', desc: 'Verniers, micrometers, elongation gauges and test sieves.', href: '#calibration' },
+      { name: 'Pressure & Compression', desc: 'Pressure calibration, compression machines, safe load indicators.', href: '#calibration' },
+      { name: 'Environmental & Electrical', desc: 'Thermometers, ovens, pH meters, multimeters and clamp meters.', href: '#calibration' }
     ]
   },
   {
-    category: 'Fabrication & Systems',
+    category: 'Fabrication Division',
     icon: <FabricationIcon />,
     links: [
-      { name: 'Steel Platforms', desc: 'Custom load-bearing structures engineered to tolerance.', href: '#fabrication' },
-      { name: 'Silo & Hopper Scales', desc: 'Continuous level integration for batching plants.', href: '#fabrication' },
-      { name: 'Custom Tanks/Vessels', desc: 'SS304/SS316 food-grade containers and weighing.', href: '#fabrication' }
+      { name: 'Steel Weighbridges', desc: 'Cutting, bending, welding and assembling of metal structures.', href: '#fabrication' },
+      { name: 'Stairs, Grills & Cladding', desc: 'Custom architectural and structural steel fabrication.', href: '#fabrication' },
+      { name: 'Sanitizing Gates', desc: 'Fabricated access and hygiene control structures.', href: '#fabrication' },
+      { name: 'Concrete Mixers', desc: 'Unibeton brand concrete mixing equipment.', href: '#fabrication' }
     ]
   },
   {
-    category: 'Process Automation',
+    category: 'Automation Division',
     icon: <AutomationIcon />,
     links: [
-      { name: 'PLC Systems & HMI', desc: 'Siemens controller configurations & visual monitoring.', href: '#automation' },
-      { name: 'ERP Database Integration', desc: 'Live SQL data links directly to SAP & Oracle.', href: '#automation' },
-      { name: 'Batch & Recipe Control', desc: 'Automated mixing loops for consistent quality.', href: '#automation' }
+      { name: 'Process Automation', desc: 'Automate and streamline processes with minimal human intervention.', href: '#automation' },
+      { name: 'Batching Plant Control', desc: 'Coarse and fine gate control to target loading values.', href: '#automation' },
+      { name: 'PC & Software Integration', desc: 'Serial communication with customized weighing software.', href: '#automation' },
+      { name: 'Pneumatics (Artec)', desc: 'Pneumatic cylinders — short stroke and compact designs.', href: '#automation' }
     ]
   }
 ];
 
 const HERO_SLIDES = [
   {
-    eyebrow: 'Precision weighing & force systems',
+    eyebrow: 'Weighing the world',
     title: 'Industrial Weighing Solutions',
     label: 'Weighing',
-    desc: '40 years of engineered precision. High-capacity, ATEX-approved weighing platforms built for the most demanding environments.',
+    desc: 'RealTech scales can be found in almost every industry. No matter how challenging or unique, RealTech will have your answer — weighbridges, scales, load cells and indicators.',
     img: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1600&q=80',
     link: '#weighing',
-    badge: 'ATEX Certified Zone 1/21',
-    telemetry: { label: 'MAX CAPACITY', value: '500,000 KG' }
+    badge: 'Sole Distributor in Qatar',
+    telemetry: { label: 'WEIGHBRIDGE CAPACITY', value: 'Up to 120 Ton' }
   },
   {
-    eyebrow: 'ISO/IEC 17025 accredited metrology',
-    title: 'Accredited Calibration Services',
+    eyebrow: 'Accuracy & reliability you can trust',
+    title: 'Precision Calibration Services',
     label: 'Calibration',
-    desc: 'Providing certified, traceable on-site calibrations and standards audits for Qatar and Saudi Arabian industries.',
+    desc: 'Adjusting and aligning instruments to ensure accuracy and reliability — scales, weighbridges, verniers, micrometers, thermometers, ovens, pressure and compression machines.',
     img: 'https://images.unsplash.com/photo-1742163962100-0694339f2d57?auto=format&fit=crop&w=1600&q=80',
     link: '#calibration',
-    badge: 'ISO/IEC 17025 Accredited',
-    telemetry: { label: 'TRACEABILITY', value: 'NIST / PTB Standards' }
+    badge: 'Standards-Traceable',
+    telemetry: { label: 'INSTRUMENTS', value: 'Mass · Pressure · Dimensional' }
   },
   {
-    eyebrow: 'Turnkey PLC & ERP connectivity',
-    title: 'Advanced Industrial Automation',
-    label: 'Automation',
-    desc: 'Connecting scale transmitters and PLC panels to enterprise ERP databases for real-time stock control and tracking.',
-    img: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1600&q=80',
-    link: '#automation',
-    badge: 'Industry 4.0 Compliant',
-    telemetry: { label: 'INTERFACE', value: 'Modbus/TCP & Profinet' }
-  },
-  {
-    eyebrow: 'Structural engineering & fabrication',
-    title: 'Heavy Structural Fabrication',
+    eyebrow: 'Manufacturing & shaping of metal',
+    title: 'Steel Fabrication Division',
     label: 'Fabrication',
-    desc: 'AWS and ASME certified fabrication of custom platforms, hopper vessels, and silo load cells engineered to ±0.5mm tolerances.',
+    desc: 'Cutting, bending, welding and assembling of metal components and structures — steel weighbridges, stairs, grills, cladding, sanitizing gates and concrete mixers.',
     img: 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=1600&q=80',
     link: '#fabrication',
-    badge: 'ASME SEC IX / AWS D1.1',
-    telemetry: { label: 'TOLERANCE', value: '±0.5 MM Structural' }
+    badge: 'Custom Fabrication',
+    telemetry: { label: 'WORKS', value: 'Weighbridges · Structures' }
   },
   {
-    eyebrow: 'Preventative compliance agreements',
-    title: '24/7 Service & Support Contracts',
-    label: 'Support Services',
-    desc: 'Ensuring zero downtime with prompt site assistance, calibration reminders, and parts stocking agreements across the GCC.',
-    img: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1600&q=80',
-    link: '#contact',
-    badge: 'GCC-wide Support Coverage',
-    telemetry: { label: 'RESPONSE TIME', value: '< 4 Hours On-site' }
+    eyebrow: 'Automate & streamline your processes',
+    title: 'Industrial Automation Solutions',
+    label: 'Automation',
+    desc: 'Operating processes through electronic means with minimal human intervention — batching plant gate control, PC integration and pneumatics from Artec Italy.',
+    img: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1600&q=80',
+    link: '#automation',
+    badge: 'Process Control',
+    telemetry: { label: 'INTEGRATION', value: 'PC Serial + Software' }
   }
 ];
 
@@ -164,23 +163,30 @@ const GALLERY_IMAGES = [
 
 const ALTERNATING_SECTIONS = [
   {
-    tagline: 'INDUSTRIAL FORCE MEASUREMENT',
-    title: 'High-Capacity Weighing Platforms',
-    desc: 'Our weighing systems are designed to operate under harsh conditions. Incorporating shear-beam load cells, dustproof indicators, and anti-corrosion finishes, they provide stable measurements for mining, shipping ports, and manufacturing lines. Available in standard and hazardous ATEX area layouts.',
+    tagline: 'WEIGHING DIVISION',
+    title: 'Weighing Solutions for Every Industry',
+    desc: 'Weighing solutions are the various methods and technologies used to accurately measure and determine the weight of objects or substances. As the sole distributor in Qatar, we supply weighbridges, platform and bench scales, load cells and indicators from Dini Argeo, Rice Lake, Cardinal and T-Scale — backed by our own customized weighing software.',
     img: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80',
     link: '#weighing'
   },
   {
-    tagline: 'CERTIFIED METROLOGY STANDARDS',
-    title: 'ISO/IEC 17025 Accredited Calibration',
-    desc: 'Maintaining measurement accuracy is vital for quality control and audits. Real Technologies provides ISO accredited calibration contracts across Qatar and KSA. Our standard mass laboratories and mobile units offer testing, certified stickers, and documentation traceble directly to international standards.',
+    tagline: 'CALIBRATION DIVISION',
+    title: 'Calibration for Accuracy & Reliability',
+    desc: 'Calibration is the process of adjusting or aligning a device, instrument or system to ensure accuracy and reliability. We calibrate batching plants, weighing scales, weighbridges, standard weights, test sieves, verniers, micrometers, thermometers, ovens, pH meters, multimeters, pressure and compression machines, and safe load indicators.',
     img: 'https://images.unsplash.com/photo-1742163962100-0694339f2d57?auto=format&fit=crop&w=800&q=80',
     link: '#calibration'
   },
   {
-    tagline: 'TURNKEY PROCESS CONNECTIVITY',
-    title: 'Integrated Automation & PLC Panels',
-    desc: 'Transition raw weight signals into actionable operational data. We fabricate control cabinets, write PLC algorithms, and configure direct database synchronization. We connect sensor telemetry into systems like SAP and SQL databases to ensure plant transparency and automated workflow loops.',
+    tagline: 'FABRICATION DIVISION',
+    title: 'Metal Fabrication & Structures',
+    desc: 'Fabrication is the manufacturing and shaping of metal components and structures through cutting, bending, welding and assembling processes. Our works include steel weighbridges, stairs, grills, cladding, sanitizing gates and Unibeton concrete mixers built to order.',
+    img: 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=800&q=80',
+    link: '#fabrication'
+  },
+  {
+    tagline: 'AUTOMATION DIVISION',
+    title: 'Automation & Process Control',
+    desc: 'Automation solutions are the technologies and systems that aim to automate and streamline various processes and tasks with minimal human intervention. We control coarse and fine gates to target loading values, integrate systems with PCs over serial communication, and supply Artec pneumatic cylinders.',
     img: 'https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?auto=format&fit=crop&w=800&q=80',
     link: '#automation'
   }
@@ -191,129 +197,164 @@ const WHY_CHOOSE_US = {
   cards: [
     {
       icon: <SupportIcon />,
-      heading: '40 Years of Service',
-      desc: 'Our teams possess deep mechanical and electronic domain expertise. We build weighing platforms and system connections engineered to last decades in coastal and industrial areas.'
+      heading: '60 Years Combined Experience',
+      desc: 'Our team brings together 60 years of combined experience in the industry, honing our skills and knowledge to deliver the highest standard of service to our valued clients.'
     },
     {
       icon: <CalibrationIcon />,
-      heading: 'ISO 17025 Accredited Labs',
-      desc: 'All our metrology procedures comply strictly with international standards, ensuring your audits pass inspection smoothly with certified, traceable documentation.'
+      heading: 'Sole Distributor in Qatar',
+      desc: 'Authorised distribution for Dini Argeo, Rice Lake, Cardinal, T-Scale, Banner Engineering, Kempston Controls and Artec — premium brands trusted across industry.'
     },
     {
       icon: <AutomationIcon />,
-      heading: 'Local GCC Presence',
-      desc: 'With active engineering offices, fabrication facilities, and mobile calibration units in Qatar and Saudi Arabia, we provide quick, responsive on-site technical support.'
+      heading: '24x7 Support in KSA & Qatar',
+      desc: 'With 24x7 customer service support and fully integrated service centres in Saudi Arabia and Qatar, we provide quick, responsive on-site technical assistance.'
     }
   ]
 };
 
 const SOLUTIONS_GRID = {
-  title: 'End-to-End Solutions for Excellence',
+  title: 'Our Services',
   sub: 'Customized solutions for leading manufacturers and plant operators',
   cards: [
     {
-      icon: <WeighingIcon />,
-      title: 'Heavy Duty Weighbridges',
-      desc: 'Above-ground and pit-mounted vehicle truck scales with automated recognition and database links.',
-      link: '#weighing'
-    },
-    {
       icon: <CalibrationIcon />,
-      title: 'Accredited Metrology',
-      desc: 'ISO 17025 calibrated mass, force, temperature, and pressure audits across industrial sectors.',
+      title: 'Calibration Services',
+      desc: 'The process of adjusting or aligning a device, instrument or system to ensure accuracy and reliability.',
       link: '#calibration'
     },
     {
-      icon: <FabricationIcon />,
-      title: 'Custom Fabricated hoppers',
-      desc: 'Carbon steel and SS316 load-bearing hopper scales, silo mounts, and structure systems built to order.',
-      link: '#fabrication'
+      icon: <WeighingIcon />,
+      title: 'Weighing Solutions',
+      desc: 'Various methods and technologies used to accurately measure and determine the weight of objects or substances.',
+      link: '#weighing'
     },
     {
       icon: <AutomationIcon />,
-      title: 'PLC Recipe Batching',
-      desc: 'PLC-controlled recipe mixing networks with pneumatic valve controls and custom HMI touchscreen consoles.',
+      title: 'Automation Solutions',
+      desc: 'Technologies and systems that aim to automate and streamline various processes and tasks.',
       link: '#automation'
     },
     {
+      icon: <FabricationIcon />,
+      title: 'Fabrication Services',
+      desc: 'Manufacturing and shaping of metal components and structures through cutting, bending, welding and assembling.',
+      link: '#fabrication'
+    },
+    {
       icon: <SupportIcon />,
-      title: 'On-Site Maintenance',
-      desc: 'Preventative agreements, load cell replacements, indicator swaps, and scheduled GCC technician audits.',
+      title: 'Motor Re-Winding',
+      desc: 'Repairing or refurbishing an electric motor by replacing the winding coils.',
       link: '#contact'
     }
   ]
 };
 
-const SECONDARY_SERVICES = {
-  watermark: 'INNOVATION',
-  sub: 'Solutions that work for your business',
+export const SECONDARY_SERVICES = {
+  watermark: 'INDUSTRIES',
+  sub: 'Weighing the World — RealTech scales can be found in almost every industry',
   cards: [
-    {
-      icon: <WeighingIcon />,
-      title: 'ATEX Scale Systems',
-      desc: 'Intrinsically safe load cells and display boxes certified for Zone 1/21 hazardous areas.'
-    },
-    {
-      icon: <CalibrationIcon />,
-      title: 'Tank Scale Calibration',
-      desc: 'Certified water-calibration checks and physical standard loading testing on-site.'
-    },
-    {
-      icon: <FabricationIcon />,
-      title: 'ASME Platform Welding',
-      desc: 'Load-certified platforms, structural supports, and customized steel fabrications.'
-    },
-    {
-      icon: <AutomationIcon />,
-      title: 'Live SQL Database Sync',
-      desc: 'Direct synchronization of truck weighs into client server directories and billing platforms.'
-    },
-    {
-      icon: <SupportIcon />,
-      title: 'Calibration Contracts',
-      desc: 'Scheduled inspections with automatic calibration reminder alerts to avoid expired certificates.'
-    },
-    {
-      icon: <WeighingIcon />,
-      title: 'Laboratory Balances',
-      desc: 'High-precision microbalances and analytical calibration services for laboratories.'
-    }
+    { icon: <WeighingIcon />, title: 'Agriculture', desc: 'Weighing and measurement solutions for farms, grain handling and produce.' },
+    { icon: <AutomationIcon />, title: 'Aviation', desc: 'Precision weighing systems supporting airport and aviation operations.' },
+    { icon: <FabricationIcon />, title: 'Bulk Construction', desc: 'Weighbridges and batching plant control for heavy construction sites.' },
+    { icon: <CalibrationIcon />, title: 'Chemical', desc: 'Accurate weighing and calibration for chemical processing facilities.' },
+    { icon: <WeighingIcon />, title: 'Commercial Fishing', desc: 'Durable weighing equipment for fishing and marine handling.' },
+    { icon: <SupportIcon />, title: 'Food Processing', desc: 'Hygienic scales and systems for food production lines.' },
+    { icon: <WeighingIcon />, title: 'Grocery & Food Service', desc: 'Retail and food-service weighing for accurate portioning and billing.' },
+    { icon: <CalibrationIcon />, title: 'Health Care', desc: 'Calibrated instruments and scales for medical and lab environments.' },
+    { icon: <FabricationIcon />, title: 'Manufacturing', desc: 'Industrial weighing and automation across production processes.' },
+    { icon: <AutomationIcon />, title: 'Scrap & Recycling', desc: 'Heavy-duty weighbridges for scrap, aggregates and recycling yards.' },
+    { icon: <SupportIcon />, title: 'Logistics', desc: 'Vehicle weighbridges and software for ports and logistics hubs.' },
+    { icon: <WeighingIcon />, title: 'Livestock', desc: 'Robust weighing systems designed for livestock management.' }
   ]
 };
 
 const PARTNER_LOGOS = [
-  'DINI ARGEO', 'RICE LAKE', 'PRECISION', 'T-SCALE', 'JADEVER', 'KEMPSTON', 'ASTREC',
-  'KERN & SOHN', 'METTLER TOLEDO', 'SARTORIUS', 'MINEBEA INTEC', 'OHAUS', 'HBM', 'AVERY WEIGH-TRONIX',
-  'PRECIA MOLEN', 'FLINTEC', 'ZEMIC', 'KELI SENSORS', 'SYSTEC', 'BILANCIAI', 'LAUMAS', 'HOTTINGER',
-  'TEDEA-HUNTLEIGH', 'SENSORTREAD', 'FLLS GROUP', 'GULF WEIGHING', 'Q-CALIBRATION'
+  'CARDINAL', 'DINI ARGEO', 'RICE LAKE', 'PRECIA MOLEN', 'T-SCALE',
+  'BANNER ENGINEERING', 'KEMPSTON CONTROLS', 'ARTEC PNEUMATIC',
+  'SICK', 'OMRON', 'WEIDMULLER', 'DANFOSS', 'BURKERT', 'HONEYWELL', 'EATON', 'PILZ', 'UNIBETON'
 ];
 
 const STATISTICS = [
-  { icon: <SupportIcon />, target: 7, suffix: '+', label: 'Years GCC Presence' },
-  { icon: <CalibrationIcon />, target: 50, suffix: '+', label: 'Global Partnerships' },
-  { icon: <WeighingIcon />, target: 36, suffix: '+', label: 'Authorised Brands' },
-  { icon: <FabricationIcon />, target: 1810, suffix: '+', label: 'Installed Systems' },
-  { icon: <AutomationIcon />, target: 7241, suffix: '+', label: 'Calibrations Conducted' }
+  { icon: <SupportIcon />, target: 60, suffix: '', label: 'Years Combined Experience' },
+  { icon: <FabricationIcon />, target: 4, suffix: '', label: 'Core Divisions' },
+  { icon: <WeighingIcon />, target: 12, suffix: '', label: 'Industries Served' },
+  { icon: <CalibrationIcon />, target: 8, suffix: '+', label: 'Authorised Brands' },
+  { icon: <AutomationIcon />, target: 2, suffix: '', label: 'Countries — KSA & Qatar' }
 ];
 
-const BLOG_POSTS = [
+export const PROJECTS = [
   {
-    img: 'https://images.unsplash.com/photo-1742163962100-0694339f2d57?auto=format&fit=crop&w=600&q=80',
-    title: 'ISO 17025 Lab Capacity Expansion in Riyadh',
-    excerpt: 'To better support Saudi Arabia Vision 2030, Real Technologies has expanded its metrology laboratory capacity, adding certified deadweight calibrators up to 10 Tons.',
-    link: '#news'
+    img: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+    title: 'Recycled Aggregates Project',
+    client: 'Al Awalia (QPMC)',
+    desc: 'Manufacturing of 4 weighbridges of capacity 120 Ton with Rice Lake analog load cells and Dini Argeo touch screen indicator, with 2 years of warranty.'
   },
   {
-    img: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80',
-    title: 'Integrating Weighing Data with SAP Enterprise Platforms',
-    excerpt: 'Standardizing raw sensor telemetry directly into warehouse SQL grids eliminates typing errors. Here is how we configured automatic SQL handshakes for a major logistics port.',
-    link: '#news'
+    img: 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=600&q=80',
+    title: 'IIWWTP',
+    client: 'Larsen & Toubro',
+    desc: 'Manufacturing of 10 numbers of 120 Ton concrete weighbridge with Dini Argeo load cells and Dini Argeo indicator with external display and safety guards.'
   },
   {
     img: 'https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?auto=format&fit=crop&w=600&q=80',
-    title: 'Choosing the Right OIML Scale Accuracy Class',
-    excerpt: 'Selecting standard scales requires knowing the differences between Class I, II, III, and IIII. Our calibration engineering team breaks down guidelines and margins.',
-    link: '#news'
+    title: 'Recycled Aggregates Project',
+    client: 'Al Awalia (QPMC)',
+    desc: 'Manufacturing of 10 weighbridges of capacity 120 Ton with Dini Argeo analog load cells and Dini Argeo touch screen indicator, with 2 years of warranty.'
+  },
+  {
+    img: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80',
+    title: 'Cement Batching Plant Implementation',
+    client: 'Al Khalij Cement',
+    desc: 'Controlling of coarse and fine gates based on the target value set for loading the cement bulkers using the Dini Argeo 3590 touchscreen indicator.'
+  },
+  {
+    img: 'https://images.unsplash.com/photo-1742163962100-0694339f2d57?auto=format&fit=crop&w=600&q=80',
+    title: 'D&B Wakra & Wukair TSE Line',
+    client: 'UCC Infraroad Joint Venture',
+    desc: 'Manufacturing of 120 Ton weighbridge with Dini Argeo analog load cells and Dini Argeo indicator, with 2 years of warranty.'
+  },
+  {
+    img: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=600&q=80',
+    title: 'Central Doha & Corniche Beautification — Package 4',
+    client: 'UCC Infraroad Joint Venture',
+    desc: 'Manufacturing of 120 Ton weighbridge with Dini Argeo digital load cells and Dini Argeo indicator (2 years warranty), with PC serial communication and customized weighing software.'
+  },
+  {
+    img: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+    title: 'Al Meshaf Package 7',
+    client: 'Petroserv',
+    desc: 'Manufacturing of 120 Ton weighbridge with Dini Argeo digital load cells and Dini Argeo indicator (2 years warranty), integrated with PC via serial communication and proprietary weighing software.'
+  },
+  {
+    img: 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=600&q=80',
+    title: 'PJ021 — Al Karthiyat & Izgava Phase 1 Package 2',
+    client: 'UCC Infraroad Joint Venture',
+    desc: 'Manufacturing of 120 Ton weighbridge with Dini Argeo digital load cells and Dini Argeo indicator (2 years warranty), with system-to-computer connectivity via serial interface and custom software.'
+  },
+  {
+    img: 'https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?auto=format&fit=crop&w=600&q=80',
+    title: 'Bunker Expansion Project',
+    client: 'Aalaf Qatar',
+    desc: 'Production of 2 numbers of 120 Ton concrete weighbridge with Dini Argeo load cells and indicator, external display and safety guards, with PC-linked serial communication and customized weighing software.'
+  },
+  {
+    img: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80',
+    title: 'HIA Extension Project',
+    client: 'UCC Bahadir Tedeschia Joint Venture',
+    desc: 'Manufacturing of 2 numbers of 120 Ton steel weighbridge with Dini Argeo load cells and Dini Argeo indicator, with PC connection via serial communication and specialized weighing software.'
+  },
+  {
+    img: 'https://images.unsplash.com/photo-1742163962100-0694339f2d57?auto=format&fit=crop&w=600&q=80',
+    title: 'Drum Scale',
+    client: 'Qatar International Cables Company',
+    desc: 'Manufacturing of 25 Ton weighing scale with Dini Argeo load cells and indicator, with the entire system communicating to PC via serial communication and a customized Real Technology weighing software.'
+  },
+  {
+    img: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=600&q=80',
+    title: 'QICC Extension Project',
+    client: 'Qatar International Cables Company',
+    desc: 'Manufacturing of 120 Ton weighbridge with Dini Argeo digital load cells and touch screen Dini Argeo indicator (2 years warranty), with PC serial communication and customized Real Technology weighing software.'
   }
 ];
 
@@ -329,40 +370,78 @@ const PHONE_COUNTRIES = [
   { name: 'India', code: '+91', flag: '🇮🇳' }
 ];
 
-function App() {
-  // Navigation & Scroll states
+// Shared Outlet context — lets routed pages open the global quote modal
+export type LayoutContext = { openModal: () => void };
+export const ArrowIcon = ArrowRightIcon;
+
+// ============================================================
+// TopBar Component
+// ============================================================
+function TopBar() {
+  const marqueeItems = (
+    <>
+      <a href="tel:+966138555359" className="top-bar-contact-item"><PhoneIcon /><span>+966 13 855 5359 <span className="top-bar-country">(KSA)</span></span></a>
+      <span className="top-bar-sep">|</span>
+      <a href="tel:+97444436750" className="top-bar-contact-item"><PhoneIcon /><span>+974 4443 6750 <span className="top-bar-country">(QATAR)</span></span></a>
+      <span className="top-bar-sep">|</span>
+      <a href="mailto:info@realtechgulf.com" className="top-bar-contact-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg><span>info@realtechgulf.com</span></a>
+      <span className="top-bar-sep">|</span>
+    </>
+  );
+
+  return (
+    <div className="top-bar">
+      {/* Mobile: continuous marquee of contact details */}
+      <div className="top-bar-mobile" aria-hidden="true">
+        <div className="top-bar-marquee-track">
+          {marqueeItems}
+          {marqueeItems}
+        </div>
+      </div>
+
+      <div className="top-bar-inner top-bar-desktop">
+        <div className="top-bar-contacts">
+          <a href="tel:+966138555359" className="top-bar-contact-item">
+            <PhoneIcon />
+            <span>+966 13 855 5359 <span className="top-bar-country">(KSA)</span></span>
+          </a>
+          <span className="top-bar-sep">|</span>
+          <a href="tel:+97444436750" className="top-bar-contact-item">
+            <PhoneIcon />
+            <span>+974 4443 6750 <span className="top-bar-country">(QATAR)</span></span>
+          </a>
+          <span className="top-bar-sep">|</span>
+          <a href="mailto:info@realtechgulf.com" className="top-bar-contact-item">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            <span>info@realtechgulf.com</span>
+          </a>
+        </div>
+        <div className="top-bar-social">
+          <a href="#" aria-label="Facebook" className="top-bar-social-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="#" aria-label="LinkedIn" className="top-bar-social-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+          </a>
+          <a href="#" aria-label="Google" className="top-bar-social-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"/></svg>
+          </a>
+          <a href="#" aria-label="Search" className="top-bar-social-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ============================================================
+// Header Component (navbar — owns its own scroll/menu state)
+// ============================================================
+function Header({ onOpenModal }: { onOpenModal: () => void }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeMegaMenu, setActiveMegaMenu] = useState<number | null>(null);
-
-  // Hero Slider states
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [heroPaused, setHeroPaused] = useState(false);
-
-  // Video Section state
-  const [videoPlaying, setVideoPlaying] = useState(false);
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-
-  // Statistics Section states (Counting animation)
-  const [statsAnimated, setStatsAnimated] = useState(false);
-  const [statValues, setStatValues] = useState<number[]>(STATISTICS.map(() => 0));
-  const statsSectionRef = useRef<HTMLDivElement | null>(null);
-
-  // Modal Section states
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedCountry, setSelectedCountry] = useState(PHONE_COUNTRIES[0]);
-  const [countryDropdownOpen, setCountryDropdownOpen] = useState(false);
-  const [quoteForm, setQuoteForm] = useState({
-    name: '',
-    email: '',
-    company: '',
-    phone: '',
-    service: 'Industrial Weighing Systems',
-    message: ''
-  });
-  const [formSuccess, setFormSuccess] = useState(false);
-
-  // Mega menu close timer to prevent glitching on cursor exit
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Scroll detection for sticky header transition
@@ -374,7 +453,224 @@ function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Auto scroll for Hero Section (rotating slider)
+  const handleMouseEnterMenu = (index: number) => {
+    if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+    setActiveMegaMenu(index);
+  };
+
+  const handleMouseLeaveMenu = () => {
+    closeTimerRef.current = setTimeout(() => {
+      setActiveMegaMenu(null);
+    }, 250);
+  };
+
+  return (
+    <>
+      <header className={`navbar-float ${isScrolled ? 'navbar-scrolled' : ''} ${mobileMenuOpen ? 'navbar-menu-open' : ''}`}>
+        <div className="navbar-inner">
+          <Link to="/" className="navbar-logo" aria-label="Real Technologies Home">
+            <img src="/logo.png" alt="Real Technologies Logo" className="navbar-logo-img" />
+          </Link>
+
+          <nav className="navbar-links-desktop" aria-label="Main Navigation">
+            <ul className="navbar-links-list">
+              <li><a href="/#home" className="navbar-link">Home</a></li>
+              <li
+                onMouseEnter={() => handleMouseEnterMenu(0)}
+                onMouseLeave={handleMouseLeaveMenu}
+                className="navbar-item-has-dropdown"
+              >
+                <button className="navbar-link navbar-link-btn" aria-expanded={activeMegaMenu === 0}>
+                  Solutions <ChevronDownIcon />
+                </button>
+                <div className={`mega-menu ${activeMegaMenu === 0 ? 'is-active' : ''}`}>
+                  <div className="mega-menu-inner container-width">
+                    <div className="mega-menu-grid">
+                      {MEGA_MENU_SECTIONS.map((sec, idx) => (
+                        <div key={idx} className="mega-column">
+                          <div className="mega-header">
+                            <span className="mega-icon">{sec.icon}</span>
+                            <span className="mega-title">{sec.category}</span>
+                          </div>
+                          <ul className="mega-links">
+                            {sec.links.map((link, lIdx) => (
+                              <li key={lIdx}>
+                                <a href={`/${link.href}`} className="mega-link">
+                                  <span className="mega-link-name">{link.name}</span>
+                                  <span className="mega-link-desc">{link.desc}</span>
+                                </a>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="mega-footer">
+                      <span className="mega-footer-txt">Need assistance with customized drawings or standard certification audits?</span>
+                      <button className="btn btn-primary btn-sm" onClick={onOpenModal}>
+                        Request technical consult <ArrowRightIcon />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li><Link to="/industries" className="navbar-link">Industries</Link></li>
+              <li><Link to="/projects" className="navbar-link">Projects</Link></li>
+              <li><Link to="/about" className="navbar-link">About</Link></li>
+              <li><Link to="/careers" className="navbar-link">Careers</Link></li>
+              <li><a href="/#contact" className="navbar-link">Contact</a></li>
+            </ul>
+          </nav>
+
+          <div className="navbar-cta-desktop">
+            <button className="btn btn-outline-nav btn-sm" onClick={onOpenModal}>
+              Get a Quote
+            </button>
+            <button className="btn btn-primary btn-sm" onClick={onOpenModal}>
+              Request Consult <ArrowRightIcon />
+            </button>
+          </div>
+
+          <button
+            className={`navbar-hamburger ${mobileMenuOpen ? 'is-open' : ''}`}
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={mobileMenuOpen}
+          >
+            <span className="hamburger-bar"></span>
+            <span className="hamburger-bar"></span>
+            <span className="hamburger-bar"></span>
+          </button>
+        </div>
+
+        <div className={`navbar-mobile-panel ${mobileMenuOpen ? 'is-open' : ''}`}>
+          <ul className="mobile-nav-list">
+            <li><a href="/#home" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Home</a></li>
+            <li><a href="/#services" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Services</a></li>
+            <li><Link to="/industries" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Industries</Link></li>
+            <li><Link to="/projects" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Projects</Link></li>
+            <li><Link to="/about" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>About</Link></li>
+            <li><Link to="/careers" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Careers</Link></li>
+            <li><a href="/#contact" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Contact</a></li>
+          </ul>
+          <div className="mobile-nav-footer-actions">
+            <a href="tel:+97466257037" className="mobile-contact-link"><PhoneIcon /> Qatar: +974 6625 7037</a>
+            <a href="tel:+966531216181" className="mobile-contact-link"><PhoneIcon /> KSA: +966 5312 16181</a>
+            <button className="btn btn-primary w-full" style={{ marginTop: '1rem' }} onClick={() => { setMobileMenuOpen(false); onOpenModal(); }}>
+              Request a quote <ArrowRightIcon />
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {mobileMenuOpen && (
+        <div className="navbar-mobile-overlay" onClick={() => setMobileMenuOpen(false)} />
+      )}
+    </>
+  );
+}
+
+// ============================================================
+// Footer Component
+// ============================================================
+function Footer() {
+  return (
+    <footer id="contact" className="footer-section">
+      <div className="container-width footer-grid">
+        <div className="footer-col brand-col">
+          <div className="footer-logo-wrap">
+            <span className="logo-bold">REAL</span>
+            <span className="logo-light">TECHNOLOGIES</span>
+          </div>
+          <p className="footer-about-text">
+            Industrial equipment solutions across KSA &amp; Qatar — weighing, calibration, fabrication and automation, backed by 24x7 support.
+          </p>
+          <div className="footer-contact-details">
+            <p><strong>Qatar:</strong> P.O. Box 55760, Building 7, Zone 91, Street 3023, Birkat Al Awameer, Doha, Qatar</p>
+            <p><strong>KSA:</strong> Business Gate Office No 315, 3804, King Fahd Road, Al Khalidiyah Ash Shamiliya, Dammam 32257, KSA</p>
+            <p><strong>Phone Qatar:</strong> <a href="tel:+97444436750">+974 4443 6750</a> / <a href="tel:+97444413980">+974 4441 3980</a></p>
+            <p><strong>Phone KSA:</strong> <a href="tel:+966138555359">+966 13 855 5359</a> / <a href="tel:+966531218181">+966 53 121 8181</a></p>
+            <p><strong>Email:</strong> <a href="mailto:info@realtechgulf.com">info@realtechgulf.com</a></p>
+          </div>
+        </div>
+
+        <div className="footer-col links-col">
+          <h4 className="footer-title">Our Divisions</h4>
+          <ul className="footer-links">
+            <li><a href="/#weighing">Weighing Division</a></li>
+            <li><a href="/#calibration">Calibration Division</a></li>
+            <li><a href="/#fabrication">Fabrication Division</a></li>
+            <li><a href="/#automation">Automation Division</a></li>
+            <li><a href="https://www.erphorizon.com/company/realtechnologies137/index.php?r=site%2Flogin" target="_blank" rel="noopener noreferrer">ERP Partner Portal</a></li>
+          </ul>
+        </div>
+
+        <div className="footer-col links-col">
+          <h4 className="footer-title">Quick Links</h4>
+          <ul className="footer-links">
+            <li><a href="/#home">Home</a></li>
+            <li><Link to="/industries">Industries</Link></li>
+            <li><Link to="/projects">Projects</Link></li>
+            <li><Link to="/about">About Us</Link></li>
+            <li><Link to="/careers">Careers</Link></li>
+            <li><a href="/#contact">Reach Us</a></li>
+          </ul>
+        </div>
+
+        <div className="footer-col links-col">
+          <h4 className="footer-title">Products & Brands</h4>
+          <ul className="footer-links">
+            <li><a href="/#weighing">Weighbridges & Scales</a></li>
+            <li><a href="/#weighing">Dini Argeo · Rice Lake · Cardinal</a></li>
+            <li><a href="/#weighing">Load Cells & Indicators</a></li>
+            <li><a href="/#automation">Banner & Kempston Sensors</a></li>
+            <li><a href="/#automation">Artec Pneumatics</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div className="footer-bottom">
+        <div className="container-width bottom-inner">
+          <p className="copyright-txt">
+            &copy; {new Date().getFullYear()} Real Technologies. All Rights Reserved. Qatar &amp; KSA.
+          </p>
+
+          <div className="social-links-row">
+            <a href="#" aria-label="LinkedIn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></a>
+            <a href="#" aria-label="YouTube"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23 12a10.01 10.01 0 0 1-2.91 7.07 10 10 0 0 1-14.18 0A10 10 0 0 1 3 12a10.01 10.01 0 0 1 2.91-7.07 10 10 0 0 1 14.18 0A10.02 10.02 0 0 1 23 12m-11-4.5v9l6-4.5-6-4.5z"/></svg></a>
+            <a href="#" aria-label="Twitter"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.7 0-1.37-.2-1.95-.54v.05c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.6 8.6 0 0 1-5.36 1.84c-.35 0-.69-.02-1.03-.06A12.13 12.13 0 0 0 6.29 20c7.55 0 11.68-6.26 11.68-11.68 0-.18 0-.36-.01-.53.8-.57 1.49-1.3 2.04-2.13z"/></svg></a>
+            <a href="#" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect width="20" height="20" x="2" y="2" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg></a>
+          </div>
+
+          <p className="footer-credit">
+            Powered by <span className="credit-brand">Real Technologies Gulf</span>
+          </p>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+// ============================================================
+// HomePage — main landing page body sections
+// ============================================================
+function HomePage() {
+  const { openModal } = useOutletContext<LayoutContext>();
+
+  // Hero Slider states
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [heroPaused, setHeroPaused] = useState(false);
+
+  // Video Section state
+  const [videoPlaying, setVideoPlaying] = useState(false);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  // Statistics Section states (counting animation)
+  const [statsAnimated, setStatsAnimated] = useState(false);
+  const [statValues, setStatValues] = useState<number[]>(STATISTICS.map(() => 0));
+  const statsSectionRef = useRef<HTMLDivElement | null>(null);
+
+  // Auto scroll for Hero Section
   useEffect(() => {
     if (heroPaused) return;
     const interval = setInterval(() => {
@@ -383,7 +679,7 @@ function App() {
     return () => clearInterval(interval);
   }, [heroPaused]);
 
-  // Statistics Count-Up Animation triggered by IntersectionObserver
+  // Statistics count-up animation triggered by IntersectionObserver
   useEffect(() => {
     const currentRef = statsSectionRef.current;
     if (!currentRef) return;
@@ -393,15 +689,14 @@ function App() {
         const [entry] = entries;
         if (entry.isIntersecting && !statsAnimated) {
           setStatsAnimated(true);
-          const duration = 2000; // 2 seconds animation
-          const frameRate = 1000 / 60; // 60fps
+          const duration = 2000;
+          const frameRate = 1000 / 60;
           const totalFrames = Math.round(duration / frameRate);
           let frame = 0;
 
           const timer = setInterval(() => {
             frame++;
             const progress = frame / totalFrames;
-            // Ease-out expo curve for organic feel
             const easeProgress = 1 - Math.pow(2, -10 * progress);
 
             setStatValues(
@@ -414,7 +709,6 @@ function App() {
 
             if (frame === totalFrames) {
               clearInterval(timer);
-              // Ensure exact final numbers are populated
               setStatValues(STATISTICS.map((s) => s.target));
             }
           }, frameRate);
@@ -429,7 +723,6 @@ function App() {
     };
   }, [statsAnimated]);
 
-  // Toggle video playing state
   const handlePlayPauseVideo = () => {
     if (!videoRef.current) return;
     if (videoPlaying) {
@@ -440,159 +733,15 @@ function App() {
     setVideoPlaying(!videoPlaying);
   };
 
-  // Handle quote modal submission
-  const handleSubmitQuote = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!quoteForm.name || !quoteForm.email || !quoteForm.company) return;
-    setFormSuccess(true);
-    setTimeout(() => {
-      setFormSuccess(false);
-      setIsModalOpen(false);
-      setQuoteForm({
-        name: '',
-        email: '',
-        company: '',
-        phone: '',
-        service: 'Industrial Weighing Systems',
-        message: ''
-      });
-    }, 2000);
-  };
-
-  // Mega menu mouse interactions
-  const handleMouseEnterMenu = (index: number) => {
-    if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
-    setActiveMegaMenu(index);
-  };
-
-  const handleMouseLeaveMenu = () => {
-    closeTimerRef.current = setTimeout(() => {
-      setActiveMegaMenu(null);
-    }, 250);
-  };
-
   return (
-    <div className="app-container">
-
-      {/* ============================================================
-          SECTION 1: FLOATING NAVBAR (reference-style)
-      ============================================================ */}
-      <header className={`navbar-float ${isScrolled ? 'navbar-scrolled' : ''} ${mobileMenuOpen ? 'navbar-menu-open' : ''}`}>
-        <div className="navbar-inner">
-          {/* Logo */}
-          <a href="#home" className="navbar-logo" aria-label="Real Technologies Home">
-            <img src="/logo.png" alt="Real Technologies Logo" className="navbar-logo-img" />
-          </a>
-
-          {/* Desktop nav links — centered */}
-          <nav className="navbar-links-desktop" aria-label="Main Navigation">
-            <ul className="navbar-links-list">
-              <li><a href="#home" className="navbar-link">Home</a></li>
-              <li
-                onMouseEnter={() => handleMouseEnterMenu(0)}
-                onMouseLeave={handleMouseLeaveMenu}
-                className="navbar-item-has-dropdown"
-              >
-                <button className="navbar-link navbar-link-btn" aria-expanded={activeMegaMenu === 0}>
-                  Solutions <ChevronDownIcon />
-                </button>
-                {/* Mega Menu */}
-                <div className={`mega-menu ${activeMegaMenu === 0 ? 'is-active' : ''}`}>
-                  <div className="mega-menu-inner container-width">
-                    <div className="mega-menu-grid">
-                      {MEGA_MENU_SECTIONS.map((sec, idx) => (
-                        <div key={idx} className="mega-column">
-                          <div className="mega-header">
-                            <span className="mega-icon">{sec.icon}</span>
-                            <span className="mega-title">{sec.category}</span>
-                          </div>
-                          <ul className="mega-links">
-                            {sec.links.map((link, lIdx) => (
-                              <li key={lIdx}>
-                                <a href={link.href} className="mega-link">
-                                  <span className="mega-link-name">{link.name}</span>
-                                  <span className="mega-link-desc">{link.desc}</span>
-                                </a>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      ))}
-                    </div>
-                    <div className="mega-footer">
-                      <span className="mega-footer-txt">Need assistance with customized drawings or standard certification audits?</span>
-                      <button className="btn btn-primary btn-sm" onClick={() => setIsModalOpen(true)}>
-                        Request technical consult <ArrowRightIcon />
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </li>
-              <li><a href="#services" className="navbar-link">Services</a></li>
-              <li><a href="#about" className="navbar-link">About</a></li>
-              <li><a href="#news" className="navbar-link">News</a></li>
-              <li><a href="#contact" className="navbar-link">Contact</a></li>
-            </ul>
-          </nav>
-
-          {/* Desktop CTA */}
-          <div className="navbar-cta-desktop">
-            <button className="btn btn-outline-nav btn-sm" onClick={() => setIsModalOpen(true)}>
-              Get a Quote
-            </button>
-            <button className="btn btn-primary btn-sm" onClick={() => setIsModalOpen(true)}>
-              Request Consult <ArrowRightIcon />
-            </button>
-          </div>
-
-          {/* Mobile hamburger */}
-          <button
-            className={`navbar-hamburger ${mobileMenuOpen ? 'is-open' : ''}`}
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
-            aria-expanded={mobileMenuOpen}
-          >
-            <span className="hamburger-bar"></span>
-            <span className="hamburger-bar"></span>
-            <span className="hamburger-bar"></span>
-          </button>
-        </div>
-
-        {/* Mobile Menu Panel */}
-        <div className={`navbar-mobile-panel ${mobileMenuOpen ? 'is-open' : ''}`}>
-          <ul className="mobile-nav-list">
-            <li><a href="#home" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Home</a></li>
-            <li><a href="#services" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Solutions</a></li>
-            <li><a href="#services" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Services</a></li>
-            <li><a href="#about" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>About</a></li>
-            <li><a href="#news" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>News</a></li>
-            <li><a href="#contact" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Contact</a></li>
-          </ul>
-          <div className="mobile-nav-footer-actions">
-            <a href="tel:+97466257037" className="mobile-contact-link"><PhoneIcon /> Qatar: +974 6625 7037</a>
-            <a href="tel:+966531216181" className="mobile-contact-link"><PhoneIcon /> KSA: +966 5312 16181</a>
-            <button className="btn btn-primary w-full" style={{marginTop: '1rem'}} onClick={() => { setMobileMenuOpen(false); setIsModalOpen(true); }}>
-              Request a quote <ArrowRightIcon />
-            </button>
-          </div>
-        </div>
-      </header>
-
-      {/* Overlay for mobile menu */}
-      {mobileMenuOpen && (
-        <div className="navbar-mobile-overlay" onClick={() => setMobileMenuOpen(false)} />
-      )}
-
-      {/* ============================================================
-          SECTION 2: IMMERSIVE HERO (reference-style: full-bleed bg)
-      ============================================================ */}
+    <>
+      {/* HERO SECTION */}
       <section
         id="home"
         className={`hero-v2 ${heroPaused ? 'is-paused' : ''}`}
         onMouseEnter={() => setHeroPaused(true)}
         onMouseLeave={() => setHeroPaused(false)}
       >
-        {/* Full-bleed background slides */}
         <div className="hero-v2-bg-stack">
           {HERO_SLIDES.map((slide, idx) => (
             <div
@@ -601,40 +750,32 @@ function App() {
               style={{ backgroundImage: `url(${slide.img})` }}
             />
           ))}
-          {/* Gradient overlays */}
           <div className="hero-v2-overlay" />
           <div className="hero-v2-overlay-side" />
         </div>
 
-        {/* Content */}
         <div className="hero-v2-content">
           <div className="hero-v2-inner">
-            {/* Badge */}
             <div className="hero-v2-badge">
               <span className="hero-v2-badge-dot"></span>
               <span>{HERO_SLIDES[currentSlide].badge}</span>
             </div>
 
-            {/* Eyebrow */}
             <p className="hero-v2-eyebrow">{HERO_SLIDES[currentSlide].eyebrow}</p>
 
-            {/* Headline */}
             <h1 className="hero-v2-headline">{HERO_SLIDES[currentSlide].title}</h1>
 
-            {/* Description */}
             <p className="hero-v2-desc">{HERO_SLIDES[currentSlide].desc}</p>
 
-            {/* CTA Buttons */}
             <div className="hero-v2-ctas">
-              <a href={HERO_SLIDES[currentSlide].link} className="btn hero-v2-btn-primary">
+              <a href={`/${HERO_SLIDES[currentSlide].link}`} className="hero-v2-btn-primary">
                 Explore Solutions <ArrowRightIcon />
               </a>
-              <button className="btn hero-v2-btn-ghost" onClick={() => setIsModalOpen(true)}>
+              <button className="hero-v2-btn-ghost" onClick={openModal}>
                 Request a Demo
               </button>
             </div>
 
-            {/* Telemetry strip */}
             <div className="hero-v2-telemetry">
               <div className="hero-v2-tel-item">
                 <span className="hero-v2-tel-label">{HERO_SLIDES[currentSlide].telemetry.label}</span>
@@ -654,7 +795,6 @@ function App() {
           </div>
         </div>
 
-        {/* Bottom navigation tabs */}
         <div className="hero-v2-tabs">
           <div className="hero-v2-tabs-inner">
             {HERO_SLIDES.map((slide, idx) => (
@@ -676,7 +816,6 @@ function App() {
           </div>
         </div>
 
-        {/* Prev / Next arrows */}
         <button
           className="hero-v2-arrow hero-v2-arrow-prev"
           onClick={() => setCurrentSlide((prev) => (prev - 1 + HERO_SLIDES.length) % HERO_SLIDES.length)}
@@ -693,9 +832,7 @@ function App() {
         </button>
       </section>
 
-      {/* ============================================================
-          PARTNER TICKER (below hero — "trusted by" strip)
-      ============================================================ */}
+      {/* PARTNER TICKER */}
       <section className="partner-ticker-section">
         <div className="partner-ticker-inner">
           <div className="partner-ticker-label">
@@ -713,11 +850,10 @@ function App() {
         </div>
       </section>
 
-      {/* SECTION 3: IMAGE GALLERY CAROUSEL */}
+      {/* GALLERY CAROUSEL */}
       <section className="gallery-carousel-section">
         <div className="gallery-ticker-wrap">
           <div className="gallery-ticker-track">
-            {/* Render gallery twice to ensure seamless circular wrapping */}
             {[...GALLERY_IMAGES, ...GALLERY_IMAGES].map((imgUrl, idx) => (
               <div key={idx} className="gallery-thumbnail">
                 <img src={imgUrl} alt={`Real Technologies Industrial Equipment ${idx + 1}`} loading="lazy" />
@@ -730,28 +866,28 @@ function App() {
         </div>
       </section>
 
-
-      {/* SECTION 4: MAIN VALUE PROPOSITION */}
+      {/* VALUE PROPOSITION */}
       <section id="services" className="value-prop-section">
         <div className="container-width value-prop-grid">
           <div className="value-prop-content">
             <span className="section-pre-title">OUR PERFORMANCE PROMISE</span>
             <h2 className="value-prop-headline">
-              Your partner in precision,<br />
-              productivity, performance
+              Your trusted partner<br />
+              for industrial equipment
             </h2>
             <p className="value-prop-paragraph">
-              Real Technologies designs, manufactures, and calibrates high-integrity industrial systems.
-              We ensure GCC manufacturing plants maintain compliant, accurate sensor outputs, bridging
-              the gap between heavy machinery and digital enterprise systems without compromising on durability.
+              Real Technologies provides industrial equipment solutions across KSA and Qatar, with 60 years
+              of combined experience, 24x7 customer service support and fully integrated service centres.
+              As the sole distributor in Qatar, we deliver weighing, calibration, fabrication and automation
+              to businesses across every sector.
             </p>
             <div className="value-prop-actions">
-              <button className="btn btn-primary" onClick={() => setIsModalOpen(true)}>
+              <button className="btn btn-primary" onClick={openModal}>
                 Request a quote <ArrowRightIcon />
               </button>
-              <a href="#about" className="btn btn-outline">
+              <Link to="/about" className="btn btn-outline">
                 Read Corporate Profile
-              </a>
+              </Link>
             </div>
           </div>
           <div className="value-prop-visual">
@@ -770,8 +906,7 @@ function App() {
         </div>
       </section>
 
-
-      {/* SECTION 5: THREE-COLUMN IMAGE + TEXT SECTIONS */}
+      {/* ALTERNATING IMAGE + TEXT SECTIONS */}
       <section className="alternating-blocks-section">
         <div className="container-width">
           {ALTERNATING_SECTIONS.map((sec, idx) => {
@@ -787,7 +922,7 @@ function App() {
                   <span className="row-eyebrow">{sec.tagline}</span>
                   <h3 className="row-title">{sec.title}</h3>
                   <p className="row-desc">{sec.desc}</p>
-                  <a href={sec.link} className="row-link">
+                  <a href={`/${sec.link}`} className="row-link">
                     Explore technology spec sheets <ArrowRightIcon />
                   </a>
                 </div>
@@ -797,9 +932,8 @@ function App() {
         </div>
       </section>
 
-
-      {/* SECTION 6: WHY CHOOSE US SECTION */}
-      <section id="about" className="why-choose-section">
+      {/* WHY CHOOSE US */}
+      <section id="why-choose" className="why-choose-section">
         <div className="container-width">
           <div className="section-intro text-center">
             <span className="section-pre-title">BUILT ON TRUST &amp; COMPETENCE</span>
@@ -817,15 +951,14 @@ function App() {
           </div>
 
           <div className="why-choose-cta text-center">
-            <button className="btn btn-outline" onClick={() => setIsModalOpen(true)}>
+            <button className="btn btn-outline" onClick={openModal}>
               Get more information <ArrowRightIcon />
             </button>
           </div>
         </div>
       </section>
 
-
-      {/* SECTION 7: VIDEO SECTION */}
+      {/* VIDEO SECTION */}
       <section className="video-section">
         <div className="video-viewport">
           <video
@@ -840,7 +973,7 @@ function App() {
           <div className={`video-overlay-details ${videoPlaying ? 'is-playing' : ''}`}>
             <div className="video-content-inner text-center">
               <span className="video-tag">LABORATORY OVERVIEW</span>
-              <h2 className="video-heading">Calibration &amp; Fabrications Facilities</h2>
+              <h2 className="video-heading">Calibration &amp; Fabrication Facilities</h2>
               <p className="video-desc">Take a look inside our high-precision standards room and heavy steel fabrication workshops in action.</p>
               <button
                 className="video-play-btn"
@@ -854,12 +987,11 @@ function App() {
         </div>
       </section>
 
-
-      {/* SECTION 8: SOLUTIONS/SERVICES GRID */}
+      {/* SOLUTIONS GRID */}
       <section className="solutions-grid-section">
         <div className="container-width">
           <div className="section-intro text-center">
-            <span className="section-pre-title">CORE CAPABILITIES</span>
+            <span className="section-pre-title">OUR SERVICES</span>
             <h2 className="section-heading">{SOLUTIONS_GRID.title}</h2>
             <p className="section-subtitle">{SOLUTIONS_GRID.sub}</p>
           </div>
@@ -870,7 +1002,7 @@ function App() {
                 <div className="solution-card-icon">{card.icon}</div>
                 <h3 className="solution-card-title">{card.title}</h3>
                 <p className="solution-card-desc">{card.desc}</p>
-                <a href={card.link} className="solution-card-btn">
+                <a href={`/${card.link}`} className="solution-card-btn">
                   Explore <ArrowRightIcon />
                 </a>
               </div>
@@ -879,17 +1011,15 @@ function App() {
         </div>
       </section>
 
-
-      {/* SECTION 9: SECONDARY SERVICES SECTION */}
+      {/* SECONDARY SERVICES */}
       <section className="secondary-services-section">
         <div className="container-width relative-container">
-          {/* Creative Watermark Behind Section */}
           <div className="creative-watermark" aria-hidden="true">
             {SECONDARY_SERVICES.watermark}
           </div>
 
           <div className="section-intro">
-            <span className="section-pre-title">SPECIFIC APPLICATIONS</span>
+            <span className="section-pre-title">INDUSTRIES WE SERVE</span>
             <h2 className="section-heading">{SECONDARY_SERVICES.sub}</h2>
           </div>
 
@@ -905,15 +1035,13 @@ function App() {
         </div>
       </section>
 
-
-      {/* SECTION 10: PARTNER LOGOS CAROUSEL */}
+      {/* PARTNER LOGOS CAROUSEL */}
       <section className="partner-logos-section">
         <div className="container-width text-center mb-xl">
-          <span className="section-pre-title">GCC AUTHORIZED DISTRIBUTOR</span>
+          <span className="section-pre-title">AUTHORISED DISTRIBUTOR & DEALERSHIP</span>
           <h2 className="section-heading-sm">Representing World Class Brands</h2>
         </div>
 
-        {/* Row 1: Left to Right */}
         <div className="logo-ticker-wrap">
           <div className="logo-ticker-track scroll-forward">
             {[...PARTNER_LOGOS, ...PARTNER_LOGOS].map((logoName, idx) => (
@@ -924,7 +1052,6 @@ function App() {
           </div>
         </div>
 
-        {/* Row 2: Right to Left */}
         <div className="logo-ticker-wrap mt-md">
           <div className="logo-ticker-track scroll-backward">
             {[...PARTNER_LOGOS, ...PARTNER_LOGOS].map((logoName, idx) => (
@@ -936,8 +1063,7 @@ function App() {
         </div>
       </section>
 
-
-      {/* SECTION 11: STATISTICS COUNTER SECTION */}
+      {/* STATISTICS */}
       <section className="stats-section" ref={statsSectionRef}>
         <div className="container-width stats-grid">
           {STATISTICS.map((stat, idx) => (
@@ -953,39 +1079,41 @@ function App() {
         </div>
       </section>
 
-
-      {/* SECTION 12: NEWS & RESOURCES */}
-      <section id="news" className="news-resources-section">
+      {/* NEWS & RESOURCES */}
+      <section id="projects" className="news-resources-section">
         <div className="container-width">
           <div className="section-intro text-center">
-            <span className="section-pre-title">TECHNICAL INSIGHTS</span>
-            <h2 className="section-heading">News and Resources</h2>
-            <p className="section-subtitle">Insights that Inspire Innovation...</p>
+            <span className="section-pre-title">SELECTED PROJECTS</span>
+            <h2 className="section-heading">Our Projects</h2>
+            <p className="section-subtitle">120 Ton weighbridges and batching systems delivered across Qatar</p>
           </div>
 
           <div className="news-3col-grid">
-            {BLOG_POSTS.map((post, idx) => (
+            {PROJECTS.slice(0, 3).map((project, idx) => (
               <div key={idx} className="blog-card">
-                <div className="blog-card-img" style={{ backgroundImage: `url(${post.img})` }} />
+                <div className="blog-card-img" style={{ backgroundImage: `url(${project.img})` }} />
                 <div className="blog-card-body">
-                  <h3 className="blog-card-title">{post.title}</h3>
-                  <p className="blog-card-excerpt">{post.excerpt}</p>
-                  <a href={post.link} className="blog-card-link">
-                    Read more <ArrowRightIcon />
-                  </a>
+                  <span className="section-pre-title">{project.client}</span>
+                  <h3 className="blog-card-title">{project.title}</h3>
+                  <p className="blog-card-excerpt">{project.desc}</p>
                 </div>
               </div>
             ))}
           </div>
+
+          <div className="why-choose-cta text-center">
+            <Link to="/projects" className="btn btn-outline">
+              View all projects <ArrowRightIcon />
+            </Link>
+          </div>
         </div>
       </section>
 
-
-      {/* SECTION 13: PRE-FOOTER CTA SECTION */}
+      {/* PRE-FOOTER CTA */}
       <section className="pre-footer-cta-section">
         <div className="container-width cta-grid">
           <div className="cta-left">
-            <span className="cta-eyebrow">LET'S TALK</span>
+            <span className="cta-eyebrow">LET&apos;S TALK</span>
             <h2 className="cta-title">Smart, Efficient &amp; Future Ready</h2>
             <p className="cta-desc">
               Request a quote or speak directly with our engineering teams in Doha and Dammam.
@@ -993,95 +1121,63 @@ function App() {
             </p>
           </div>
           <div className="cta-right">
-            <button className="btn btn-primary btn-lg" onClick={() => setIsModalOpen(true)}>
+            <button className="btn btn-primary btn-lg" onClick={openModal}>
               Get started <ArrowRightIcon />
             </button>
           </div>
         </div>
       </section>
+    </>
+  );
+}
 
+// ============================================================
+// Layout — shared chrome (top bar, header, footer, quote modal)
+// ============================================================
+function Layout() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedCountry, setSelectedCountry] = useState(PHONE_COUNTRIES[0]);
+  const [countryDropdownOpen, setCountryDropdownOpen] = useState(false);
+  const [quoteForm, setQuoteForm] = useState({
+    name: '',
+    email: '',
+    company: '',
+    phone: '',
+    service: 'Weighing Solutions',
+    message: ''
+  });
+  const [formSuccess, setFormSuccess] = useState(false);
 
-      {/* SECTION 14: FOOTER */}
-      <footer id="contact" className="footer-section">
-        <div className="container-width footer-grid">
-          {/* Column 1: Logo & Contact Info */}
-          <div className="footer-col brand-col">
-            <div className="footer-logo-wrap">
-              <span className="logo-bold">REAL</span>
-              <span className="logo-light">TECHNOLOGIES</span>
-            </div>
-            <p className="footer-about-text">
-              GCC systems provider for industrial weighing, calibration, fabrication, and PLC automation.
-            </p>
-            <div className="footer-contact-details">
-              <p><strong>Qatar HQ Address:</strong> Industrial Area St. 24, Doha, Qatar</p>
-              <p><strong>KSA Branch Address:</strong> Khalidiya Industrial, Dammam, KSA</p>
-              <p><strong>Phone Qatar:</strong> <a href="tel:+97466257037">+974 6625 7037</a></p>
-              <p><strong>Phone KSA:</strong> <a href="tel:+966531216181">+966 5312 16181</a></p>
-              <p><strong>Email:</strong> <a href="mailto:info@realtechgulf.com">info@realtechgulf.com</a></p>
-            </div>
-          </div>
+  const handleSubmitQuote = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!quoteForm.name || !quoteForm.email || !quoteForm.company) return;
+    setFormSuccess(true);
+    setTimeout(() => {
+      setFormSuccess(false);
+      setIsModalOpen(false);
+      setQuoteForm({
+        name: '',
+        email: '',
+        company: '',
+        phone: '',
+        service: 'Weighing Solutions',
+        message: ''
+      });
+    }, 2000);
+  };
 
-          {/* Column 2: Our Business */}
-          <div className="footer-col links-col">
-            <h4 className="footer-title">Our Business</h4>
-            <ul className="footer-links">
-              <li><a href="#weighing">Weighing Solutions</a></li>
-              <li><a href="#calibration">ISO Calibration</a></li>
-              <li><a href="#fabrication">Custom Fabrications</a></li>
-              <li><a href="#automation">Process Automation</a></li>
-              <li><a href="https://www.erphorizon.com/company/realtechnologies137/index.php?r=site%2Flogin" target="_blank" rel="noopener noreferrer">ERP Partner Portal</a></li>
-            </ul>
-          </div>
+  return (
+    <div className="app-container">
+      <TopBar />
+      <Header onOpenModal={() => setIsModalOpen(true)} />
 
-          {/* Column 3: Quick Links */}
-          <div className="footer-col links-col">
-            <h4 className="footer-title">Quick Links</h4>
-            <ul className="footer-links">
-              <li><a href="#home">Home</a></li>
-              <li><a href="#services">Services</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#news">News</a></li>
-              <li><a href="#careers">Careers</a></li>
-            </ul>
-          </div>
+      <main>
+        <Outlet context={{ openModal: () => setIsModalOpen(true) } satisfies LayoutContext} />
+      </main>
 
-          {/* Column 4: Products */}
-          <div className="footer-col links-col">
-            <h4 className="footer-title">Products</h4>
-            <ul className="footer-links">
-              <li><a href="#weighing">Platform Scales</a></li>
-              <li><a href="#weighing">Truck Weighbridges</a></li>
-              <li><a href="#fabrication">Silo Load Cells</a></li>
-              <li><a href="#weighing">ATEX Indicators</a></li>
-              <li><a href="#automation">Recipe Controller Software</a></li>
-            </ul>
-          </div>
-        </div>
+      <Footer />
 
-        {/* Bottom Bar */}
-        <div className="footer-bottom">
-          <div className="container-width bottom-inner">
-            <p className="copyright-txt">
-              &copy; {new Date().getFullYear()} Real Technologies. All Rights Reserved. Qatar &amp; KSA.
-            </p>
-
-            <div className="social-links-row">
-              <a href="#" aria-label="LinkedIn"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg></a>
-              <a href="#" aria-label="YouTube"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23 12a10.01 10.01 0 0 1-2.91 7.07 10 10 0 0 1-14.18 0A10 10 0 0 1 3 12a10.01 10.01 0 0 1 2.91-7.07 10 10 0 0 1 14.18 0A10.02 10.02 0 0 1 23 12m-11-4.5v9l6-4.5-6-4.5z"/></svg></a>
-              <a href="#" aria-label="Twitter"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.7 0-1.37-.2-1.95-.54v.05c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.6 8.6 0 0 1-5.36 1.84c-.35 0-.69-.02-1.03-.06A12.13 12.13 0 0 0 6.29 20c7.55 0 11.68-6.26 11.68-11.68 0-.18 0-.36-.01-.53.8-.57 1.49-1.3 2.04-2.13z"/></svg></a>
-              <a href="#" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect width="20" height="20" x="2" y="2" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg></a>
-            </div>
-
-            <p className="footer-credit">
-              Powered by <span className="credit-brand">Real Technologies Gulf</span>
-            </p>
-          </div>
-        </div>
-      </footer>
-
-
-      {/* SECTION 15: MODAL/POPUP FORM ("Request a Quote") */}
+      {/* MODAL — Request a Quote */}
       {isModalOpen && (
         <div className="modal-root" role="dialog" aria-modal="true">
           <div className="modal-backdrop" onClick={() => setIsModalOpen(false)} />
@@ -1199,11 +1295,11 @@ function App() {
                       value={quoteForm.service}
                       onChange={(e) => setQuoteForm({ ...quoteForm, service: e.target.value })}
                     >
-                      <option value="Industrial Weighing Systems">Industrial Weighing Division</option>
-                      <option value="ISO 17025 Accredited Calibration">Metrology &amp; Calibration Division</option>
-                      <option value="Steel Structure Fabrication">Heavy Fabrication Division</option>
-                      <option value="PLC Systems Integration">Process Automation Division</option>
-                      <option value="GCC Annual Maintenance Contract">Annual Maintenance Contract (AMC)</option>
+                      <option value="Weighing Solutions">Weighing Division</option>
+                      <option value="Calibration Services">Calibration Division</option>
+                      <option value="Fabrication Services">Fabrication Division</option>
+                      <option value="Automation Solutions">Automation Division</option>
+                      <option value="Motor Re-Winding">Motor Re-Winding</option>
                     </select>
                   </div>
 
@@ -1220,7 +1316,7 @@ function App() {
                 </div>
 
                 <div className="modal-form-actions">
-                  <button type="button" className="btn btn-secondary" onClick={() => setIsModalOpen(false)}>
+                  <button type="button" className="btn btn-secondary" style={{ color: '#555', borderColor: '#ccc' }} onClick={() => setIsModalOpen(false)}>
                     Cancel
                   </button>
                   <button type="submit" className="btn btn-primary">
@@ -1233,6 +1329,23 @@ function App() {
         </div>
       )}
     </div>
+  );
+}
+
+// ============================================================
+// App — route table
+// ============================================================
+function App() {
+  return (
+    <Routes>
+      <Route element={<Layout />}>
+        <Route index element={<HomePage />} />
+        <Route path="about" element={<AboutPage />} />
+        <Route path="projects" element={<ProjectsPage />} />
+        <Route path="industries" element={<IndustriesPage />} />
+        <Route path="careers" element={<CareersPage />} />
+      </Route>
+    </Routes>
   );
 }
 
