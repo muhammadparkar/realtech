@@ -5,6 +5,8 @@ import AboutPage from './AboutPage';
 import ProjectsPage from './ProjectsPage';
 import IndustriesPage from './IndustriesPage';
 import CareersPage from './CareersPage';
+import ServicesPage from './ServicesPage';
+import IndustryDetailPage from './IndustryDetailPage';
 
 // ============================================================
 // SVG Icon Components
@@ -377,7 +379,7 @@ export const ArrowIcon = ArrowRightIcon;
 // ============================================================
 // TopBar Component
 // ============================================================
-function TopBar() {
+function TopBar({ isScrolled }: { isScrolled: boolean }) {
   const marqueeItems = (
     <>
       <a href="tel:+966138555359" className="top-bar-contact-item"><PhoneIcon /><span>+966 13 855 5359 <span className="top-bar-country">(KSA)</span></span></a>
@@ -390,7 +392,7 @@ function TopBar() {
   );
 
   return (
-    <div className="top-bar">
+    <div className={`top-bar${isScrolled ? ' top-bar-hidden' : ''}`}>
       {/* Mobile: continuous marquee of contact details */}
       <div className="top-bar-mobile" aria-hidden="true">
         <div className="top-bar-marquee-track">
@@ -438,20 +440,10 @@ function TopBar() {
 // ============================================================
 // Header Component (navbar — owns its own scroll/menu state)
 // ============================================================
-function Header({ onOpenModal }: { onOpenModal: () => void }) {
-  const [isScrolled, setIsScrolled] = useState(false);
+function Header({ onOpenModal, isScrolled }: { onOpenModal: () => void; isScrolled: boolean }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeMegaMenu, setActiveMegaMenu] = useState<number | null>(null);
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  // Scroll detection for sticky header transition
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 40);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   const handleMouseEnterMenu = (index: number) => {
     if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
@@ -475,50 +467,47 @@ function Header({ onOpenModal }: { onOpenModal: () => void }) {
           <nav className="navbar-links-desktop" aria-label="Main Navigation">
             <ul className="navbar-links-list">
               <li><a href="/#home" className="navbar-link">Home</a></li>
+              <li><Link to="/about" className="navbar-link">About Us</Link></li>
+              <li><Link to="/services" className="navbar-link">Services</Link></li>
               <li
                 onMouseEnter={() => handleMouseEnterMenu(0)}
                 onMouseLeave={handleMouseLeaveMenu}
                 className="navbar-item-has-dropdown"
               >
                 <button className="navbar-link navbar-link-btn" aria-expanded={activeMegaMenu === 0}>
-                  Solutions <ChevronDownIcon />
+                  Industries <ChevronDownIcon />
                 </button>
-                <div className={`mega-menu ${activeMegaMenu === 0 ? 'is-active' : ''}`}>
-                  <div className="mega-menu-inner container-width">
-                    <div className="mega-menu-grid">
-                      {MEGA_MENU_SECTIONS.map((sec, idx) => (
-                        <div key={idx} className="mega-column">
-                          <div className="mega-header">
-                            <span className="mega-icon">{sec.icon}</span>
-                            <span className="mega-title">{sec.category}</span>
-                          </div>
-                          <ul className="mega-links">
-                            {sec.links.map((link, lIdx) => (
-                              <li key={lIdx}>
-                                <a href={`/${link.href}`} className="mega-link">
-                                  <span className="mega-link-name">{link.name}</span>
-                                  <span className="mega-link-desc">{link.desc}</span>
-                                </a>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      ))}
-                    </div>
-                    <div className="mega-footer">
-                      <span className="mega-footer-txt">Need assistance with customized drawings or standard certification audits?</span>
-                      <button className="btn btn-primary btn-sm" onClick={onOpenModal}>
-                        Request technical consult <ArrowRightIcon />
-                      </button>
-                    </div>
-                  </div>
+                <div className={`industries-dropdown ${activeMegaMenu === 0 ? 'is-active' : ''}`}>
+                  <ul className="industries-dropdown-grid">
+                    {([
+                      { label: 'Agriculture',           slug: 'agriculture',          icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22V12M12 12C12 7 7 2 2 2c0 5 5 10 10 10zM12 12c0-5 5-10 10-10-5 5-5 5-5 10"/><path d="M5 22h14"/></svg> },
+                      { label: 'Aviation',              slug: 'aviation',             icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21 4 19 2c-2-2-4-2-5.5-.5L10 5 1.8 6.2a1 1 0 0 0-.6 1.7l4 4-1 3.5 3.5-1 4 4a1 1 0 0 0 1.7-.6z"/></svg> },
+                      { label: 'Bulk Construction',     slug: 'bulk-construction',    icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="16" height="10" x="2" y="7" rx="2"/><path d="M12 7V5a2 2 0 0 0-4 0v2M7 21V17M17 21V17M2 17h20"/></svg> },
+                      { label: 'Chemical',              slug: 'chemical',             icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 3h6v4l4 11a1 1 0 0 1-.9 1.4H5.9A1 1 0 0 1 5 18L9 7V3z"/><path d="M6 14h12"/></svg> },
+                      { label: 'Commercial Fishing',    slug: 'commercial-fishing',   icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 16.5a7 7 0 0 0-12 0"/><path d="M12 2v5M5 9l1.5 1.5M19 9l-1.5 1.5M12 22v-4.5"/><circle cx="12" cy="12" r="3"/></svg> },
+                      { label: 'Food Processing',       slug: 'food-processing',      icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" x2="6" y1="1" y2="4"/><line x1="10" x2="10" y1="1" y2="4"/><line x1="14" x2="14" y1="1" y2="4"/></svg> },
+                      { label: 'Grocery & Food Service',slug: 'grocery-food-service', icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" x2="21" y1="6" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg> },
+                      { label: 'Health Care',           slug: 'health-care',          icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> },
+                      { label: 'Manufacturing',         slug: 'manufacturing',        icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 20h20M4 20V10l4-4 4 4V4l4 4v12"/></svg> },
+                      { label: 'Scrap & Recycling',     slug: 'scrap-recycling',      icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M7 19H4.815a1.83 1.83 0 0 1-1.57-2.764L7.196 9.5"/><path d="M11 19h8.203a1.83 1.83 0 0 0 1.556-2.769l-6.277-10.88a1.83 1.83 0 0 0-3.113 0l-.387.67"/><path d="m14 16-3 3 3 3"/><path d="m8.5 8.5-3 3 3 3"/></svg> },
+                      { label: 'Logistics',             slug: 'logistics',            icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="16" height="13" x="2" y="5" rx="2"/><path d="M16 5V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v2"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/><path d="M22 13v3a2 2 0 0 1-2 2h-1"/></svg> },
+                      { label: 'Livestock',             slug: 'livestock',            icon: <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg> },
+                    ] as { label: string; slug: string; icon: React.ReactNode }[]).map(({ label, slug, icon }) => (
+                      <li key={label}>
+                        <Link to={`/industry/${slug}`} className="industries-dropdown-item" onClick={() => setActiveMegaMenu(null)}>
+                          <span className="industries-dropdown-icon">{icon}</span>
+                          {label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </li>
-              <li><Link to="/industries" className="navbar-link">Industries</Link></li>
+              <li><a href="/#products" className="navbar-link">Products</a></li>
               <li><Link to="/projects" className="navbar-link">Projects</Link></li>
-              <li><Link to="/about" className="navbar-link">About</Link></li>
               <li><Link to="/careers" className="navbar-link">Careers</Link></li>
-              <li><a href="/#contact" className="navbar-link">Contact</a></li>
+              <li><a href="/#gallery" className="navbar-link">Gallery</a></li>
+              <li><a href="/#contact" className="navbar-link">Reach Us</a></li>
             </ul>
           </nav>
 
@@ -546,12 +535,14 @@ function Header({ onOpenModal }: { onOpenModal: () => void }) {
         <div className={`navbar-mobile-panel ${mobileMenuOpen ? 'is-open' : ''}`}>
           <ul className="mobile-nav-list">
             <li><a href="/#home" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Home</a></li>
-            <li><a href="/#services" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Services</a></li>
+            <li><Link to="/about" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>About Us</Link></li>
+            <li><Link to="/services" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Services</Link></li>
             <li><Link to="/industries" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Industries</Link></li>
+            <li><a href="/#products" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Products</a></li>
             <li><Link to="/projects" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Projects</Link></li>
-            <li><Link to="/about" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>About</Link></li>
             <li><Link to="/careers" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Careers</Link></li>
-            <li><a href="/#contact" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Contact</a></li>
+            <li><a href="/#gallery" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Gallery</a></li>
+            <li><a href="/#contact" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Reach Us</a></li>
           </ul>
           <div className="mobile-nav-footer-actions">
             <a href="tel:+97466257037" className="mobile-contact-link"><PhoneIcon /> Qatar: +974 6625 7037</a>
@@ -756,11 +747,6 @@ function HomePage() {
 
         <div className="hero-v2-content">
           <div className="hero-v2-inner">
-            <div className="hero-v2-badge">
-              <span className="hero-v2-badge-dot"></span>
-              <span>{HERO_SLIDES[currentSlide].badge}</span>
-            </div>
-
             <p className="hero-v2-eyebrow">{HERO_SLIDES[currentSlide].eyebrow}</p>
 
             <h1 className="hero-v2-headline">{HERO_SLIDES[currentSlide].title}</h1>
@@ -810,7 +796,6 @@ function HomePage() {
                   )}
                 </div>
                 <span className="hero-v2-tab-num">0{idx + 1}</span>
-                <span className="hero-v2-tab-label">{slide.label}</span>
               </button>
             ))}
           </div>
@@ -1135,6 +1120,7 @@ function HomePage() {
 // Layout — shared chrome (top bar, header, footer, quote modal)
 // ============================================================
 function Layout() {
+  const [isScrolled, setIsScrolled] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(PHONE_COUNTRIES[0]);
   const [countryDropdownOpen, setCountryDropdownOpen] = useState(false);
@@ -1147,6 +1133,12 @@ function Layout() {
     message: ''
   });
   const [formSuccess, setFormSuccess] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setIsScrolled(window.scrollY > 40);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const handleSubmitQuote = (e: React.FormEvent) => {
     e.preventDefault();
@@ -1168,8 +1160,8 @@ function Layout() {
 
   return (
     <div className="app-container">
-      <TopBar />
-      <Header onOpenModal={() => setIsModalOpen(true)} />
+      <TopBar isScrolled={isScrolled} />
+      <Header onOpenModal={() => setIsModalOpen(true)} isScrolled={isScrolled} />
 
       <main>
         <Outlet context={{ openModal: () => setIsModalOpen(true) } satisfies LayoutContext} />
@@ -1344,6 +1336,8 @@ function App() {
         <Route path="projects" element={<ProjectsPage />} />
         <Route path="industries" element={<IndustriesPage />} />
         <Route path="careers" element={<CareersPage />} />
+        <Route path="services" element={<ServicesPage />} />
+        <Route path="industry/:slug" element={<IndustryDetailPage />} />
       </Route>
     </Routes>
   );

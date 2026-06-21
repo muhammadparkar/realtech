@@ -77,12 +77,6 @@ function AboutPage() {
               sensors, we have become a trusted partner for businesses across different sectors in Qatar.
             </p>
 
-            <div className="about-hero-chips">
-              <span className="about-hero-chip"><ExperienceIcon /> 60 Years Combined</span>
-              <span className="about-hero-chip"><AwardIcon /> Sole Distributor in Qatar</span>
-              <span className="about-hero-chip"><GaugeIcon /> Accredited Calibration</span>
-            </div>
-
             <div className="about-hero-actions">
               <button className="btn btn-primary" onClick={openModal}>
                 Talk to our team <ArrowIcon />
