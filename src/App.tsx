@@ -58,49 +58,6 @@ const PauseIcon = () => (
 // ============================================================
 // Constants & Data
 // ============================================================
-const MEGA_MENU_SECTIONS = [
-  {
-    category: 'Weighing Division',
-    icon: <WeighingIcon />,
-    links: [
-      { name: 'Weighbridges', desc: 'Steel & concrete weighbridges up to 120 Ton capacity.', href: '#weighing' },
-      { name: 'Platform & Bench Scales', desc: 'Devices to measure weight or calculate mass.', href: '#weighing' },
-      { name: 'Load Cells & Indicators', desc: 'Dini Argeo, Rice Lake & Cardinal load cells and indicators.', href: '#weighing' },
-      { name: 'Intelligent Weighing Systems', desc: 'Custom weighing software with PC serial communication.', href: '#weighing' }
-    ]
-  },
-  {
-    category: 'Calibration Division',
-    icon: <CalibrationIcon />,
-    links: [
-      { name: 'Scales & Weighbridges', desc: 'Batching plants, standard weights and volumetric equipment.', href: '#calibration' },
-      { name: 'Dimensional Instruments', desc: 'Verniers, micrometers, elongation gauges and test sieves.', href: '#calibration' },
-      { name: 'Pressure & Compression', desc: 'Pressure calibration, compression machines, safe load indicators.', href: '#calibration' },
-      { name: 'Environmental & Electrical', desc: 'Thermometers, ovens, pH meters, multimeters and clamp meters.', href: '#calibration' }
-    ]
-  },
-  {
-    category: 'Fabrication Division',
-    icon: <FabricationIcon />,
-    links: [
-      { name: 'Steel Weighbridges', desc: 'Cutting, bending, welding and assembling of metal structures.', href: '#fabrication' },
-      { name: 'Stairs, Grills & Cladding', desc: 'Custom architectural and structural steel fabrication.', href: '#fabrication' },
-      { name: 'Sanitizing Gates', desc: 'Fabricated access and hygiene control structures.', href: '#fabrication' },
-      { name: 'Concrete Mixers', desc: 'Unibeton brand concrete mixing equipment.', href: '#fabrication' }
-    ]
-  },
-  {
-    category: 'Automation Division',
-    icon: <AutomationIcon />,
-    links: [
-      { name: 'Process Automation', desc: 'Automate and streamline processes with minimal human intervention.', href: '#automation' },
-      { name: 'Batching Plant Control', desc: 'Coarse and fine gate control to target loading values.', href: '#automation' },
-      { name: 'PC & Software Integration', desc: 'Serial communication with customized weighing software.', href: '#automation' },
-      { name: 'Pneumatics (Artec)', desc: 'Pneumatic cylinders — short stroke and compact designs.', href: '#automation' }
-    ]
-  }
-];
-
 const HERO_SLIDES = [
   {
     eyebrow: 'Weighing the world',
