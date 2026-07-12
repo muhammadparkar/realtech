@@ -64,7 +64,7 @@ const HERO_SLIDES = [
     title: 'Industrial Weighing Solutions',
     label: 'Weighing',
     desc: 'RealTech scales can be found in almost every industry. No matter how challenging or unique, RealTech will have your answer — weighbridges, scales, load cells and indicators.',
-    img: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1600&q=80',
+    img: '/hero-weighing.jpg',
     link: '#weighing',
     badge: 'Sole Distributor in Qatar',
     telemetry: { label: 'WEIGHBRIDGE CAPACITY', value: 'Up to 120 Ton' }
@@ -74,7 +74,7 @@ const HERO_SLIDES = [
     title: 'Precision Calibration Services',
     label: 'Calibration',
     desc: 'Adjusting and aligning instruments to ensure accuracy and reliability — scales, weighbridges, verniers, micrometers, thermometers, ovens, pressure and compression machines.',
-    img: 'https://images.unsplash.com/photo-1742163962100-0694339f2d57?auto=format&fit=crop&w=1600&q=80',
+    img: '/hero-calibration.jpg',
     link: '#calibration',
     badge: 'Standards-Traceable',
     telemetry: { label: 'INSTRUMENTS', value: 'Mass · Pressure · Dimensional' }
@@ -84,7 +84,7 @@ const HERO_SLIDES = [
     title: 'Steel Fabrication Division',
     label: 'Fabrication',
     desc: 'Cutting, bending, welding and assembling of metal components and structures — steel weighbridges, stairs, grills, cladding, sanitizing gates and concrete mixers.',
-    img: 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=1600&q=80',
+    img: '/hero-fabrication.jpg',
     link: '#fabrication',
     badge: 'Custom Fabrication',
     telemetry: { label: 'WORKS', value: 'Weighbridges · Structures' }
@@ -94,7 +94,7 @@ const HERO_SLIDES = [
     title: 'Industrial Automation Solutions',
     label: 'Automation',
     desc: 'Operating processes through electronic means with minimal human intervention — batching plant gate control, PC integration and pneumatics from Artec Italy.',
-    img: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1600&q=80',
+    img: '/hero-automation.jpg',
     link: '#automation',
     badge: 'Process Control',
     telemetry: { label: 'INTEGRATION', value: 'PC Serial + Software' }
@@ -102,22 +102,16 @@ const HERO_SLIDES = [
 ];
 
 const GALLERY_IMAGES = [
-  'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=400&q=80',
-  'https://images.unsplash.com/photo-1742163962100-0694339f2d57?auto=format&fit=crop&w=400&q=80',
-  'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=400&q=80',
-  'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=400&q=80',
-  'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=400&q=80',
-  'https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?auto=format&fit=crop&w=400&q=80',
-  'https://images.unsplash.com/photo-1513828583688-c52646db42da?auto=format&fit=crop&w=400&q=80',
-  'https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=400&q=80',
-  'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=400&q=80',
-  'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=400&q=80',
-  'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=400&q=80',
-  'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=400&q=80',
-  'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=400&q=80',
-  'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=400&q=80',
-  'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=400&q=80',
-  'https://images.unsplash.com/photo-1508873535684-277a3cbcc4e8?auto=format&fit=crop&w=400&q=80'
+  '/hero-weighing.jpg',
+  '/hero-calibration.jpg',
+  '/hero-fabrication.jpg',
+  '/hero-automation.jpg',
+  '/rt-building.jpg',
+  '/rt-fabrication-div.jpg',
+  '/rt-team-indoor.jpg',
+  '/rt-office.jpg',
+  '/rt-staff.jpg',
+  '/rt-weighbridge-install.jpg',
 ];
 
 const ALTERNATING_SECTIONS = [
@@ -125,28 +119,28 @@ const ALTERNATING_SECTIONS = [
     tagline: 'WEIGHING DIVISION',
     title: 'Weighing Solutions for Every Industry',
     desc: 'Weighing solutions are the various methods and technologies used to accurately measure and determine the weight of objects or substances. As the sole distributor in Qatar, we supply weighbridges, platform and bench scales, load cells and indicators from Dini Argeo, Rice Lake, Cardinal and T-Scale — backed by our own customized weighing software.',
-    img: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80',
+    img: '/rt-weighbridge-install.jpg',
     link: '#weighing'
   },
   {
     tagline: 'CALIBRATION DIVISION',
     title: 'Calibration for Accuracy & Reliability',
     desc: 'Calibration is the process of adjusting or aligning a device, instrument or system to ensure accuracy and reliability. We calibrate batching plants, weighing scales, weighbridges, standard weights, test sieves, verniers, micrometers, thermometers, ovens, pH meters, multimeters, pressure and compression machines, and safe load indicators.',
-    img: 'https://images.unsplash.com/photo-1742163962100-0694339f2d57?auto=format&fit=crop&w=800&q=80',
+    img: '/hero-calibration.jpg',
     link: '#calibration'
   },
   {
     tagline: 'FABRICATION DIVISION',
     title: 'Metal Fabrication & Structures',
     desc: 'Fabrication is the manufacturing and shaping of metal components and structures through cutting, bending, welding and assembling processes. Our works include steel weighbridges, stairs, grills, cladding, sanitizing gates and Unibeton concrete mixers built to order.',
-    img: 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=800&q=80',
+    img: '/hero-fabrication.jpg',
     link: '#fabrication'
   },
   {
     tagline: 'AUTOMATION DIVISION',
     title: 'Automation & Process Control',
     desc: 'Automation solutions are the technologies and systems that aim to automate and streamline various processes and tasks with minimal human intervention. We control coarse and fine gates to target loading values, integrate systems with PCs over serial communication, and supply Artec pneumatic cylinders.',
-    img: 'https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?auto=format&fit=crop&w=800&q=80',
+    img: '/hero-automation.jpg',
     link: '#automation'
   }
 ];
