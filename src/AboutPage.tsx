@@ -28,28 +28,28 @@ const ABOUT_ROWS = [
     tagline: 'SOLE DISTRIBUTOR IN QATAR',
     title: 'World-Class Weighing Equipment Brands',
     desc: 'As the sole distributor in Qatar, we are proud to offer a wide range of weighing equipment brands. Dini Argeo from Italy, Rice Lake from the USA, and TScale from Taiwan are renowned names in the industry, known for their precision, reliability, and innovative features. These brands provide a comprehensive selection of scales, load cells, indicators, and accessories to cater to diverse industrial needs.',
-    img: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80',
+    img: '/images/about/brands/about-weighing-equipment-brands.jpg',
     reversed: false
   },
   {
     tagline: 'PNEUMATIC SYSTEMS — ARTEC ITALY',
     title: 'High-Quality Pneumatic Solutions',
     desc: 'Real Technologies is more than just a distributor of weighing equipment. We also specialize in pneumatics, offering a range of high-quality products from Artec Italy. Our pneumatic solutions are designed to optimize processes, improve efficiency, and enhance automation in various industrial applications.',
-    img: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=800&q=80',
+    img: '/images/about/brands/about-pneumatic-solutions-artec.jpg',
     reversed: true
   },
   {
     tagline: 'TRUSTED SENSOR MANUFACTURERS',
     title: 'Accurate & Reliable Sensors',
     desc: 'In addition, we offer sensors from trusted manufacturers such as Banner Engineering and Kempston Controls. These sensors are designed to provide accurate and reliable data for monitoring and control purposes, ensuring seamless operations and enhanced productivity.',
-    img: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80',
+    img: '/images/about/brands/about-sensor-manufacturers-team.jpg',
     reversed: false
   },
   {
     tagline: 'CALIBRATION SERVICES',
     title: 'Precision You Can Trust',
     desc: 'As a company committed to precision and accuracy, we understand the criticality of calibrations. Real Technologies provides calibration services for a wide range of measuring instruments, including weighing scales, weighbridges, oven, thermometers, hygrometers, vernier calipers, compression machines, multimeters, micrometers, and more. Our skilled technicians use advanced equipment and follow stringent procedures to ensure that your instruments are calibrated to the highest standards.',
-    img: 'https://images.unsplash.com/photo-1742163962100-0694339f2d57?auto=format&fit=crop&w=800&q=80',
+    img: '/images/about/brands/about-calibration-services-precision.jpg',
     reversed: true
   }
 ];
@@ -92,8 +92,8 @@ function AboutPage() {
               <span className="about-hero-hud"><span className="about-hero-hud-dot" /> PRECISION SYSTEMS · QATAR</span>
               <img
                 className="about-hero-img"
-                src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=900&q=80"
-                alt="Real Technologies engineer calibrating precision weighing equipment"
+                src="/images/about/hero/about-hero-team-headquarters.png"
+                alt="Real Technologies team in front of company headquarters in Qatar"
                 loading="eager"
               />
             </div>

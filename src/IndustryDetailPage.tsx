@@ -1,17 +1,42 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useParams, Link, useOutletContext } from 'react-router-dom';
 import { ArrowIcon, type LayoutContext } from './App';
 import { INDUSTRY_MAP } from './data/industries';
 
+function useCountUp(target: number, deps: unknown[]) {
+  const [value, setValue] = useState(0);
+  const frameRef = useRef<number>(0);
+
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setValue(target);
+      return;
+    }
+
+    const duration = 900;
+    const start = performance.now();
+    const from = 0;
+
+    const tick = (now: number) => {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setValue(Math.round(from + (target - from) * eased));
+      if (progress < 1) {
+        frameRef.current = requestAnimationFrame(tick);
+      }
+    };
+
+    frameRef.current = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frameRef.current);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, deps);
+
+  return value;
+}
+
 const CheckIcon = () => (
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
     <polyline points="20 6 9 17 4 12"/>
-  </svg>
-);
-
-const ChevronIcon = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <path d="m9 18 6-6-6-6"/>
   </svg>
 );
 
@@ -38,6 +63,13 @@ function IndustryDetailPage() {
   const { openModal } = useOutletContext<LayoutContext>();
   const industry = slug ? INDUSTRY_MAP[slug] : undefined;
 
+  const listItems = industry?.keyBenefits ?? industry?.applications ?? [];
+  const listLabel = industry?.keyBenefits ? 'Key Benefits' : 'Applications';
+
+  const listCount = useCountUp(listItems.length, [slug, listItems.length]);
+  const solutionsCount = useCountUp(industry?.solutions?.length ?? 0, [slug, industry?.solutions?.length]);
+  const productsCount = useCountUp(industry?.products?.length ?? 0, [slug, industry?.products?.length]);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [slug]);
@@ -53,42 +85,58 @@ function IndustryDetailPage() {
     );
   }
 
-  const listItems = industry.keyBenefits ?? industry.applications ?? [];
-  const listLabel = industry.keyBenefits ? 'Key Benefits' : 'Applications';
-
   return (
     <div className="ind-page">
 
       {/* ── HERO ── */}
       <section className="ind-hero">
         <div className="ind-hero-bg" aria-hidden="true" />
-        <div className="container-width ind-hero-inner">
-          <nav className="ind-breadcrumb" aria-label="Breadcrumb">
-            <Link to="/" className="ind-breadcrumb-link">Home</Link>
-            <ChevronIcon />
-            <Link to="/industries" className="ind-breadcrumb-link">Industries</Link>
-            <ChevronIcon />
-            <span className="ind-breadcrumb-current">{industry.title}</span>
-          </nav>
+        <div className="container-width ind-hero-grid">
+          <div className="ind-hero-inner">
+            <span className="ind-hero-eyebrow">REAL TECHNOLOGIES · GULF</span>
+            <h1 className="ind-hero-title">
+              {industry.title.includes(' ')
+                ? <>{industry.title.split(' ').slice(0, -1).join(' ')} <em>{industry.title.split(' ').slice(-1)}</em></>
+                : <em>{industry.title}</em>
+              }
+            </h1>
+            {industry.subtitle && (
+              <p className="ind-hero-lead">{industry.subtitle}</p>
+            )}
 
-          <span className="ind-hero-eyebrow">REAL TECHNOLOGIES · GULF</span>
-          <h1 className="ind-hero-title">
-            {industry.title.includes(' ')
-              ? <>{industry.title.split(' ').slice(0, -1).join(' ')} <em>{industry.title.split(' ').slice(-1)}</em></>
-              : <em>{industry.title}</em>
-            }
-          </h1>
-          {industry.subtitle && (
-            <p className="ind-hero-lead">{industry.subtitle}</p>
-          )}
+            <div className="ind-hero-actions">
+              <button className="btn btn-primary" onClick={openModal}>
+                Request a Quote <ArrowIcon />
+              </button>
+              <Link to="/industries" className="btn btn-ghost-light">
+                All Industries
+              </Link>
+            </div>
+          </div>
 
-          <div className="ind-hero-actions">
-            <button className="btn btn-primary" onClick={openModal}>
-              Request a Quote <ArrowIcon />
-            </button>
-            <Link to="/industries" className="btn btn-ghost-light">
-              All Industries
-            </Link>
+          <div className="ind-hero-stats">
+            {listItems.length > 0 && (
+              <div className="ind-hero-stat-card">
+                <span className="ind-hero-stat-num">{listCount}</span>
+                <span className="ind-hero-stat-label">{listLabel}</span>
+              </div>
+            )}
+            {industry.solutions && industry.solutions.length > 0 && (
+              <div className="ind-hero-stat-card">
+                <span className="ind-hero-stat-num">{solutionsCount}</span>
+                <span className="ind-hero-stat-label">Solutions Offered</span>
+              </div>
+            )}
+            {industry.products && industry.products.length > 0 && (
+              <div className="ind-hero-stat-card">
+                <span className="ind-hero-stat-num">{productsCount}</span>
+                <span className="ind-hero-stat-label">Product Models</span>
+              </div>
+            )}
+            <div className="ind-hero-stat-card ind-hero-stat-card--brand">
+              <span className="ind-hero-stat-num">24×7</span>
+              <span className="ind-hero-stat-label">Support in Qatar &amp; KSA</span>
+            </div>
           </div>
         </div>
       </section>

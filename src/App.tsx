@@ -7,6 +7,8 @@ import IndustriesPage from './IndustriesPage';
 import CareersPage from './CareersPage';
 import ServicesPage from './ServicesPage';
 import IndustryDetailPage from './IndustryDetailPage';
+import GalleryPage from './GalleryPage';
+import ProductsPage from './ProductsPage';
 
 // ============================================================
 // SVG Icon Components
@@ -64,7 +66,7 @@ const HERO_SLIDES = [
     title: 'Industrial Weighing Solutions',
     label: 'Weighing',
     desc: 'RealTech scales can be found in almost every industry. No matter how challenging or unique, RealTech will have your answer — weighbridges, scales, load cells and indicators.',
-    img: '/wb-night-calibration.jpg',
+    img: '/images/home/hero/hero-weighbridge-night-calibration.jpg',
     link: '#weighing',
     badge: 'Sole Distributor in Qatar',
     telemetry: { label: 'WEIGHBRIDGE CAPACITY', value: 'Up to 120 Ton' }
@@ -74,7 +76,7 @@ const HERO_SLIDES = [
     title: 'Precision Calibration Services',
     label: 'Calibration',
     desc: 'Adjusting and aligning instruments to ensure accuracy and reliability — scales, weighbridges, verniers, micrometers, thermometers, ovens, pressure and compression machines.',
-    img: '/cal-weights-row.jpg',
+    img: '/images/home/hero/hero-calibration-test-weights.jpg',
     link: '#calibration',
     badge: 'Standards-Traceable',
     telemetry: { label: 'INSTRUMENTS', value: 'Mass · Pressure · Dimensional' }
@@ -84,7 +86,7 @@ const HERO_SLIDES = [
     title: 'Steel Fabrication Division',
     label: 'Fabrication',
     desc: 'Cutting, bending, welding and assembling of metal components and structures — steel weighbridges, stairs, grills, cladding, sanitizing gates and concrete mixers.',
-    img: '/fab-beam-lift-sany.jpg',
+    img: '/images/home/hero/hero-steel-beam-crane-lift.jpg',
     link: '#fabrication',
     badge: 'Custom Fabrication',
     telemetry: { label: 'WORKS', value: 'Weighbridges · Structures' }
@@ -94,26 +96,26 @@ const HERO_SLIDES = [
     title: 'Industrial Automation Solutions',
     label: 'Automation',
     desc: 'Operating processes through electronic means with minimal human intervention — batching plant gate control, PC integration and pneumatics from Artec Italy.',
-    img: '/cal-indicator-panel.jpg',
+    img: '/images/home/hero/hero-weighbridge-indicator-panel.jpg',
     link: '#automation',
     badge: 'Process Control',
     telemetry: { label: 'INTEGRATION', value: 'PC Serial + Software' }
   }
 ];
 
-const GALLERY_IMAGES = [
-  '/wb-finished-blue-a.jpg',
-  '/wb-desert-asphalt.jpg',
-  '/wb-pitless-refinery.jpg',
-  '/wb-night-install.jpg',
-  '/cal-weights-row.jpg',
-  '/cal-weights-truck.jpg',
-  '/cal-indicator-panel.jpg',
-  '/fab-beam-lift-sany.jpg',
-  '/fab-column-erection.jpg',
-  '/wb-rebar-cage-worker.jpg',
-  '/wb-asphalt-plant.jpg',
-  '/gallery-canopy-paving-a.jpg',
+export const GALLERY_IMAGES = [
+  '/images/home/gallery/gallery-weighbridge-finished-blue-a.jpg',
+  '/images/home/gallery/gallery-weighbridge-desert-asphalt.jpg',
+  '/images/home/gallery/gallery-weighbridge-pitless-refinery.jpg',
+  '/images/home/gallery/gallery-weighbridge-night-install.jpg',
+  '/images/home/gallery/gallery-calibration-weights-service-truck.jpg',
+  '/images/home/gallery/gallery-steel-column-erection.jpg',
+  '/images/home/gallery/gallery-weighbridge-rebar-cage-worker.jpg',
+  '/images/home/gallery/gallery-asphalt-batching-plant.jpg',
+  '/images/home/gallery/gallery-canopy-paving-site-a.jpg',
+  '/images/home/gallery/gallery-weighbridge-install-site-a.jpeg',
+  '/images/home/gallery/gallery-weighbridge-crane-install.jpeg',
+  '/images/home/gallery/gallery-civil-works-concrete-pour.jpeg',
 ];
 
 const ALTERNATING_SECTIONS = [
@@ -121,28 +123,28 @@ const ALTERNATING_SECTIONS = [
     tagline: 'WEIGHING DIVISION',
     title: 'Weighing Solutions for Every Industry',
     desc: 'Weighing solutions are the various methods and technologies used to accurately measure and determine the weight of objects or substances. As the sole distributor in Qatar, we supply weighbridges, platform and bench scales, load cells and indicators from Dini Argeo, Rice Lake, Cardinal and T-Scale — backed by our own customized weighing software.',
-    img: '/wb-finished-blue-b.jpg',
+    img: '/images/home/divisions/division-weighing-weighbridge-finished-blue.jpg',
     link: '#weighing'
   },
   {
     tagline: 'CALIBRATION DIVISION',
     title: 'Calibration for Accuracy & Reliability',
     desc: 'Calibration is the process of adjusting or aligning a device, instrument or system to ensure accuracy and reliability. We calibrate batching plants, weighing scales, weighbridges, standard weights, test sieves, verniers, micrometers, thermometers, ovens, pH meters, multimeters, pressure and compression machines, and safe load indicators.',
-    img: '/cal-weights-loading.jpg',
+    img: '/images/home/divisions/division-calibration-weights-loading.jpg',
     link: '#calibration'
   },
   {
     tagline: 'FABRICATION DIVISION',
     title: 'Metal Fabrication & Structures',
     desc: 'Fabrication is the manufacturing and shaping of metal components and structures through cutting, bending, welding and assembling processes. Our works include steel weighbridges, stairs, grills, cladding, sanitizing gates and Unibeton concrete mixers built to order.',
-    img: '/fab-beam-crane-hoist.jpg',
+    img: '/images/home/divisions/division-fabrication-beam-crane-hoist.jpg',
     link: '#fabrication'
   },
   {
     tagline: 'AUTOMATION DIVISION',
     title: 'Automation & Process Control',
     desc: 'Automation solutions are the technologies and systems that aim to automate and streamline various processes and tasks with minimal human intervention. We control coarse and fine gates to target loading values, integrate systems with PCs over serial communication, and supply Artec pneumatic cylinders.',
-    img: '/cal-indicator-panel.jpg',
+    img: '/images/home/divisions/division-automation-indicator-panel.jpg',
     link: '#automation'
   }
 ];
@@ -240,78 +242,215 @@ const STATISTICS = [
 
 export const PROJECTS = [
   {
-    img: '/wb-desert-asphalt.jpg',
+    img: '/images/home/projects/project-desert-asphalt-plant.jpg',
     title: 'Recycled Aggregates Project',
     client: 'Al Awalia (QPMC)',
     desc: 'Manufacturing of 4 weighbridges of capacity 120 Ton with Rice Lake analog load cells and Dini Argeo touch screen indicator, with 2 years of warranty.'
   },
   {
-    img: '/wb-finished-blue-a.jpg',
+    img: '/images/home/projects/project-weighbridge-blue-a.jpg',
     title: 'IIWWTP',
     client: 'Larsen & Toubro',
     desc: 'Manufacturing of 10 numbers of 120 Ton concrete weighbridge with Dini Argeo load cells and Dini Argeo indicator with external display and safety guards.'
   },
   {
-    img: '/wb-finished-blue-b.jpg',
+    img: '/images/home/projects/project-weighbridge-blue-b.jpg',
     title: 'Recycled Aggregates Project',
     client: 'Al Awalia (QPMC)',
     desc: 'Manufacturing of 10 weighbridges of capacity 120 Ton with Dini Argeo analog load cells and Dini Argeo touch screen indicator, with 2 years of warranty.'
   },
   {
-    img: '/cal-indicator-panel.jpg',
+    img: '/images/home/projects/project-gate-control-indicator.jpg',
     title: 'Cement Batching Plant Implementation',
     client: 'Al Khalij Cement',
     desc: 'Controlling of coarse and fine gates based on the target value set for loading the cement bulkers using the Dini Argeo 3590 touchscreen indicator.'
   },
   {
-    img: '/wb-night-install.jpg',
+    img: '/images/home/projects/project-weighbridge-night-install.jpg',
     title: 'D&B Wakra & Wukair TSE Line',
     client: 'UCC Infraroad Joint Venture',
     desc: 'Manufacturing of 120 Ton weighbridge with Dini Argeo analog load cells and Dini Argeo indicator, with 2 years of warranty.'
   },
   {
-    img: '/wb-pitless-refinery.jpg',
+    img: '/images/home/projects/project-refinery-pitless-weighbridge.jpg',
     title: 'Central Doha & Corniche Beautification — Package 4',
     client: 'UCC Infraroad Joint Venture',
     desc: 'Manufacturing of 120 Ton weighbridge with Dini Argeo digital load cells and Dini Argeo indicator (2 years warranty), with PC serial communication and customized weighing software.'
   },
   {
-    img: '/wb-concrete-deck.jpg',
+    img: '/images/home/projects/project-weighbridge-concrete-deck.jpg',
     title: 'Al Meshaf Package 7',
     client: 'Petroserv',
     desc: 'Manufacturing of 120 Ton weighbridge with Dini Argeo digital load cells and Dini Argeo indicator (2 years warranty), integrated with PC via serial communication and proprietary weighing software.'
   },
   {
-    img: '/wb-rebar-cage-a.jpg',
+    img: '/images/home/projects/project-weighbridge-rebar-cage.jpg',
     title: 'PJ021 — Al Karthiyat & Izgava Phase 1 Package 2',
     client: 'UCC Infraroad Joint Venture',
     desc: 'Manufacturing of 120 Ton weighbridge with Dini Argeo digital load cells and Dini Argeo indicator (2 years warranty), with system-to-computer connectivity via serial interface and custom software.'
   },
   {
-    img: '/wb-rebar-cage-worker.jpg',
+    img: '/images/home/projects/project-weighbridge-rebar-worker.jpg',
     title: 'Bunker Expansion Project',
     client: 'Aalaf Qatar',
     desc: 'Production of 2 numbers of 120 Ton concrete weighbridge with Dini Argeo load cells and indicator, external display and safety guards, with PC-linked serial communication and customized weighing software.'
   },
   {
-    img: '/wb-asphalt-plant.jpg',
+    img: '/images/home/projects/project-asphalt-batching-plant.jpg',
     title: 'HIA Extension Project',
     client: 'UCC Bahadir Tedeschia Joint Venture',
     desc: 'Manufacturing of 2 numbers of 120 Ton steel weighbridge with Dini Argeo load cells and Dini Argeo indicator, with PC connection via serial communication and specialized weighing software.'
   },
   {
-    img: '/cal-weights-row.jpg',
+    img: '/images/home/projects/project-calibration-test-weights.jpg',
     title: 'Drum Scale',
     client: 'Qatar International Cables Company',
     desc: 'Manufacturing of 25 Ton weighing scale with Dini Argeo load cells and indicator, with the entire system communicating to PC via serial communication and a customized Real Technology weighing software.'
   },
   {
-    img: '/wb-night-calibration.jpg',
+    img: '/images/home/projects/project-night-calibration.jpg',
     title: 'QICC Extension Project',
     client: 'Qatar International Cables Company',
     desc: 'Manufacturing of 120 Ton weighbridge with Dini Argeo digital load cells and touch screen Dini Argeo indicator (2 years warranty), with PC serial communication and customized Real Technology weighing software.'
   }
 ];
+
+// All images used anywhere on the site — deduped, feeds the /gallery page
+export type GalleryCategory = {
+  label: string;
+  images: string[];
+};
+
+// Every image used across the site, grouped by category, feeds the /gallery page
+export const GALLERY_CATEGORIES: GalleryCategory[] = [
+  {
+    label: 'Hero',
+    images: Array.from(new Set(HERO_SLIDES.map((s) => s.img))),
+  },
+  {
+    label: 'Divisions',
+    images: Array.from(new Set(ALTERNATING_SECTIONS.map((s) => s.img))),
+  },
+  {
+    label: 'Projects',
+    images: Array.from(new Set(PROJECTS.map((p) => p.img))),
+  },
+  {
+    label: 'Weighbridge Installation',
+    images: [
+      '/images/home/gallery/gallery-weighbridge-finished-blue-a.jpg',
+      '/images/home/gallery/gallery-weighbridge-desert-asphalt.jpg',
+      '/images/home/gallery/gallery-weighbridge-pitless-refinery.jpg',
+      '/images/home/gallery/gallery-weighbridge-night-install.jpg',
+      '/images/home/gallery/gallery-weighbridge-install-site-a.jpeg',
+      '/images/home/gallery/gallery-weighbridge-crane-install.jpeg',
+      '/images/home/gallery/gallery-weighbridge-night-edge.jpeg',
+      '/images/home/gallery/gallery-weighbridge-night-sensor-pole.jpeg',
+      '/images/home/gallery/gallery-weighbridge-deck-delivery-crane.jpeg',
+      '/images/home/gallery/gallery-weighbridge-night-platform-installed.jpeg',
+      '/images/home/gallery/gallery-weighbridge-night-crane-lift.jpeg',
+      '/images/home/gallery/gallery-weighbridge-day-deck-approach.jpeg',
+      '/images/home/gallery/gallery-weighbridge-night-crane-lift-b.jpeg',
+      '/images/home/gallery/gallery-weighbridge-foundation-block.jpeg',
+      '/images/home/gallery/gallery-weighbridge-foundation-edge.jpeg',
+      '/images/home/gallery/gallery-weighbridge-deck-delivery-branded.jpeg',
+      '/images/home/gallery/gallery-project-al-darwish-collage.jpeg',
+      '/images/home/gallery/gallery-project-ucc-airport-extension.jpeg',
+      '/images/home/gallery/gallery-weighbridge-reshifting-project.jpeg',
+    ],
+  },
+  {
+    label: 'Civil Works',
+    images: [
+      '/images/home/gallery/gallery-civil-works-concrete-pour.jpeg',
+      '/images/home/gallery/gallery-civil-works-formwork-pit.jpeg',
+      '/images/home/gallery/gallery-civil-works-rebar-mat.jpeg',
+      '/images/home/gallery/gallery-civil-works-foundation-strips.jpeg',
+      '/images/home/gallery/gallery-civil-works-concrete-detail.jpeg',
+      '/images/home/gallery/gallery-rebar-cage-curing-mats.jpeg',
+      '/images/home/gallery/gallery-rebar-cage-airport-site.jpeg',
+      '/images/home/gallery/gallery-rebar-cage-formwork-burlap.jpeg',
+      '/images/home/gallery/gallery-weighbridge-rebar-cage-worker.jpg',
+      '/images/home/gallery/gallery-canopy-paving-site-a.jpg',
+    ],
+  },
+  {
+    label: 'Machinery',
+    images: [
+      '/images/home/gallery/gallery-steel-column-erection.jpg',
+      '/images/home/gallery/gallery-asphalt-batching-plant.jpg',
+      '/images/home/gallery/gallery-excavator-hydraulic-breaker-site.jpeg',
+    ],
+  },
+  {
+    label: 'Calibration',
+    images: [
+      '/images/home/gallery/gallery-calibration-weights-service-truck.jpg',
+      '/images/home/gallery/gallery-weighbridge-test-weights-delivery.jpeg',
+      '/images/home/gallery/gallery-calibration-service-bench.jpeg',
+      '/images/home/gallery/gallery-tank-calibration-test-weights.jpeg',
+      '/images/home/gallery/gallery-calibration-service-test-weights.jpeg',
+    ],
+  },
+  {
+    label: 'Team & Company',
+    images: [
+      '/images/about/hero/about-hero-team-headquarters.png',
+      '/images/about/brands/about-weighing-equipment-brands.jpg',
+      '/images/about/brands/about-pneumatic-solutions-artec.jpg',
+      '/images/about/brands/about-sensor-manufacturers-team.jpg',
+      '/images/about/brands/about-calibration-services-precision.jpg',
+    ],
+  },
+  {
+    label: 'Services',
+    images: [
+      '/images/services/service-calibration-icon.png',
+      '/images/services/service-weighing-icon.png',
+      '/images/services/service-automation-icon.png',
+      '/images/services/service-fabrication-icon.png',
+      '/images/services/service-motor-rewinding-icon.png',
+    ],
+  },
+  {
+    label: 'Products',
+    images: [
+      '/images/products/dini-argeo/product-dini-argeo-platform-scale-rplc.jpeg',
+      '/images/products/dini-argeo/product-dini-argeo-platform-scale-tec6.jpeg',
+      '/images/products/dini-argeo/product-dini-argeo-weight-indicator-trixt.jpeg',
+      '/images/products/dini-argeo/product-dini-argeo-junction-box-jb10q.jpeg',
+      '/images/products/dini-argeo/product-dini-argeo-weight-transmitter-dgt1.jpeg',
+      '/images/products/dini-argeo/product-dini-argeo-weight-transmitter-dgt20i.jpeg',
+      '/images/products/dini-argeo/product-dini-argeo-overhead-rail-scale-cw.jpeg',
+      '/images/products/dini-argeo/product-dini-argeo-load-cell-stg.jpeg',
+      '/images/products/dini-argeo/product-dini-argeo-wireless-indicator-dfwl.jpeg',
+      '/images/products/dini-argeo/product-dini-argeo-overhead-monorail-twl.jpeg',
+      '/images/products/t-scale/product-t-scale-weighing-scale-t28.jpeg',
+      '/images/products/t-scale/product-t-scale-remote-display-tp02.jpeg',
+      '/images/products/t-scale/product-t-scale-digital-scale-qhw.jpeg',
+      '/images/products/t-scale/product-t-scale-indicator-cws-r.jpeg',
+      '/images/products/t-scale/product-labor-it-as-weighing-scale-collage.jpeg',
+      '/images/products/t-scale/product-t-scale-weighing-scale-t28-b.jpeg',
+      '/images/products/t-scale/product-t-scale-price-computing-qtp3m.jpeg',
+      '/images/products/banner/product-banner-single-ended-cordsets.jpeg',
+      '/images/products/banner/product-banner-area-light-wlr95.jpeg',
+      '/images/products/banner/product-banner-fiber-optic-amplifier-qs18.jpeg',
+      '/images/products/banner/product-banner-temperature-sensor-m18t.jpeg',
+      '/images/products/banner/product-banner-sensors-collage.jpeg',
+      '/images/products/banner/product-banner-wireless-controller-dxm.jpeg',
+      '/images/products/banner/product-banner-fiber-sensor-r55f.jpeg',
+      '/images/products/banner/product-banner-converter-r95c.jpeg',
+      '/images/products/banner/product-banner-3d-sensor-zmx.jpeg',
+      '/images/products/banner/product-banner-monitoring-gateway.jpeg',
+      '/images/products/banner/product-banner-pick-to-light-ptl110.jpeg',
+      '/images/products/banner/product-banner-q45-sensor-nodes.jpeg',
+      '/images/products/rice-lake/product-rice-lake-health-scale-160-10-7n.jpeg',
+      '/images/products/hanna/product-hanna-ph-meter-calibration.jpeg',
+    ],
+  },
+];
+
+export const SITE_IMAGES = Array.from(new Set(GALLERY_CATEGORIES.flatMap((c) => c.images)));
 
 const PHONE_COUNTRIES = [
   { name: 'Qatar', code: '+974', flag: '🇶🇦' },
@@ -414,7 +553,7 @@ function Header({ onOpenModal, isScrolled }: { onOpenModal: () => void; isScroll
       <header className={`navbar-float ${isScrolled ? 'navbar-scrolled' : ''} ${mobileMenuOpen ? 'navbar-menu-open' : ''}`}>
         <div className="navbar-inner">
           <Link to="/" className="navbar-logo" aria-label="Real Technologies Home">
-            <img src="/logo.png" alt="Real Technologies Logo" className="navbar-logo-img" />
+            <img src="/images/shared/logo/logo.png" alt="Real Technologies Logo" className="navbar-logo-img" />
           </Link>
 
           <nav className="navbar-links-desktop" aria-label="Main Navigation">
@@ -456,8 +595,9 @@ function Header({ onOpenModal, isScrolled }: { onOpenModal: () => void; isScroll
                   </ul>
                 </div>
               </li>
-              <li><a href="/#products" className="navbar-link">Products</a></li>
+              <li><Link to="/products" className="navbar-link">Products</Link></li>
               <li><Link to="/projects" className="navbar-link">Projects</Link></li>
+              <li><Link to="/gallery" className="navbar-link">Gallery</Link></li>
               <li><Link to="/careers" className="navbar-link">Careers</Link></li>
               <li><a href="/#gallery" className="navbar-link">Gallery</a></li>
               <li><a href="/#contact" className="navbar-link">Reach Us</a></li>
@@ -491,10 +631,10 @@ function Header({ onOpenModal, isScrolled }: { onOpenModal: () => void; isScroll
             <li><Link to="/about" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>About Us</Link></li>
             <li><Link to="/services" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Services</Link></li>
             <li><Link to="/industries" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Industries</Link></li>
-            <li><a href="/#products" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Products</a></li>
+            <li><Link to="/products" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Products</Link></li>
             <li><Link to="/projects" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Projects</Link></li>
             <li><Link to="/careers" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Careers</Link></li>
-            <li><a href="/#gallery" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Gallery</a></li>
+            <li><Link to="/gallery" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Gallery</Link></li>
             <li><a href="/#contact" className="mobile-nav-link" onClick={() => setMobileMenuOpen(false)}>Reach Us</a></li>
           </ul>
           <div className="mobile-nav-footer-actions">
@@ -555,6 +695,8 @@ function Footer() {
             <li><a href="/#home">Home</a></li>
             <li><Link to="/industries">Industries</Link></li>
             <li><Link to="/projects">Projects</Link></li>
+            <li><Link to="/gallery">Gallery</Link></li>
+            <li><Link to="/products">Products</Link></li>
             <li><Link to="/about">About Us</Link></li>
             <li><Link to="/careers">Careers</Link></li>
             <li><a href="/#contact">Reach Us</a></li>
@@ -835,7 +977,7 @@ function HomePage() {
               <div className="blueprint-crosshair" />
               <div className="blueprint-data-badge">[ METROLOGY SYSTEM SCALE: GCC APPROVED ]</div>
               <img
-                src="/cal-weights-truck.jpg"
+                src="/images/home/gallery/gallery-calibration-weights-service-truck.jpg"
                 alt="Real Technologies calibration test weights and service truck at weighbridge"
                 className="blueprint-photo"
               />
@@ -1291,6 +1433,8 @@ function App() {
         <Route path="careers" element={<CareersPage />} />
         <Route path="services" element={<ServicesPage />} />
         <Route path="industry/:slug" element={<IndustryDetailPage />} />
+        <Route path="gallery" element={<GalleryPage />} />
+        <Route path="products" element={<ProductsPage />} />
       </Route>
     </Routes>
   );

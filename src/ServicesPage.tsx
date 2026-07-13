@@ -47,7 +47,7 @@ const SERVICES = [
     tagline: 'PRECISION & COMPLIANCE',
     desc: 'Calibration typically refers to the process of adjusting or aligning a device, instrument, or system to ensure accuracy and reliability. It involves comparing the measurements of the device to a known standard and making any necessary adjustments to bring them into agreement. It is essential for various applications, such as laboratory equipment, industrial machinery, medical devices, and even automotive systems. By calibrating instruments and systems, we can ensure that they provide precise and consistent results, which is crucial for maintaining quality, safety, and compliance in many industries.',
     highlights: ['Laboratory Equipment', 'Industrial Machinery', 'Medical Devices', 'Automotive Systems'],
-    img: '/service-calibration.png',
+    img: '/images/services/service-calibration-icon.png',
   },
   {
     id: 'weighing',
@@ -56,7 +56,7 @@ const SERVICES = [
     tagline: 'INDUSTRIAL-GRADE ACCURACY',
     desc: 'Weighing solutions refer to various methods or technologies used to accurately measure and determine the weight of objects or substances. There are different types of weighing solutions available, depending on the specific requirements and applications. It\'s essential to select the appropriate weighing solution based on the specific requirements, accuracy needs, and environmental conditions of the intended application. Electronic balances employ strain gauge load cells or other sensor technologies to convert the applied force into an electrical signal, which is then translated into weight readings. Industrial weighing solutions include platform scales, floor scales, and other heavy-duty equipment capable of handling large loads.',
     highlights: ['Platform & Floor Scales', 'Load Cells & Indicators', 'Weighbridges up to 120T', 'Software Integration'],
-    img: '/service-weighing.png',
+    img: '/images/services/service-weighing-icon.png',
   },
   {
     id: 'automation',
@@ -65,7 +65,7 @@ const SERVICES = [
     tagline: 'SMART PROCESS CONTROL',
     desc: 'Automation solutions refer to technologies and systems that aim to automate and streamline various processes and tasks in industries, businesses, and everyday life. These solutions utilize a combination of hardware, software, and control systems to reduce manual intervention, increase efficiency, improve productivity, and enhance overall operational performance. Automation solutions bring numerous benefits, including increased efficiency, improved accuracy, reduced labor costs, enhanced safety, and the ability to handle complex tasks. They play a crucial role in modern industries, businesses, and daily life, transforming the way we work and live.',
     highlights: ['Process Automation', 'Batching Plant Control', 'PC & Software Integration', 'Pneumatics (Artec)'],
-    img: '/service-automation.png',
+    img: '/images/services/service-automation-icon.png',
   },
   {
     id: 'fabrication',
@@ -74,7 +74,7 @@ const SERVICES = [
     tagline: 'STEEL & METAL WORKS',
     desc: 'Metal fabrication services involve the manufacturing and shaping of metal components and structures through cutting, bending, welding, and assembling processes. These services are typically provided by specialized staff who have expertise in working with different types of metals, such as steel and stainless steel. Metal fabrication services are utilized in various industries, including construction, automotive, aerospace, furniture manufacturing, and more.',
     highlights: ['Steel Weighbridges', 'Stairs, Grills & Cladding', 'Sanitizing Gates', 'Custom Structures'],
-    img: '/service-fabrication.png',
+    img: '/images/services/service-fabrication-icon.png',
   },
   {
     id: 'motor',
@@ -83,7 +83,7 @@ const SERVICES = [
     tagline: 'REPAIR & REFURBISHMENT',
     desc: 'Motor rewinding is a process of repairing or refurbishing an electric motor by replacing the winding coils. It involves removing the existing winding coils, inspecting the motor for any other damage or wear, and then replacing the coils with new ones. Motor rewinding is typically performed when the original winding coils are damaged, worn out, or if the motor needs to be reconfigured for a different voltage or speed. The rewinding process includes several steps such as dismantling the motor, removing the old coils, cleaning and inspecting the core and other motor components, calculating and winding the new coils, and finally reassembling the motor.',
     highlights: ['Single & Three Phase Motors', 'Voltage Reconfiguration', 'Core Inspection & Cleaning', 'Full Reassembly & Test'],
-    img: '/service-motor.png',
+    img: '/images/services/service-motor-rewinding-icon.png',
   },
 ];
 
