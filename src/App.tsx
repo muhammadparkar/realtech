@@ -64,7 +64,7 @@ const HERO_SLIDES = [
     title: 'Industrial Weighing Solutions',
     label: 'Weighing',
     desc: 'RealTech scales can be found in almost every industry. No matter how challenging or unique, RealTech will have your answer — weighbridges, scales, load cells and indicators.',
-    img: '/hero-weighing.jpg',
+    img: '/wb-night-calibration.jpg',
     link: '#weighing',
     badge: 'Sole Distributor in Qatar',
     telemetry: { label: 'WEIGHBRIDGE CAPACITY', value: 'Up to 120 Ton' }
@@ -74,7 +74,7 @@ const HERO_SLIDES = [
     title: 'Precision Calibration Services',
     label: 'Calibration',
     desc: 'Adjusting and aligning instruments to ensure accuracy and reliability — scales, weighbridges, verniers, micrometers, thermometers, ovens, pressure and compression machines.',
-    img: '/hero-calibration.jpg',
+    img: '/cal-weights-row.jpg',
     link: '#calibration',
     badge: 'Standards-Traceable',
     telemetry: { label: 'INSTRUMENTS', value: 'Mass · Pressure · Dimensional' }
@@ -84,7 +84,7 @@ const HERO_SLIDES = [
     title: 'Steel Fabrication Division',
     label: 'Fabrication',
     desc: 'Cutting, bending, welding and assembling of metal components and structures — steel weighbridges, stairs, grills, cladding, sanitizing gates and concrete mixers.',
-    img: '/hero-fabrication.jpg',
+    img: '/fab-beam-lift-sany.jpg',
     link: '#fabrication',
     badge: 'Custom Fabrication',
     telemetry: { label: 'WORKS', value: 'Weighbridges · Structures' }
@@ -94,7 +94,7 @@ const HERO_SLIDES = [
     title: 'Industrial Automation Solutions',
     label: 'Automation',
     desc: 'Operating processes through electronic means with minimal human intervention — batching plant gate control, PC integration and pneumatics from Artec Italy.',
-    img: '/hero-automation.jpg',
+    img: '/cal-indicator-panel.jpg',
     link: '#automation',
     badge: 'Process Control',
     telemetry: { label: 'INTEGRATION', value: 'PC Serial + Software' }
@@ -102,16 +102,18 @@ const HERO_SLIDES = [
 ];
 
 const GALLERY_IMAGES = [
-  '/hero-weighing.jpg',
-  '/hero-calibration.jpg',
-  '/hero-fabrication.jpg',
-  '/hero-automation.jpg',
-  '/rt-building.jpg',
-  '/rt-fabrication-div.jpg',
-  '/rt-team-indoor.jpg',
-  '/rt-office.jpg',
-  '/rt-staff.jpg',
-  '/rt-weighbridge-install.jpg',
+  '/wb-finished-blue-a.jpg',
+  '/wb-desert-asphalt.jpg',
+  '/wb-pitless-refinery.jpg',
+  '/wb-night-install.jpg',
+  '/cal-weights-row.jpg',
+  '/cal-weights-truck.jpg',
+  '/cal-indicator-panel.jpg',
+  '/fab-beam-lift-sany.jpg',
+  '/fab-column-erection.jpg',
+  '/wb-rebar-cage-worker.jpg',
+  '/wb-asphalt-plant.jpg',
+  '/gallery-canopy-paving-a.jpg',
 ];
 
 const ALTERNATING_SECTIONS = [
@@ -119,28 +121,28 @@ const ALTERNATING_SECTIONS = [
     tagline: 'WEIGHING DIVISION',
     title: 'Weighing Solutions for Every Industry',
     desc: 'Weighing solutions are the various methods and technologies used to accurately measure and determine the weight of objects or substances. As the sole distributor in Qatar, we supply weighbridges, platform and bench scales, load cells and indicators from Dini Argeo, Rice Lake, Cardinal and T-Scale — backed by our own customized weighing software.',
-    img: '/rt-weighbridge-install.jpg',
+    img: '/wb-finished-blue-b.jpg',
     link: '#weighing'
   },
   {
     tagline: 'CALIBRATION DIVISION',
     title: 'Calibration for Accuracy & Reliability',
     desc: 'Calibration is the process of adjusting or aligning a device, instrument or system to ensure accuracy and reliability. We calibrate batching plants, weighing scales, weighbridges, standard weights, test sieves, verniers, micrometers, thermometers, ovens, pH meters, multimeters, pressure and compression machines, and safe load indicators.',
-    img: '/hero-calibration.jpg',
+    img: '/cal-weights-loading.jpg',
     link: '#calibration'
   },
   {
     tagline: 'FABRICATION DIVISION',
     title: 'Metal Fabrication & Structures',
     desc: 'Fabrication is the manufacturing and shaping of metal components and structures through cutting, bending, welding and assembling processes. Our works include steel weighbridges, stairs, grills, cladding, sanitizing gates and Unibeton concrete mixers built to order.',
-    img: '/hero-fabrication.jpg',
+    img: '/fab-beam-crane-hoist.jpg',
     link: '#fabrication'
   },
   {
     tagline: 'AUTOMATION DIVISION',
     title: 'Automation & Process Control',
     desc: 'Automation solutions are the technologies and systems that aim to automate and streamline various processes and tasks with minimal human intervention. We control coarse and fine gates to target loading values, integrate systems with PCs over serial communication, and supply Artec pneumatic cylinders.',
-    img: '/hero-automation.jpg',
+    img: '/cal-indicator-panel.jpg',
     link: '#automation'
   }
 ];
@@ -238,73 +240,73 @@ const STATISTICS = [
 
 export const PROJECTS = [
   {
-    img: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+    img: '/wb-desert-asphalt.jpg',
     title: 'Recycled Aggregates Project',
     client: 'Al Awalia (QPMC)',
     desc: 'Manufacturing of 4 weighbridges of capacity 120 Ton with Rice Lake analog load cells and Dini Argeo touch screen indicator, with 2 years of warranty.'
   },
   {
-    img: 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=600&q=80',
+    img: '/wb-finished-blue-a.jpg',
     title: 'IIWWTP',
     client: 'Larsen & Toubro',
     desc: 'Manufacturing of 10 numbers of 120 Ton concrete weighbridge with Dini Argeo load cells and Dini Argeo indicator with external display and safety guards.'
   },
   {
-    img: 'https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?auto=format&fit=crop&w=600&q=80',
+    img: '/wb-finished-blue-b.jpg',
     title: 'Recycled Aggregates Project',
     client: 'Al Awalia (QPMC)',
     desc: 'Manufacturing of 10 weighbridges of capacity 120 Ton with Dini Argeo analog load cells and Dini Argeo touch screen indicator, with 2 years of warranty.'
   },
   {
-    img: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80',
+    img: '/cal-indicator-panel.jpg',
     title: 'Cement Batching Plant Implementation',
     client: 'Al Khalij Cement',
     desc: 'Controlling of coarse and fine gates based on the target value set for loading the cement bulkers using the Dini Argeo 3590 touchscreen indicator.'
   },
   {
-    img: 'https://images.unsplash.com/photo-1742163962100-0694339f2d57?auto=format&fit=crop&w=600&q=80',
+    img: '/wb-night-install.jpg',
     title: 'D&B Wakra & Wukair TSE Line',
     client: 'UCC Infraroad Joint Venture',
     desc: 'Manufacturing of 120 Ton weighbridge with Dini Argeo analog load cells and Dini Argeo indicator, with 2 years of warranty.'
   },
   {
-    img: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=600&q=80',
+    img: '/wb-pitless-refinery.jpg',
     title: 'Central Doha & Corniche Beautification — Package 4',
     client: 'UCC Infraroad Joint Venture',
     desc: 'Manufacturing of 120 Ton weighbridge with Dini Argeo digital load cells and Dini Argeo indicator (2 years warranty), with PC serial communication and customized weighing software.'
   },
   {
-    img: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=600&q=80',
+    img: '/wb-concrete-deck.jpg',
     title: 'Al Meshaf Package 7',
     client: 'Petroserv',
     desc: 'Manufacturing of 120 Ton weighbridge with Dini Argeo digital load cells and Dini Argeo indicator (2 years warranty), integrated with PC via serial communication and proprietary weighing software.'
   },
   {
-    img: 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=600&q=80',
+    img: '/wb-rebar-cage-a.jpg',
     title: 'PJ021 — Al Karthiyat & Izgava Phase 1 Package 2',
     client: 'UCC Infraroad Joint Venture',
     desc: 'Manufacturing of 120 Ton weighbridge with Dini Argeo digital load cells and Dini Argeo indicator (2 years warranty), with system-to-computer connectivity via serial interface and custom software.'
   },
   {
-    img: 'https://images.unsplash.com/photo-1565043589221-1a6fd9ae45c7?auto=format&fit=crop&w=600&q=80',
+    img: '/wb-rebar-cage-worker.jpg',
     title: 'Bunker Expansion Project',
     client: 'Aalaf Qatar',
     desc: 'Production of 2 numbers of 120 Ton concrete weighbridge with Dini Argeo load cells and indicator, external display and safety guards, with PC-linked serial communication and customized weighing software.'
   },
   {
-    img: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80',
+    img: '/wb-asphalt-plant.jpg',
     title: 'HIA Extension Project',
     client: 'UCC Bahadir Tedeschia Joint Venture',
     desc: 'Manufacturing of 2 numbers of 120 Ton steel weighbridge with Dini Argeo load cells and Dini Argeo indicator, with PC connection via serial communication and specialized weighing software.'
   },
   {
-    img: 'https://images.unsplash.com/photo-1742163962100-0694339f2d57?auto=format&fit=crop&w=600&q=80',
+    img: '/cal-weights-row.jpg',
     title: 'Drum Scale',
     client: 'Qatar International Cables Company',
     desc: 'Manufacturing of 25 Ton weighing scale with Dini Argeo load cells and indicator, with the entire system communicating to PC via serial communication and a customized Real Technology weighing software.'
   },
   {
-    img: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=600&q=80',
+    img: '/wb-night-calibration.jpg',
     title: 'QICC Extension Project',
     client: 'Qatar International Cables Company',
     desc: 'Manufacturing of 120 Ton weighbridge with Dini Argeo digital load cells and touch screen Dini Argeo indicator (2 years warranty), with PC serial communication and customized Real Technology weighing software.'
@@ -833,8 +835,8 @@ function HomePage() {
               <div className="blueprint-crosshair" />
               <div className="blueprint-data-badge">[ METROLOGY SYSTEM SCALE: GCC APPROVED ]</div>
               <img
-                src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=700&q=80"
-                alt="Calibration measurement laboratory engineer"
+                src="/cal-weights-truck.jpg"
+                alt="Real Technologies calibration test weights and service truck at weighbridge"
                 className="blueprint-photo"
               />
             </div>
