@@ -60,47 +60,11 @@ const PauseIcon = () => (
 // ============================================================
 // Constants & Data
 // ============================================================
-const HERO_SLIDES = [
-  {
-    eyebrow: 'Weighing the world',
-    title: 'Industrial Weighing Solutions',
-    label: 'Weighing',
-    desc: 'RealTech scales can be found in almost every industry. No matter how challenging or unique, RealTech will have your answer — weighbridges, scales, load cells and indicators.',
-    img: '/images/home/hero/hero-weighbridge-night-calibration.jpg',
-    link: '#weighing',
-    badge: 'Sole Distributor in Qatar',
-    telemetry: { label: 'WEIGHBRIDGE CAPACITY', value: 'Up to 120 Ton' }
-  },
-  {
-    eyebrow: 'Accuracy & reliability you can trust',
-    title: 'Precision Calibration Services',
-    label: 'Calibration',
-    desc: 'Adjusting and aligning instruments to ensure accuracy and reliability — scales, weighbridges, verniers, micrometers, thermometers, ovens, pressure and compression machines.',
-    img: '/images/home/hero/hero-calibration-test-weights.jpg',
-    link: '#calibration',
-    badge: 'Standards-Traceable',
-    telemetry: { label: 'INSTRUMENTS', value: 'Mass · Pressure · Dimensional' }
-  },
-  {
-    eyebrow: 'Manufacturing & shaping of metal',
-    title: 'Steel Fabrication Division',
-    label: 'Fabrication',
-    desc: 'Cutting, bending, welding and assembling of metal components and structures — steel weighbridges, stairs, grills, cladding, sanitizing gates and concrete mixers.',
-    img: '/images/home/hero/hero-steel-beam-crane-lift.jpg',
-    link: '#fabrication',
-    badge: 'Custom Fabrication',
-    telemetry: { label: 'WORKS', value: 'Weighbridges · Structures' }
-  },
-  {
-    eyebrow: 'Automate & streamline your processes',
-    title: 'Industrial Automation Solutions',
-    label: 'Automation',
-    desc: 'Operating processes through electronic means with minimal human intervention — batching plant gate control, PC integration and pneumatics from Artec Italy.',
-    img: '/images/home/hero/hero-weighbridge-indicator-panel.jpg',
-    link: '#automation',
-    badge: 'Process Control',
-    telemetry: { label: 'INTEGRATION', value: 'PC Serial + Software' }
-  }
+const HERO_MEDIA_IMAGES = [
+  '/images/home/hero/hero-weighbridge-night-calibration.jpg',
+  '/images/home/hero/hero-calibration-test-weights.jpg',
+  '/images/home/hero/hero-steel-beam-crane-lift.jpg',
+  '/images/home/hero/hero-weighbridge-indicator-panel.jpg',
 ];
 
 export const GALLERY_IMAGES = [
@@ -325,7 +289,7 @@ export type GalleryCategory = {
 export const GALLERY_CATEGORIES: GalleryCategory[] = [
   {
     label: 'Hero',
-    images: Array.from(new Set(HERO_SLIDES.map((s) => s.img))),
+    images: HERO_MEDIA_IMAGES,
   },
   {
     label: 'Divisions',
@@ -532,7 +496,7 @@ function TopBar({ isScrolled }: { isScrolled: boolean }) {
 // ============================================================
 // Header Component (navbar — owns its own scroll/menu state)
 // ============================================================
-function Header({ onOpenModal, isScrolled }: { onOpenModal: () => void; isScrolled: boolean }) {
+function Header({ onOpenModal, isScrolled, topBarHidden }: { onOpenModal: () => void; isScrolled: boolean; topBarHidden: boolean }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeMegaMenu, setActiveMegaMenu] = useState<number | null>(null);
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -550,7 +514,7 @@ function Header({ onOpenModal, isScrolled }: { onOpenModal: () => void; isScroll
 
   return (
     <>
-      <header className={`navbar-float ${isScrolled ? 'navbar-scrolled' : ''} ${mobileMenuOpen ? 'navbar-menu-open' : ''}`}>
+      <header className={`navbar-float ${isScrolled ? 'navbar-scrolled' : ''} ${topBarHidden ? 'navbar-flush-top' : ''} ${mobileMenuOpen ? 'navbar-menu-open' : ''}`}>
         <div className="navbar-inner">
           <Link to="/" className="navbar-logo" aria-label="Real Technologies Home">
             <img src="/images/shared/logo/logo.png" alt="Real Technologies Logo" className="navbar-logo-img" />
@@ -743,9 +707,15 @@ function Footer() {
 function HomePage() {
   const { openModal } = useOutletContext<LayoutContext>();
 
-  // Hero Slider states
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [heroPaused, setHeroPaused] = useState(false);
+  // Hero background video ref (respects prefers-reduced-motion)
+  const heroVideoRef = useRef<HTMLVideoElement | null>(null);
+
+  useEffect(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) {
+      heroVideoRef.current?.pause();
+    }
+  }, []);
 
   // Video Section state
   const [videoPlaying, setVideoPlaying] = useState(false);
@@ -755,15 +725,6 @@ function HomePage() {
   const [statsAnimated, setStatsAnimated] = useState(false);
   const [statValues, setStatValues] = useState<number[]>(STATISTICS.map(() => 0));
   const statsSectionRef = useRef<HTMLDivElement | null>(null);
-
-  // Auto scroll for Hero Section
-  useEffect(() => {
-    if (heroPaused) return;
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length);
-    }, 6000);
-    return () => clearInterval(interval);
-  }, [heroPaused]);
 
   // Statistics count-up animation triggered by IntersectionObserver
   useEffect(() => {
@@ -822,34 +783,37 @@ function HomePage() {
   return (
     <>
       {/* HERO SECTION */}
-      <section
-        id="home"
-        className={`hero-v2 ${heroPaused ? 'is-paused' : ''}`}
-        onMouseEnter={() => setHeroPaused(true)}
-        onMouseLeave={() => setHeroPaused(false)}
-      >
+      <section id="home" className="hero-v2">
         <div className="hero-v2-bg-stack">
-          {HERO_SLIDES.map((slide, idx) => (
-            <div
-              key={idx}
-              className={`hero-v2-bg-slide ${idx === currentSlide ? 'is-active' : ''}`}
-              style={{ backgroundImage: `url(${slide.img})` }}
-            />
-          ))}
+          <video
+            ref={heroVideoRef}
+            className="hero-v2-video"
+            src="/videos/hero-facility-walkthrough.mp4"
+            poster="/images/home/hero/hero-facility-walkthrough-poster.jpg"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+          />
           <div className="hero-v2-overlay" />
           <div className="hero-v2-overlay-side" />
         </div>
 
         <div className="hero-v2-content">
           <div className="hero-v2-inner">
-            <p className="hero-v2-eyebrow">{HERO_SLIDES[currentSlide].eyebrow}</p>
+            <p className="hero-v2-eyebrow">REAL TECHNOLOGIES · QATAR</p>
 
-            <h1 className="hero-v2-headline">{HERO_SLIDES[currentSlide].title}</h1>
+            <h1 className="hero-v2-headline">Precision Weighing &amp; Calibration</h1>
 
-            <p className="hero-v2-desc">{HERO_SLIDES[currentSlide].desc}</p>
+            <p className="hero-v2-desc">
+              Sole distributor in Qatar for Dini Argeo, Rice Lake and T-Scale — engineering
+              weighbridges, calibration services, steel fabrication and process automation for
+              industries across Qatar and Saudi Arabia.
+            </p>
 
             <div className="hero-v2-ctas">
-              <a href={`/${HERO_SLIDES[currentSlide].link}`} className="hero-v2-btn-primary">
+              <a href="/#services" className="hero-v2-btn-primary">
                 Explore Solutions <ArrowRightIcon />
               </a>
               <button className="hero-v2-btn-ghost" onClick={openModal}>
@@ -859,8 +823,8 @@ function HomePage() {
 
             <div className="hero-v2-telemetry">
               <div className="hero-v2-tel-item">
-                <span className="hero-v2-tel-label">{HERO_SLIDES[currentSlide].telemetry.label}</span>
-                <span className="hero-v2-tel-value">{HERO_SLIDES[currentSlide].telemetry.value}</span>
+                <span className="hero-v2-tel-label">WEIGHBRIDGE CAPACITY</span>
+                <span className="hero-v2-tel-value">Up to 120 Ton</span>
               </div>
               <div className="hero-v2-tel-sep"></div>
               <div className="hero-v2-tel-item">
@@ -875,41 +839,6 @@ function HomePage() {
             </div>
           </div>
         </div>
-
-        <div className="hero-v2-tabs">
-          <div className="hero-v2-tabs-inner">
-            {HERO_SLIDES.map((slide, idx) => (
-              <button
-                key={idx}
-                className={`hero-v2-tab ${idx === currentSlide ? 'is-active' : ''}`}
-                onClick={() => setCurrentSlide(idx)}
-                aria-label={`Go to ${slide.label}`}
-              >
-                <div className="hero-v2-tab-bar">
-                  {idx === currentSlide && (
-                    <div key={currentSlide} className="hero-v2-tab-bar-fill" />
-                  )}
-                </div>
-                <span className="hero-v2-tab-num">0{idx + 1}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <button
-          className="hero-v2-arrow hero-v2-arrow-prev"
-          onClick={() => setCurrentSlide((prev) => (prev - 1 + HERO_SLIDES.length) % HERO_SLIDES.length)}
-          aria-label="Previous slide"
-        >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="m15 18-6-6 6-6"/></svg>
-        </button>
-        <button
-          className="hero-v2-arrow hero-v2-arrow-next"
-          onClick={() => setCurrentSlide((prev) => (prev + 1) % HERO_SLIDES.length)}
-          aria-label="Next slide"
-        >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="m9 18 6-6-6-6"/></svg>
-        </button>
       </section>
 
       {/* PARTNER TICKER */}
@@ -1215,7 +1144,7 @@ function HomePage() {
 // Layout — shared chrome (top bar, header, footer, quote modal)
 // ============================================================
 function Layout() {
-  const [isScrolled, setIsScrolled] = useState(false);
+  const [topBarHidden, setTopBarHidden] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(PHONE_COUNTRIES[0]);
   const [countryDropdownOpen, setCountryDropdownOpen] = useState(false);
@@ -1230,7 +1159,7 @@ function Layout() {
   const [formSuccess, setFormSuccess] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 40);
+    const handleScroll = () => setTopBarHidden(window.scrollY > 40);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -1255,8 +1184,8 @@ function Layout() {
 
   return (
     <div className="app-container">
-      <TopBar isScrolled={isScrolled} />
-      <Header onOpenModal={() => setIsModalOpen(true)} isScrolled={isScrolled} />
+      <TopBar isScrolled={topBarHidden} />
+      <Header onOpenModal={() => setIsModalOpen(true)} isScrolled={true} topBarHidden={topBarHidden} />
 
       <main>
         <Outlet context={{ openModal: () => setIsModalOpen(true) } satisfies LayoutContext} />
