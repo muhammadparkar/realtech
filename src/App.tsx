@@ -5,7 +5,7 @@ import AboutPage from './AboutPage';
 import ProjectsPage from './ProjectsPage';
 import IndustriesPage from './IndustriesPage';
 import CareersPage from './CareersPage';
-import ServicesPage from './ServicesPage';
+import ServicesPage, { SERVICES } from './ServicesPage';
 import IndustryDetailPage from './IndustryDetailPage';
 import GalleryPage from './GalleryPage';
 import ProductsPage from './ProductsPage';
@@ -56,6 +56,38 @@ const PlayIcon = () => (
 const PauseIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
 );
+
+// Scroll-reveal wrapper — heavy fade-up via IntersectionObserver (transform/opacity only)
+function Reveal({ children, className = '', delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const [shown, setShown] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShown(true);
+          io.unobserve(el);
+        }
+      },
+      { threshold: 0.15, rootMargin: '0px 0px -8% 0px' }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      className={`reveal ${shown ? 'is-visible' : ''} ${className}`}
+      style={delay ? { transitionDelay: `${delay}ms` } : undefined}
+    >
+      {children}
+    </div>
+  );
+}
 
 // ============================================================
 // Constants & Data
@@ -130,43 +162,6 @@ const WHY_CHOOSE_US = {
       icon: <AutomationIcon />,
       heading: '24x7 Support in KSA & Qatar',
       desc: 'With 24x7 customer service support and fully integrated service centres in Saudi Arabia and Qatar, we provide quick, responsive on-site technical assistance.'
-    }
-  ]
-};
-
-const SOLUTIONS_GRID = {
-  title: 'Our Services',
-  sub: 'Customized solutions for leading manufacturers and plant operators',
-  cards: [
-    {
-      icon: <CalibrationIcon />,
-      title: 'Calibration Services',
-      desc: 'The process of adjusting or aligning a device, instrument or system to ensure accuracy and reliability.',
-      link: '#calibration'
-    },
-    {
-      icon: <WeighingIcon />,
-      title: 'Weighing Solutions',
-      desc: 'Various methods and technologies used to accurately measure and determine the weight of objects or substances.',
-      link: '#weighing'
-    },
-    {
-      icon: <AutomationIcon />,
-      title: 'Automation Solutions',
-      desc: 'Technologies and systems that aim to automate and streamline various processes and tasks.',
-      link: '#automation'
-    },
-    {
-      icon: <FabricationIcon />,
-      title: 'Fabrication Services',
-      desc: 'Manufacturing and shaping of metal components and structures through cutting, bending, welding and assembling.',
-      link: '#fabrication'
-    },
-    {
-      icon: <SupportIcon />,
-      title: 'Motor Re-Winding',
-      desc: 'Repairing or refurbishing an electric motor by replacing the winding coils.',
-      link: '#contact'
     }
   ]
 };
@@ -802,31 +797,7 @@ function HomePage() {
 
         <div className="hero-v2-content">
           <div className="hero-v2-inner">
-            <p className="hero-v2-eyebrow">REAL TECHNOLOGIES · QATAR</p>
-
-            <h1 className="hero-v2-headline">Precision Weighing &amp; Calibration</h1>
-
-            <p className="hero-v2-desc">
-              Sole distributor in Qatar for Dini Argeo, Rice Lake and T-Scale — engineering
-              weighbridges, calibration services, steel fabrication and process automation for
-              industries across Qatar and Saudi Arabia.
-            </p>
-
-            <div className="hero-v2-ctas">
-              <a href="/#services" className="hero-v2-btn-primary">
-                Explore Solutions <ArrowRightIcon />
-              </a>
-              <button className="hero-v2-btn-ghost" onClick={openModal}>
-                Request a Demo
-              </button>
-            </div>
-
             <div className="hero-v2-telemetry">
-              <div className="hero-v2-tel-item">
-                <span className="hero-v2-tel-label">WEIGHBRIDGE CAPACITY</span>
-                <span className="hero-v2-tel-value">Up to 120 Ton</span>
-              </div>
-              <div className="hero-v2-tel-sep"></div>
               <div className="hero-v2-tel-item">
                 <span className="hero-v2-tel-label">COVERAGE</span>
                 <span className="hero-v2-tel-value">Qatar &amp; KSA</span>
@@ -875,94 +846,84 @@ function HomePage() {
         </div>
       </section>
 
-      {/* VALUE PROPOSITION */}
-      <section id="services" className="value-prop-section">
-        <div className="container-width value-prop-grid">
-          <div className="value-prop-content">
-            <span className="section-pre-title">OUR PERFORMANCE PROMISE</span>
-            <h2 className="value-prop-headline">
-              Your trusted partner<br />
-              for industrial equipment
+      {/* SERVICES — asymmetrical bento */}
+      <section id="services" className="svc-v2">
+        <div className="container-width">
+          <Reveal className="svc-v2-head">
+            <span className="why-v2-eyebrow">Our services</span>
+            <h2 className="svc-v2-title">
+              Five disciplines, <em>one</em> engineering partner
             </h2>
-            <p className="value-prop-paragraph">
-              Real Technologies provides industrial equipment solutions across KSA and Qatar, with 60 years
-              of combined experience, 24x7 customer service support and fully integrated service centres.
-              As the sole distributor in Qatar, we deliver weighing, calibration, fabrication and automation
-              to businesses across every sector.
+            <p className="svc-v2-sub">
+              Customized solutions for leading manufacturers and plant operators across the Gulf.
             </p>
-            <div className="value-prop-actions">
-              <button className="btn btn-primary" onClick={openModal}>
-                Request a quote <ArrowRightIcon />
-              </button>
-              <Link to="/about" className="btn btn-outline">
-                Read Corporate Profile
-              </Link>
-            </div>
-          </div>
-          <div className="value-prop-visual">
-            <div className="visual-blueprint-box">
-              <div className="blueprint-line vertical" />
-              <div className="blueprint-line horizontal" />
-              <div className="blueprint-crosshair" />
-              <div className="blueprint-data-badge">[ METROLOGY SYSTEM SCALE: GCC APPROVED ]</div>
-              <img
-                src="/images/home/gallery/gallery-calibration-weights-service-truck.jpg"
-                alt="Real Technologies calibration test weights and service truck at weighbridge"
-                className="blueprint-photo"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
+          </Reveal>
 
-      {/* ALTERNATING IMAGE + TEXT SECTIONS */}
-      <section className="alternating-blocks-section">
-        <div className="container-width">
-          {ALTERNATING_SECTIONS.map((sec, idx) => {
-            const isEven = idx % 2 === 0;
-            return (
-              <div key={idx} className={`alternating-row ${isEven ? 'row-normal' : 'row-reversed'}`}>
-                <div className="row-image-col">
-                  <div className="row-image-frame">
-                    <img src={sec.img} alt={sec.title} loading="lazy" />
+          <div className="svc-v2-bento">
+            {SERVICES.map((svc, idx) => (
+              <Reveal key={svc.id} delay={idx * 80} className="svc-v2-shell">
+                <Link to={`/services#${svc.id}`} className="svc-v2-card group">
+                  <div className="svc-v2-media">
+                    <img src={svc.img} alt={svc.title} className="svc-v2-img" loading="lazy" />
+                    <span className="svc-v2-icon">{svc.icon}</span>
                   </div>
-                </div>
-                <div className="row-text-col">
-                  <span className="row-eyebrow">{sec.tagline}</span>
-                  <h3 className="row-title">{sec.title}</h3>
-                  <p className="row-desc">{sec.desc}</p>
-                  <a href={`/${sec.link}`} className="row-link">
-                    Explore technology spec sheets <ArrowRightIcon />
-                  </a>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* WHY CHOOSE US */}
-      <section id="why-choose" className="why-choose-section">
-        <div className="container-width">
-          <div className="section-intro text-center">
-            <span className="section-pre-title">BUILT ON TRUST &amp; COMPETENCE</span>
-            <h2 className="section-heading">{WHY_CHOOSE_US.title}</h2>
-          </div>
-
-          <div className="why-choose-grid">
-            {WHY_CHOOSE_US.cards.map((card, idx) => (
-              <div key={idx} className="why-card">
-                <div className="why-card-icon">{card.icon}</div>
-                <h3 className="why-card-title">{card.heading}</h3>
-                <p className="why-card-desc">{card.desc}</p>
-              </div>
+                  <div className="svc-v2-body">
+                    <div>
+                      <span className="svc-v2-tagline">{svc.tagline}</span>
+                      <h3 className="svc-v2-card-title">{svc.title}</h3>
+                      <p className="svc-v2-card-desc">{svc.short}</p>
+                    </div>
+                    <span className="svc-v2-cta">
+                      <span>Explore</span>
+                      <span className="svc-v2-cta-icon"><ArrowRightIcon /></span>
+                    </span>
+                  </div>
+                </Link>
+              </Reveal>
             ))}
           </div>
+        </div>
+      </section>
 
-          <div className="why-choose-cta text-center">
-            <button className="btn btn-outline" onClick={openModal}>
-              Get more information <ArrowRightIcon />
-            </button>
+      {/* WHY CHOOSE US — editorial split */}
+      <section id="why-choose" className="why-v2">
+        <div className="container-width why-v2-grid">
+
+          {/* Left — sticky editorial column */}
+          <div className="why-v2-lead">
+            <Reveal>
+              <span className="why-v2-eyebrow">Built on trust &amp; competence</span>
+              <h2 className="why-v2-title">
+                Why leading industries<br />
+                <em>choose</em> Real Technologies
+              </h2>
+              <p className="why-v2-sub">
+                Four decades of metrology, fabrication and automation expertise — delivered
+                with authorised distribution and round-the-clock support across the Gulf.
+              </p>
+              <button className="why-v2-cta group" onClick={openModal}>
+                <span>Get more information</span>
+                <span className="why-v2-cta-icon"><ArrowRightIcon /></span>
+              </button>
+            </Reveal>
+          </div>
+
+          {/* Right — stacked double-bezel reason cards */}
+          <div className="why-v2-cards">
+            {WHY_CHOOSE_US.cards.map((card, idx) => (
+              <Reveal key={idx} delay={idx * 90} className="why-v2-shell">
+                <article className="why-v2-card">
+                  <span className="why-v2-index">{String(idx + 1).padStart(2, '0')}</span>
+                  <div className="why-v2-card-body">
+                    <div className="why-v2-card-head">
+                      <span className="why-v2-card-icon">{card.icon}</span>
+                      <h3 className="why-v2-card-title">{card.heading}</h3>
+                    </div>
+                    <p className="why-v2-card-desc">{card.desc}</p>
+                  </div>
+                </article>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
@@ -980,7 +941,7 @@ function HomePage() {
             onClick={handlePlayPauseVideo}
           />
           <div className={`video-overlay-details ${videoPlaying ? 'is-playing' : ''}`}>
-            <div className="video-content-inner text-center">
+            <Reveal className="video-content-inner text-center">
               <span className="video-tag">LABORATORY OVERVIEW</span>
               <h2 className="video-heading">Calibration &amp; Fabrication Facilities</h2>
               <p className="video-desc">Take a look inside our high-precision standards room and heavy steel fabrication workshops in action.</p>
@@ -991,99 +952,23 @@ function HomePage() {
               >
                 {videoPlaying ? <PauseIcon /> : <PlayIcon />}
               </button>
-            </div>
+            </Reveal>
           </div>
         </div>
       </section>
 
-      {/* SOLUTIONS GRID */}
-      <section className="solutions-grid-section">
-        <div className="container-width">
-          <div className="section-intro text-center">
-            <span className="section-pre-title">OUR SERVICES</span>
-            <h2 className="section-heading">{SOLUTIONS_GRID.title}</h2>
-            <p className="section-subtitle">{SOLUTIONS_GRID.sub}</p>
-          </div>
-
-          <div className="solutions-5col-grid">
-            {SOLUTIONS_GRID.cards.map((card, idx) => (
-              <div key={idx} className="solution-card">
-                <div className="solution-card-icon">{card.icon}</div>
-                <h3 className="solution-card-title">{card.title}</h3>
-                <p className="solution-card-desc">{card.desc}</p>
-                <a href={`/${card.link}`} className="solution-card-btn">
-                  Explore <ArrowRightIcon />
-                </a>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* SECONDARY SERVICES */}
-      <section className="secondary-services-section">
-        <div className="container-width relative-container">
-          <div className="creative-watermark" aria-hidden="true">
-            {SECONDARY_SERVICES.watermark}
-          </div>
-
-          <div className="section-intro">
-            <span className="section-pre-title">INDUSTRIES WE SERVE</span>
-            <h2 className="section-heading">{SECONDARY_SERVICES.sub}</h2>
-          </div>
-
-          <div className="secondary-6card-grid">
-            {SECONDARY_SERVICES.cards.map((card, idx) => (
-              <div key={idx} className="secondary-service-card">
-                <div className="secondary-card-icon">{card.icon}</div>
-                <h3 className="secondary-card-title">{card.title}</h3>
-                <p className="secondary-card-desc">{card.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* PARTNER LOGOS CAROUSEL */}
-      <section className="partner-logos-section">
-        <div className="container-width text-center mb-xl">
-          <span className="section-pre-title">AUTHORISED DISTRIBUTOR & DEALERSHIP</span>
-          <h2 className="section-heading-sm">Representing World Class Brands</h2>
-        </div>
-
-        <div className="logo-ticker-wrap">
-          <div className="logo-ticker-track scroll-forward">
-            {[...PARTNER_LOGOS, ...PARTNER_LOGOS].map((logoName, idx) => (
-              <div key={idx} className="logo-card">
-                <span className="logo-text">{logoName}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="logo-ticker-wrap mt-md">
-          <div className="logo-ticker-track scroll-backward">
-            {[...PARTNER_LOGOS, ...PARTNER_LOGOS].map((logoName, idx) => (
-              <div key={idx} className="logo-card">
-                <span className="logo-text">{logoName}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* STATISTICS */}
       <section className="stats-section" ref={statsSectionRef}>
         <div className="container-width stats-grid">
           {STATISTICS.map((stat, idx) => (
-            <div key={idx} className="stat-box text-center">
-              <div className="stat-icon">{stat.icon}</div>
+            <Reveal key={idx} delay={idx * 70} className="stat-box text-center">
               <div className="stat-number-wrap">
                 <span className="stat-number">{statValues[idx].toLocaleString()}</span>
                 <span className="stat-suffix">{stat.suffix}</span>
               </div>
               <p className="stat-label">{stat.label}</p>
-            </div>
+            </Reveal>
           ))}
         </div>
       </section>
@@ -1091,49 +976,57 @@ function HomePage() {
       {/* NEWS & RESOURCES */}
       <section id="projects" className="news-resources-section">
         <div className="container-width">
-          <div className="section-intro text-center">
-            <span className="section-pre-title">SELECTED PROJECTS</span>
+          <Reveal className="section-intro text-center">
+            <span className="why-v2-eyebrow">Selected projects</span>
             <h2 className="section-heading">Our Projects</h2>
             <p className="section-subtitle">120 Ton weighbridges and batching systems delivered across Qatar</p>
-          </div>
+          </Reveal>
 
           <div className="news-3col-grid">
             {PROJECTS.slice(0, 3).map((project, idx) => (
-              <div key={idx} className="blog-card">
-                <div className="blog-card-img" style={{ backgroundImage: `url(${project.img})` }} />
-                <div className="blog-card-body">
-                  <span className="section-pre-title">{project.client}</span>
-                  <h3 className="blog-card-title">{project.title}</h3>
-                  <p className="blog-card-excerpt">{project.desc}</p>
-                </div>
-              </div>
+              <Reveal key={idx} delay={idx * 90} className="blog-shell">
+                <article className="blog-card">
+                  <div className="blog-card-img" style={{ backgroundImage: `url(${project.img})` }} />
+                  <div className="blog-card-body">
+                    <span className="section-pre-title">{project.client}</span>
+                    <h3 className="blog-card-title">{project.title}</h3>
+                    <p className="blog-card-excerpt">{project.desc}</p>
+                  </div>
+                </article>
+              </Reveal>
             ))}
           </div>
 
-          <div className="why-choose-cta text-center">
-            <Link to="/projects" className="btn btn-outline">
-              View all projects <ArrowRightIcon />
+          <Reveal className="why-choose-cta text-center">
+            <Link to="/projects" className="why-v2-cta group">
+              <span>View all projects</span>
+              <span className="why-v2-cta-icon"><ArrowRightIcon /></span>
             </Link>
-          </div>
+          </Reveal>
         </div>
       </section>
 
       {/* PRE-FOOTER CTA */}
       <section className="pre-footer-cta-section">
-        <div className="container-width cta-grid">
-          <div className="cta-left">
-            <span className="cta-eyebrow">LET&apos;S TALK</span>
-            <h2 className="cta-title">Smart, Efficient &amp; Future Ready</h2>
-            <p className="cta-desc">
-              Request a quote or speak directly with our engineering teams in Doha and Dammam.
-              We calibrate load systems and configure automated data synchronization customized for your plant setup.
-            </p>
-          </div>
-          <div className="cta-right">
-            <button className="btn btn-primary btn-lg" onClick={openModal}>
-              Get started <ArrowRightIcon />
-            </button>
-          </div>
+        <div className="container-width">
+          <Reveal className="cta-v2-shell">
+            <div className="cta-v2-card">
+              <span className="cta-v2-orb" aria-hidden="true" />
+              <div className="cta-v2-inner">
+                <div className="cta-v2-text">
+                  <h2 className="cta-v2-title">Smart, Efficient<br /><em>&amp; Future Ready</em></h2>
+                  <p className="cta-v2-desc">
+                    Request a quote or speak directly with our engineering teams in Doha and Dammam.
+                    We calibrate load systems and configure automated data synchronization for your plant setup.
+                  </p>
+                </div>
+                <button className="cta-v2-btn group" onClick={openModal}>
+                  <span>Get started</span>
+                  <span className="cta-v2-btn-icon"><ArrowRightIcon /></span>
+                </button>
+              </div>
+            </div>
+          </Reveal>
         </div>
       </section>
     </>
@@ -1185,7 +1078,7 @@ function Layout() {
   return (
     <div className="app-container">
       <TopBar isScrolled={topBarHidden} />
-      <Header onOpenModal={() => setIsModalOpen(true)} isScrolled={true} topBarHidden={topBarHidden} />
+      <Header onOpenModal={() => setIsModalOpen(true)} isScrolled={topBarHidden} topBarHidden={topBarHidden} />
 
       <main>
         <Outlet context={{ openModal: () => setIsModalOpen(true) } satisfies LayoutContext} />
